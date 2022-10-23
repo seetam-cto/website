@@ -1,0 +1,12 @@
+@forward './global';
+@forward './flex-grid';
+@forward './form';
+
+//pages
+@forward './pages/Home.scss';
+
+
+//components
+@forward './components/Header.scss';
+@forward './components/Banner.scss';
+@forward './components/SearchBar.scss';

@@ -1,0 +1,203 @@
+@use '../abstracts/' as *;
+
+.searchbar{
+    width: 100%;
+    height: 60vh;
+    background-color: $white;
+    position: relative;
+    z-index: 25;
+    &-overlay{
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff20;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 20;
+    }
+    &-container{
+        margin-block: 60px;
+        box-shadow: 0px 0px 35px 1px #00000020;
+        padding: 40px 0px 40px 20px;
+        border-radius: 20px;
+        z-index: 30;
+    }
+    &-gap{
+        border-right: 1px solid #00000020;
+    }
+    &-item{
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
+        cursor: pointer;
+        .icon{
+            display: flex;
+            align-items: flex-start;
+            width: 20%;
+            i{
+                font-size: 25px;
+                margin-top: 2px;
+            }
+        }
+        .content{
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            h3{
+                font-size: 20px;
+                font-weight: 500;
+            }
+            p{
+                opacity: 0.8;
+                font-size: 16px;
+            }
+        }
+        &.button{
+            justify-content: flex-end;
+            align-items: center;
+        }
+        &-button{
+            width: 80%;
+            height: 50px;
+        }
+    }
+    &-locationbox{
+        position: absolute;
+        background-color: $white;
+        top: -30%;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 35px 10px #33333320;
+        z-index: 30;
+        h4{
+            font-weight: 400;
+            font-size: 20px;
+        }
+        &-search{
+            margin-block: 20px;
+            display: flex;
+            position: relative;
+            align-items: center;
+            i{
+                position: absolute;
+                right: 10px;
+                cursor: pointer;
+            }
+        }
+        &-divide{
+            text-align: center;
+            margin-block: 20px;
+        }
+        &-recent{
+            margin-top: 20px;
+            ul{
+                display: flex;
+                justify-content: flex-start;
+                gap: 15px;
+                li{
+                    font-size: 16px;
+                    text-decoration: underline;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+    &-calendarbox{
+        position: absolute;
+        background-color: $white;
+        top: -30%;
+        left: 0;
+        right: 0;
+        margin-inline: auto;
+        padding: 30px;
+        width: fit-content;
+        border-radius: 10px;
+        box-shadow: 0px 0px 35px 10px #33333320;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h4{
+            text-align: center;
+            font-weight: 400;
+            font-size: 20px;
+        }
+        &-labels{
+            color: $black;
+        }
+        .rdrDateDisplayWrapper{
+            background-color: transparent;
+            .rdrDateDisplayItem{
+                border-radius: 20px;
+                border: 1px solid #333;
+            }
+        }
+        .rdrInRange{
+            color: $red !important;
+            opacity: 0.7;
+        }
+        .rdrInRange .rdrDayNumber span{
+            color: $black !important;
+        }
+    }
+    &-guestsbox{
+        position: absolute;
+        background-color: $white;
+        top: -30%;
+        padding: 30px;
+        width: fit-content;
+        border-radius: 10px;
+        box-shadow: 0px 0px 35px 10px #33333320;
+        z-index: 30;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        h4{
+            font-weight: 400;
+            font-size: 20px;
+        }
+        h5{
+            font-size: 20px;
+            font-weight: 500;
+        }
+        p{
+            font-size: 16px;
+        }
+    }
+    &-next{
+        img{
+            width: 150px;
+            height: 30px;
+            transition: transform 0.3s ease-in-out;
+            cursor: pointer;
+            &:hover{
+                transform: scale(1.1);
+            }
+        }
+    }
+    &-title{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        margin-bottom: 20px;
+        width: 100%;
+        .back{
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            padding: 3px;
+            border-radius: 5px;
+            border: 1px solid #333333;
+            left: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            i{
+                font-size: 15px;
+            }
+        }
+    }
+}
