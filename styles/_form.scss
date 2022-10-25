@@ -219,6 +219,11 @@
                 margin-left: 50px;
                 transition: transform 0.3s ease-in-out;
             }
+            &-footer{
+                i{
+                    margin-left: 20px;
+                }
+            }
             &:hover{
                 transform: scale(1.05);
                 i{

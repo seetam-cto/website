@@ -185,6 +185,9 @@ const GuestsBox = ({data, setData, handleNext}) => {
     const handleHandicap = (value) => {
         setData({...data, handicap: value})
     }
+    const handlePets = (value) => {
+        setData({...data, pets: value})
+    }
     return (
         <motion.div
         initial={{scale: 0, opacity: 0}}
@@ -210,9 +213,15 @@ const GuestsBox = ({data, setData, handleNext}) => {
             </div>
             <div className="row">
                 <div className="col-6 d-flex justify-start align-center">
+                    <CheckboxInput label={"Pets"} value={data.pets} icon={"bx bxs-dog"} onChange={handlePets} />
+                </div>
+                <div className="col-6 d-flex justify-start align-center">
                     <CheckboxInput label={"Handicap"} value={data.handicap} icon={"bx bx-handicap"} onChange={handleHandicap} />
                 </div>
-                <div className="col-6 d-flex justify-end  align-center">
+            </div>
+            <p>&nbsp;</p>
+            <div className="row">
+                <div className="col-12 d-flex justify-end  align-center">
                     <button className="form-button explore">
                         Explore <i className='bx bxs-chevron-right' ></i>
                     </button>
@@ -232,6 +241,7 @@ const SearchBar = () => {
             child: 0,
         },
         handicap: false,
+        pets: false
     })
     const closeAll = () => {
         setLocationbox(false)

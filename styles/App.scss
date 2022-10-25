@@ -5,8 +5,11 @@
 //pages
 @forward './pages/Home.scss';
 
-
 //components
 @forward './components/Header.scss';
 @forward './components/Banner.scss';
 @forward './components/SearchBar.scss';
+@forward './components/Deals.scss';
+@forward './components/Locations.scss';
+@forward './components/AdvanceBooking.scss';
+@forward './components/Footer.scss';

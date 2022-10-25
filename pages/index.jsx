@@ -8,6 +8,10 @@ import { useRouter } from 'next/router'
 import Banner from '../components/Banner'
 import SearchBar from '../components/SearchBar'
 import {AnimatePresence} from "framer-motion"
+import Deals from '../components/Deals'
+import LocationProps from '../components/LocationProps'
+import AdvanceBooking from '../components/AdvanceBooking'
+import Footer from '../components/Footer'
 
 export default function Home({settingsData}) {
   let sets = useSelector((state) => state.settings)
@@ -37,6 +41,10 @@ export default function Home({settingsData}) {
         <Header headerSettings={settingsData}/>
         <Banner banner={settingsData.homepage.banner} counts={settingsData.homepage.propCount}/>
         <SearchBar />
+        {settingsData.homepage.deals.enabled && <Deals deals={settingsData.homepage.deals}/>}
+        {settingsData.homepage.locations.enabled && <LocationProps locations={settingsData.homepage.locations} />}
+        {settingsData.homepage.advanceBooking.enabled && <AdvanceBooking advanceData={settingsData.homepage.advanceBooking} />}
+        <Footer footer={settingsData.footer} general={settingsData.general}/>
       </AnimatePresence>
     </div>
   )

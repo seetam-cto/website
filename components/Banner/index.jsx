@@ -56,7 +56,7 @@ const Banner = ({banner, counts}) => {
         },
         nextArrow: <NextArrow reload={reload} />,
         prevArrow: <PrevArrow />,
-      };
+    };
 
     return (
         <div className="banner">

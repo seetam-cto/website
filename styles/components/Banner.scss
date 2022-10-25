@@ -134,13 +134,17 @@
                 margin-right: -100px;
             }
             &-slide{
-                transition: transform 0.2s ease-in;
+                transition: all 0.2s ease-in;
+                transform: scale(0.85) translateX(20px);
+                opacity: 0;
                 &.slick-active, .slick-cloned{
                     transform: scale(0.85) translateX(20px);
+                    opacity: 1;
                 }
             }
             &-current{
                 transform: scale(1) translateX(0px) !important;
+                opacity: 1;
             }
         }
         &-slide{

@@ -1,0 +1,35 @@
+@use '../abstracts/' as *;
+
+.footer{
+    background-color: #F2F2F2;
+    padding-block: 50px 0px;
+    p{
+        font-weight: 500;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    &-logo{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 70%;
+
+    }
+    &-social{
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        li{
+            i{
+                font-size: 30px;
+            }
+        }
+    }
+    &-copyright{
+        padding-block: 20px;
+        display: flex;
+        justify-content: center;
+        margin-top: 30px;
+        border-top: 1px solid #00000060;
+    }
+}
