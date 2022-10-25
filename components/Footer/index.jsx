@@ -23,7 +23,7 @@ const Footer = ({footer, general}) => {
                     <p>QUICK LINKS</p>
                     <ul className='footer-links'>
                         {footer.quickLinks.map((l, i) => (
-                            <li>
+                            <li key={i}>
                                 <Link href={l.link}>
                                     <a>{l.text}</a>
                                 </Link>
@@ -35,7 +35,7 @@ const Footer = ({footer, general}) => {
                     <p>POLICY</p>
                     <ul className='footer-links'>
                         {footer.quickLinks.map((l, i) => (
-                            <li>
+                            <li key={i}>
                                 <Link href={l.link}>
                                     <a>{l.text}</a>
                                 </Link>

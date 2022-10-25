@@ -16,7 +16,7 @@ const AdvanceBooking = ({advanceData}) => {
                 <div className="col-6 advance-list">
                     {
                         advanceData.list.map((l, i) => (
-                            <div className="row">
+                            <div key={i} className="row">
                                 <div className="col-3">
                                     <Image src={l.icon} width={70} height={70} objectFit={"contain"} />
                                 </div>
