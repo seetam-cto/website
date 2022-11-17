@@ -41,7 +41,7 @@ export default function Home({settingsData, properties}) {
       <AnimatePresence>
         <Header headerSettings={settingsData}/>
         <Banner banner={banner}/>
-        <SearchBar />
+        <SearchBar properties={properties} />
         {settingsData.homepage.deals.enabled && <Deals deals={settingsData.homepage.deals}/>}
         {/* {settingsData.homepage.locations.enabled && <LocationProps locations={settingsData.homepage.locations} properties={properties} />} */}
         {settingsData.homepage.advanceBooking.enabled && <AdvanceBooking advanceData={settingsData.homepage.advanceBooking} />}

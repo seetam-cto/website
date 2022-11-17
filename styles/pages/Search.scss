@@ -1,0 +1,114 @@
+@use '../abstracts/' as *;
+
+.search{
+    padding-top: 12vh;
+    background-color: $white;
+    box-sizing: border-box;
+    &-bar{
+        width: 100%;
+        position: relative;
+        min-height: 200px;
+        img{
+            width: 80%;
+            height: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            border-radius: 20px;
+            margin: auto;
+        }
+        .searchbar{
+            width: 100%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            &-container{
+                padding-block: 20px;
+                background: rgba( 255, 255, 255, 0.75 );
+                box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+                backdrop-filter: blur( 5px );
+                -webkit-backdrop-filter: blur( 5px );
+                border-radius: 10px;
+                border: 1px solid rgba( 255, 255, 255, 0.18 );
+            }
+        }
+    }
+    &-result{
+        width: 100%;
+        margin-block: 50px;
+        &-grid{
+            display: grid;
+            column-gap: 20px;
+            row-gap: 20px;
+            grid-template-columns: 25% 25% 25% 25%;
+        }
+        &-property{
+            box-shadow: 0px 0px 15px 1px #33333330;
+            cursor: pointer;
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 10px;
+            position: relative;
+            .card{
+                &-cover{
+                    height: 200px;
+                    border-radius: 10px;overflow: hidden;
+                    position: relative;
+                    &-content{
+                        z-index: 5;
+                        position: absolute;
+                        top: 0;
+                        height: 100%;
+                        width: 100%;
+                        padding: 10px;
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        color: $white;
+                    }
+                }
+                &-background{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    z-index: 0;
+                    .overlay{
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        z-index: 1;
+                        background-image: linear-gradient(to right, #00000070, #00000020, #00000060);
+                    }
+                    img{
+                        width: 100%;
+                        height: 280px;
+                        object-fit: cover;
+                        z-index: 0;
+                    }
+                }
+                &-content{
+                    padding: 10px;
+                    h4{
+                        font-size: 1.2rem;
+                        font-weight: 500;
+                        display: flex;
+                        gap: 10px;
+                        i{
+                            font-size: 1.5rem;
+                        }
+                    }
+                    .price{
+                        span{
+                            color: $red;
+                            font-size: 1.2rem;
+                            font-weight: 600;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

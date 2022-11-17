@@ -30,5 +30,6 @@ export const getPropertyDetails = async (id) => {
 }
 
 export const getRooms = async (id) => {
-    await axios.get(`${process.env.REACT_APP_API}/properties/${id}/rooms`).then((res) => {return res.data})
+    let rooms = await axios.get(`https://stage.switchoff.in/api/properties/${id}/rooms`).then((res) => {return res.data})
+    return rooms
 }

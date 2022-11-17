@@ -10,7 +10,7 @@ const Footer = ({footer, general}) => {
             <div className="row">
                 <div className="col-2">
                     <div className="footer-logo">
-                        <Image width={200} height={75} src={footer.logo} />
+                        <Image width={200} height={75} src={general.logo} />
                         <ul className='footer-social'>
                             <li><i className='bx bxl-facebook-square' ></i></li>
                             <li><i className='bx bxl-instagram-alt' ></i></li>

@@ -6,9 +6,17 @@ import longArrow from "../../assets/images/next.svg"
 import moment from "moment"
 import Image from 'next/image';
 import { CheckboxInput, CounterInput } from '../UI';
+import SelectSearch from 'react-select-search';
+import { useRouter } from 'next/router';
 
 //locationbox
-const LocationBox = ({data, setData, handleNext}) => {
+const LocationBox = ({data, setData, handleNext, properties}) => {
+    const [options, setOptions] = useState(properties.map((prp) => {
+        return {
+            name: prp.nameLocation.address.locality,
+            value: prp.nameLocation.address.locality
+        }
+    }))
     return (
         <motion.div
             initial={{scale: 0, opacity: 0}}
@@ -18,31 +26,42 @@ const LocationBox = ({data, setData, handleNext}) => {
             className="searchbar-locationbox">
             <h4>Where would you like to go?</h4>
             <div className="searchbar-locationbox-search">
-                <input
+                {/* <input
                 value={data.location}
                 onChange={(e) => setData({...data, location: e.target.value})}
                 placeholder='Find your destination'
-                type="text" className="form-control" />
+                type="text" className="form-control" /> */}
+                <SelectSearch 
+                search
+                options={options} 
+                onChange={(e) => setData({...data, location: e})} 
+                value={data.location} name="location" 
+                placeholder="Search your location" />
                 <i className='bx bx-search' ></i>
             </div>
-            <h4 className="searchbar-locationbox-divide">OR</h4>
-            <button
-            onClick={() => {
-                setData({...data, location: "SwitchOff Recomended"});
-                handleNext(true)
-            }}
-            className="form-button full explore">
-                Show all SwitchOff destinations
-                <i className='bx bx-planet' ></i>
-            </button>
+            {data.location 
+            ? (
+                <button onClick={() => handleNext(true)} className="form-button full explore">
+                    Let's explore {data.location}
+                    <i className='bx bx-planet' ></i>
+                </button>
+            )
+            : (<>
+                <h4 className="searchbar-locationbox-divide">OR</h4>
+                <button
+                onClick={() => {
+                    setData({...data, location: "all"});
+                    handleNext(true)
+                }}
+                className="form-button full explore">
+                    Show all SwitchOff destinations
+                    <i className='bx bx-planet' ></i>
+                </button>
+                </>
+            )
+            }
             <div className="searchbar-locationbox-recent">
                 <p>Recent Searches</p>
-                <ul>
-                    <li>Bali</li>
-                    <li>Maldives</li>
-                    <li>Munnar</li>
-                    <li>Jaipur</li>
-                </ul>
             </div>
         </motion.div>
     )
@@ -175,7 +194,7 @@ export const CalendarBox = ({data, setData, handleNext}) => {
 }
 
 //guests box
-const GuestsBox = ({data, setData, handleNext}) => {
+const GuestsBox = ({data, setData, handleNext, explore}) => {
     const handleAdult = (value) => {
         setData({...data, guests: {...data.guests, adult: value}})
     }
@@ -222,7 +241,7 @@ const GuestsBox = ({data, setData, handleNext}) => {
             <p>&nbsp;</p>
             <div className="row full">
                 <div className="col-12 d-flex justify-end  align-center">
-                    <button className="form-button explore">
+                    <button onClick={() => explore()} className="form-button explore">
                         Explore <i className='bx bxs-chevron-right' ></i>
                     </button>
                 </div>
@@ -231,7 +250,7 @@ const GuestsBox = ({data, setData, handleNext}) => {
     )
 }
 
-const SearchBar = () => {
+const SearchBar = ({properties}) => {
     const [searchq, setSearchq] = useState({
         location: '',
         checkin: new Date(),
@@ -267,6 +286,13 @@ const SearchBar = () => {
         setGuestsbox(value)
         !value && setCalendarbox(!value)
     }
+
+    const router = useRouter()
+
+    const explore = () => {
+        let query = `query=${searchq.location}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&guests=${searchq.guests.adult + searchq.guests.child}`
+        router.push(`/search?${query}`)
+    }
   return (
     <>
         {(locationbox || calendarbox || guestsbox) && 
@@ -275,8 +301,8 @@ const SearchBar = () => {
         {(locationbox || calendarbox || guestsbox) && 
             <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
             <div className="container searchbar-container">
-                <div className="row">
-                    <div className="col-20 searchbar-gap">
+                <div className="row full">
+                    <div className="col-20 m-full searchbar-gap">
                         <div
                         onClick={() => {setLocationbox(true); }}
                         className="searchbar-item">
@@ -289,7 +315,7 @@ const SearchBar = () => {
                             </div>
                         </div>
                         {locationbox && (
-                            <LocationBox data={searchq} setData={setSearchq} handleNext={afterLocation} />
+                            <LocationBox properties={properties} data={searchq} setData={setSearchq} handleNext={afterLocation} />
                         )}
                     </div>
                     <div className="col-20 searchbar-gap">
@@ -323,7 +349,7 @@ const SearchBar = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="col-20">
+                    <div className="col-20 m-full">
                         <div
                         onClick={() => {setGuestsbox(true); }}
                         className="searchbar-item">
@@ -336,7 +362,7 @@ const SearchBar = () => {
                             </div>
                         </div>
                         {guestsbox && (
-                            <GuestsBox data={searchq} setData={setSearchq} handleNext={afterGuests} />
+                            <GuestsBox explore={explore} data={searchq} setData={setSearchq} handleNext={afterGuests} />
                         )}
                     </div>
                     <div className="col-20">
