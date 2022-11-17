@@ -1,9 +1,204 @@
 import { useRouter } from 'next/router'
-import React from 'react'
+import React, {useState, useRef, useEffect} from 'react'
 import Head from 'next/head'
 import { getProperties, getPropertyDetails, getRooms } from '../../controllers/general'
+import Footer from '../../components/Footer'
+import Header from '../../components/Header'
+import { AnimatePresence } from 'framer-motion'
+import Image from 'next/image'
+import Slider from 'react-slick'
+import sliderArrow from "../../assets/images/long-arrow.svg"
+import DatePicker from "react-datepicker";
+import { addDays } from 'date-fns';
+import Modal from 'react-modal'
+import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify'
+
+const Gallery = ({imageList}) => {
+    const settings = {
+        for1: {
+            dots: false,
+            arrows: false,
+            className: "property-gallery-slider-container",
+            fade: true,
+        },
+        for2: {
+            infinite: true,
+            slidesToShow: 4,
+            speed: 500,
+            arrows: true,
+            focusOnSelect: true,
+            className: "property-gallery-slider-thumbs-container",
+            nextArrow: <div className="arrow-next"><img src={sliderArrow} alt="" /></div>,
+            prevArrow: <div className="arrow-prev"><img src={sliderArrow} alt="" /></div>
+        }
+    };
+      const [navs, setNavs] = useState({
+        nav1: null,
+        nav2: null
+      })
+      let slider2 = useRef(null)
+      let slider1 = useRef(null)
+      useEffect(() => {
+        setNavs({
+            nav1: slider1,
+            nav2: slider2
+        })
+      },[])
+    return (
+        <div className="property-gallery-slider">
+            <div className="row">
+                <div className="col-4 property-gallery-slider-slides">
+                <Slider asNavFor={navs.nav2} 
+                ref={slider => (slider1 = slider)}
+                {...settings.for1}>
+                    {imageList && imageList.map((image,i) => (
+                        <div className="property-gallery-slider-slide">
+                            <img src={image} key={i} at="" />
+                        </div>
+                    ))}
+                </Slider>
+                </div>
+                <div className="col-8 property-gallery-slider-thumbs">
+                <Slider asNavFor={navs.nav1} 
+                ref={slider => (slider2 = slider)} {...settings.for2}>
+                    {imageList && imageList.map((image,i) => (
+                        <div className="property-gallery-slider-slide-small">
+                            <img src={image} key={i} at="" />
+                        </div>
+                    ))}
+                </Slider>
+                <div className="property-gallery-link">View Gallery</div>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)',
+      borderRadius: '15px'
+    },
+  };
+
+const EnquireForm = ({open, setOpen, data, clean}) => {
+    function closeModal() {
+        setOpen(false);
+        clean()
+      }
+
+    const [state, setState] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        guests: data.guests,
+        startDate: data.startDate,
+        endDate: data.endDate
+    })
+
+    const handleEnquiry = () => {
+        if(state.name && state.phone && state.email && state.guests){
+            toast.success("Your Enquiry has been submitted. We will get back to you shortly.")
+            clean()
+        }
+    }
+    return (
+        <Modal
+        isOpen={open}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Example Modal"
+        >
+            <div className="property-enquire">
+                <h2>Enquire Now</h2>
+                <form onSubmit={(e) => e.preventDefault()}>
+                    <div className="form-group">
+                        <label className="form-label">
+                            Your Name
+                        </label>
+                        <input type="text"
+                            value={state.name}
+                            onChange={(e) => setState({...state, name: e.target.value})}
+                            required
+                            placeholder='Enter your full name'
+                            className="form-control" />
+                    </div>
+                    <div className="form-group">
+                        <label className="form-label">
+                            Your Email
+                        </label>
+                        <input type="email"
+                            value={state.email}
+                            onChange={(e) => setState({...state, email: e.target.value})}
+                            required
+                            placeholder='Enter your email'
+                            className="form-control" />
+                    </div>
+                    <div className="row">
+                        <div className="col-6">
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Phone Number
+                                </label>
+                                <input type="text"
+                                value={state.phone}
+                                onChange={(e) => setState({...state, phone: e.target.value})}
+                                    placeholder='Enter your phone'
+                                    className="form-control" />
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <div className="form-group">
+                                <label className="form-label">
+                                    Total Guests
+                                </label>
+                                <input type="number"
+                                    value={state.guests}
+                                onChange={(e) => setState({...state, guests: e.target.value})}
+                                    placeholder='Enter your full name'
+                                    className="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="form-label">
+                            Selected Dates
+                        </label>
+                        <input type="text"
+                        required
+                        readOnly
+                        value={`${moment(state.startDate).format("DD MMM YYYY")} - ${moment(state.endDate).format("DD MMM YYYY")}`}
+                            placeholder='These are the selected dates'
+                            className="form-control" />
+                    </div>
+                    <button
+                    onClick={() => handleEnquiry()}
+                    style={{justifyContent: 'space-between'}} className="form-button full explore">
+                        Submit your enquiry<i class='bx bxs-paper-plane' ></i>
+                    </button>
+                </form>
+            </div>
+        </Modal>
+    )
+}
 
 const PropertyDetails = ({property}) => {
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(addDays(new Date(), 1));
+    const [guests, setGuests] = useState(3)
+    const [eqState, setEqState] = useState(false)
+    const cleanData = () => {
+        setStartDate(new Date())
+        setEndDate(addDays(new Date(), 1))
+        setGuests(0)
+        setEqState(false)
+    }
     return (
         <div className="property">
             <Head>
@@ -11,7 +206,131 @@ const PropertyDetails = ({property}) => {
                 <meta name="description" content={property.main.nameLocation.about} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-
+            <AnimatePresence>
+                <Header key="header" theme={"light other"} headerSettings={property.settings}/>
+                <div className="property-banner">
+                    <div className="property-banner-background">
+                        <Image className='image' src={property.main.gallery.photos[0]} width={1600} height={900} />
+                        <div className="overlay" />
+                    </div>
+                    <div className="property-top"/>
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-6  d-flex flex-col justify-center" style={{gap: 50}}>
+                                <h1>{property.main.nameLocation.name}</h1>
+                                <p>{property.main.nameLocation.about}</p>
+                            </div>
+                            <div className="col-6 property-banner-image">
+                                <Image src={property.main.gallery.photos[1]} width={1600} height={900}/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-8">
+                            <Gallery imageList={property.main.gallery.photos} />
+                        </div>
+                        <div className="col-4">
+                            <div className="booking-form">
+                                <div className='d-flex justify-between' style={{gap: 20}}>
+                                    <div style={{width: '70%'}}>
+                                        <div className="booking-form-calendar">
+                                            <DatePicker minDate={new Date()} className="booking-form-calendar-date" selected={startDate} onChange={(date) => setStartDate(date)} />
+                                            <i class='bx bx-calendar-edit'></i>
+                                            <DatePicker minDate={addDays(new Date(), 1)} className="booking-form-calendar-date" selected={endDate} onChange={(date) => setEndDate(date)} />
+                                        </div>
+                                    </div>
+                                    <div className='booking-form-guests' style={{width: '30%'}}>
+                                        <input
+                                        value={guests}
+                                        onChange={(e) => setGuests(e.target.value)}
+                                        type="text" />
+                                        Guests
+                                    </div>
+                                </div>
+                                <div className="booking-form-price">
+                                Prices Starting from 
+                                <span>
+                                    <span className='highlight'>
+                                    ₹{ property.rooms.sort((a,b) => {
+                                        let keyA = a.basePrice.mrp;
+                                        let keyB = b.basePrice.mrp;
+                                        // Compare the 2 dates
+                                        if (keyA < keyB) return -1;
+                                        if (keyA > keyB) return 1;
+                                        return 0;
+                                    })[0].basePrice.mrp.toLocaleString('en-IN') }</span>
+                                    /Night
+                                </span>
+                                </div>
+                                <button style={{justifyContent: 'space-between'}} onClick={() => setEqState(true)} className="form-button full explore">
+                                    Enquire Now <i className='bx bxs-chevron-right' ></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="property-amenities">
+                                <h2>In the property</h2>
+                                <div className="amenities">
+                                    {property.main.propertySetup.amenities.slice(0,12).map((amn, i) => (
+                                        <span key={i} style={{marginRight: 20}}>
+                                            <i class='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
+                                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p>&nbsp;</p>
+                    <div className="row">
+                        <div className="col-12">
+                            <h2>Rooms & Packages</h2>
+                            <div className="property-rooms">
+                                {property.rooms.map((room, i) => (
+                                    <div key={i} className="property-rooms-room">
+                                        <div className="row">
+                                            <div className="col-3 image">
+                                                <Slider>
+                                                    {room.images.map((img, i) =>
+                                                    <Image src={img} width={1600} height={900} /> 
+                                                    )}
+                                                </Slider>
+                                            </div>
+                                            <div className="col-6">
+                                                <h3>{room.name} <span>• {room.roomSize}sq.ft.</span></h3>
+                                                <p className='property-rooms-room-amenities'>
+                                                    {room.amenities.map((amn, i) => (
+                                                        <span key={i} style={{marginRight: 20}}>
+                                                            <i class='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
+                                                        </span>
+                                                    ))}
+                                                </p>
+                                            </div>
+                                            <div className="col-3 price-box">
+                                                <p>Prices starting at</p>
+                                                <div className="price">
+                                                    <span className='highlight'>
+                                                    ₹{ room.basePrice.mrp.toLocaleString('en-IN') }</span>
+                                                    /Night
+                                                </div>
+                                                <button style={{justifyContent: 'space-between'}} onClick={() => setEqState(true)} className="form-button full explore">
+                                                    Enquire Now <i className='bx bxs-chevron-right' ></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <EnquireForm open={eqState} setOpen={setEqState} data={{guests, startDate, endDate}} clean={cleanData} />
+                <Footer key="footer" footer={property.settings.footer} general={property.settings.general}/>
+            </AnimatePresence>
+            <ToastContainer />
         </div>
     )
 }
@@ -19,7 +338,7 @@ const PropertyDetails = ({property}) => {
 export async function getStaticPaths() {
     return {
       paths: [{ params: { id: '63752b4aad3e8758ae6ad042' } }],
-      fallback: false, // can also be true or 'blocking'
+      fallback: true, // can also be true or 'blocking'
     }
   }
 
@@ -36,8 +355,9 @@ export async function getStaticProps({params}) {
       props: {
         property: {
             main: res.property,
-            rooms: res.rooms
-            
+            rooms: res.rooms,
+            settings: res.settings,
+            amenities: res.amenities
         }
       }
     }

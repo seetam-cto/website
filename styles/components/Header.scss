@@ -8,6 +8,39 @@ header{
     z-index: 100;
     // background-image: linear-gradient(to bottom, #000000F0, #00000000);
     &.light{
+        &.other{
+            color: $black !important;
+            .navbar{
+                &-menu{
+                    &-item{
+                        a{
+                            color: $black !important;
+                            height: 100%;
+                        }
+                        .dropdown{
+                            &-title{
+                                &::after{
+                                    border-color: $black !important;
+                                }
+                            }
+                            &-list{
+                                li{
+                                    a{
+                                        color: $white !important;
+                                    }
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+                &-logo{
+                    filter: brightness(0);
+                }
+            }
+            background-image: linear-gradient(to bottom, #FFFFFFF0, #00000000);
+            backdrop-filter: blur(10px);
+        }
         background-image: linear-gradient(to bottom, #000000F0, #00000000);
     }
     &.dark{

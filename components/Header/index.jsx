@@ -13,8 +13,8 @@ const Header = ({theme = "light",headerSettings}) => {
                                 <a>
                                 <Image
                                 objectFit={"contain"}
-                                width={500}
-                                height={100}
+                                width={1000}
+                                height={200}
                                     src={headerSettings.general.logo}
                                 />
                                 </a>

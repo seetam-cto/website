@@ -4,6 +4,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
+import "react-datepicker/dist/react-datepicker.css";
+import 'react-toastify/dist/ReactToastify.css';
 import { store } from "../store/store"
 import { Provider } from "react-redux"
 

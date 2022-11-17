@@ -53,7 +53,7 @@ const labelBox = (props) => (
         <span className={`searchbar-calendarbox-labels ${props.isSelected() && 'active'}`}>{props.label}</span>
     )
 
-const CalendarBox = ({data, setData, handleNext}) => {
+export const CalendarBox = ({data, setData, handleNext}) => {
     const [state, setState] = useState([
         {
           startDate: data.startDate,
@@ -158,7 +158,7 @@ const CalendarBox = ({data, setData, handleNext}) => {
                     direction="horizontal"
                 />
             )}
-            <div className="row">
+            <div className="row full">
                 {/* <div className="col-12 d-flex justify-end searchbar-next">
                     <Image onClick={() => handleNext()} src={longArrow} />
                 </div> */}
@@ -211,7 +211,7 @@ const GuestsBox = ({data, setData, handleNext}) => {
                     <CounterInput label={"Ages 17 and below"} value={data.guests.child} onChange={handleChild} />
                 </div>
             </div>
-            <div className="row">
+            <div className="row full">
                 <div className="col-6 d-flex justify-start align-center">
                     <CheckboxInput label={"Pets"} value={data.pets} icon={"bx bxs-dog"} onChange={handlePets} />
                 </div>
@@ -220,7 +220,7 @@ const GuestsBox = ({data, setData, handleNext}) => {
                 </div>
             </div>
             <p>&nbsp;</p>
-            <div className="row">
+            <div className="row full">
                 <div className="col-12 d-flex justify-end  align-center">
                     <button className="form-button explore">
                         Explore <i className='bx bxs-chevron-right' ></i>

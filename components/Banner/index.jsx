@@ -65,7 +65,7 @@ const Banner = ({banner, counts}) => {
                 <div style={{backgroundImage: `url(${currentSlide.cover_image.src})`}} className="banner-background-image"></div>
                 {/* <Image layout={"fill"} objectFit='cover' src={currentSlide.cover_image}/> */}
             </div>
-            <div className="row">
+            <div className="row full">
                 <div className="col-6 banner-left-container col-m-12">
                     <div className="row banner-left">
                         <div className="col-2 d-flex align-end d-m-none">
