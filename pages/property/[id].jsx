@@ -342,7 +342,7 @@ export async function getStaticPaths() {
         { params: { id: '6375b543d18eb430546c20a6' } }, 
         { params: { id: '6375bab8d18eb430546c2111' } }, 
         { params: { id: '6375bd93d18eb430546c215c' } }],
-      fallback: true, // can also be true or 'blocking'
+      fallback: false, // can also be true or 'blocking'
     }
   }
 
