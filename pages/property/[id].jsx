@@ -53,7 +53,7 @@ const Gallery = ({imageList}) => {
                 ref={slider => (slider1 = slider)}
                 {...settings.for1}>
                     {imageList && imageList.map((image,i) => (
-                        <div className="property-gallery-slider-slide">
+                        <div key={i} className="property-gallery-slider-slide">
                             <img src={image} key={i} at="" />
                         </div>
                     ))}
@@ -63,7 +63,7 @@ const Gallery = ({imageList}) => {
                 <Slider asNavFor={navs.nav1} 
                 ref={slider => (slider2 = slider)} {...settings.for2}>
                     {imageList && imageList.map((image,i) => (
-                        <div className="property-gallery-slider-slide-small">
+                        <div key={i} className="property-gallery-slider-slide-small">
                             <img src={image} key={i} at="" />
                         </div>
                     ))}
