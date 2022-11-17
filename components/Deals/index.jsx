@@ -3,6 +3,7 @@ import {motion, AnimatePresence} from "framer-motion"
 import Slider from 'react-slick'
 import longArrow from "../../assets/images/arrow-right.svg"
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 const PropertySlide = ({property}) => {
     return (
@@ -38,6 +39,7 @@ const PrevArrow = (props) => {
 const Deals = ({deals}) => {
     const [reload, setReload] = useState(456)
     const [currentSlide, setCurrentSlide] = useState(0)
+    const router = useRouter()
     const settings = {
         dots: false,
         infinite: true,
@@ -148,7 +150,9 @@ const Deals = ({deals}) => {
                                                 <span className='bottom-box-price'>
                                                     ₹ 35,000
                                                 </span>
-                                                <button className="form-button explore progress-loader">
+                                                <button
+                                                onClick={() => router.push(`/property/${p._id}`)}
+                                                className="form-button explore progress-loader">
                                                     {reload && <div className='progress'>&nbsp;</div>}
                                                     <div className='front'>
                                                     Explore Deal

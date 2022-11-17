@@ -1,0 +1,10 @@
+@use '../abstracts/' as *;
+
+.property{
+    width: 100%;
+    min-height: 100vh;
+    background-color: $white;
+    &::-webkit-scrollbar{
+        display: none;
+    }
+}

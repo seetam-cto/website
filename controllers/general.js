@@ -11,3 +11,13 @@ export const getSettings = async () => {
 export const getProperties = async () => {
     await axios.get(`${process.env.REACT_APP_API}/properties`).then((res) => {return res.data})
 }
+
+export const getPropertyDetails = async (id) => {
+    let property = await axios.get(`${process.env.REACT_APP_API}/property/${id}`).then((res) => {return res.data})
+    let rooms = await axios.get(`${process.env.REACT_APP_API}/properties/${id}/rooms`).then((res) => {return res.data})
+    return {property, rooms}
+}
+
+export const getRooms = async (id) => {
+    await axios.get(`${process.env.REACT_APP_API}/properties/${id}/rooms`).then((res) => {return res.data})
+}
