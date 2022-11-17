@@ -1,19 +1,13 @@
-import React, {useState, useRef, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { getSettings } from '../../controllers/general'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
-import { getProperties, getPropertyDetails, getRooms } from '../../controllers/general'
+import { getRooms } from '../../controllers/general'
 import Footer from '../../components/Footer'
 import Header from '../../components/Header'
 import { AnimatePresence } from 'framer-motion'
-import Image from 'next/image'
-import Slider from 'react-slick'
-import sliderArrow from "../../assets/images/long-arrow.svg"
-import { addDays } from 'date-fns';
-import Modal from 'react-modal'
 import SearchBar from '../../components/SearchBar'
 import moment from 'moment'
-import { ToastContainer, toast } from 'react-toastify'
 import bgImage from "../../assets/images/searchbg.jpg"
 
 const PriceSpan = ({id}) => {
@@ -55,14 +49,14 @@ const PropertyBox = ({property}) => {
                 </div>
                 <div className="d-flex flex-col justify-between card-cover-content">
                     <div className="d-flex justify-between">
-                        <p><i class='bx bx-map'></i> {property.nameLocation.address.locality}</p>
+                        <p><i class='bx bx-map'></i>{property.nameLocation.address.locality}</p>
                         <i class='bx bxs-hot' ></i>
                     </div>
                     <p><i class='bx bxs-star'></i>4.{property.nameLocation.name.length.toString().split(0,1)}</p>
                 </div>
             </div>
             <div className="card-content">
-                <h4><i class='bx bx-buildings' ></i><span>{property.nameLocation.name}</span></h4>
+                <h4><i class='bx bx-buildings'></i><span>{property.nameLocation.name}</span></h4>
                 <div className="price">
                     Staring from <PriceSpan id={property._id} /> • Night
                 </div>
@@ -94,7 +88,7 @@ const Search = ({result}) => {
                     <div className="container">
                         <div className="search-result-grid">
                         {result.properties
-                        .filter((prp) => prp.nameLocation.address.fullAddress.toLowerCase().includes(query === "all" ? '' : query.toLocaleLowerCase()))
+                        .filter((prp) => prp.nameLocation.address.fullAddress.toLowerCase().includes(query === "all" ? "" : query.toLocaleLowerCase()))
                         .map((prp, i) => (
                             <PropertyBox property={prp} key={i} />
                         ))}

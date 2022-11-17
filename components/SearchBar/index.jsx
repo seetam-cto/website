@@ -37,12 +37,12 @@ const LocationBox = ({data, setData, handleNext, properties}) => {
                 onChange={(e) => setData({...data, location: e})} 
                 value={data.location} name="location" 
                 placeholder="Search your location" />
-                <i className='bx bx-search' ></i>
+                <i className='bx bx-search'></i>
             </div>
             {data.location 
             ? (
                 <button onClick={() => handleNext(true)} className="form-button full explore">
-                    Let's explore {data.location}
+                    Let&apos;s explore {data.location}
                     <i className='bx bx-planet' ></i>
                 </button>
             )
