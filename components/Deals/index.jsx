@@ -94,8 +94,8 @@ const Deals = ({deals}) => {
         <div className="deals-slider">
             <Slider {...settings}>
                 {deals.list && deals.list.map((p,i) => (
-                    <AnimatePresence>
-                        <div key={i} className="deals-slider-slide">
+                    <AnimatePresence key={i}>
+                        <div key={`another-${i}`} className="deals-slider-slide">
                         <div className="deals-slider-slide-background">
                             <Image layout='fill' objectFit='cover' src={p.gallery.photos[0]} alt="" className="banner-slider-slide-background-image" />
                             <div className="deals-slider-slide-background-overlay"></div>

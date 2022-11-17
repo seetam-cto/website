@@ -53,7 +53,7 @@ const LocationProps = ({locations, properties}) => {
               <div className="container">
               <div className="row">
                 {properties.slice(0,8).map((prop,i) => (
-                  <PropertyBox prop={prop} i={i} />
+                  <PropertyBox prop={prop} key={i} i={i} />
                 ))}
               </div>
               </div>
