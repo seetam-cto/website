@@ -354,4 +354,8 @@ const SearchBar = () => {
   )
 }
 
+export const SearchBarMobile = () => {
+    
+} 
+
 export default SearchBar

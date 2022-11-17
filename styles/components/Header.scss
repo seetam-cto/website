@@ -6,16 +6,85 @@ header{
     position: fixed;
     top: 0;
     z-index: 100;
-    background-image: linear-gradient(to bottom, #000000C0, #00000000);
+    // background-image: linear-gradient(to bottom, #000000F0, #00000000);
+    &.light{
+        background-image: linear-gradient(to bottom, #000000F0, #00000000);
+    }
+    &.dark{
+        background-color: $white;
+    }
     // background: rgba( 255, 255, 255, 0.1 );
     // box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    backdrop-filter: blur( 6px );
-    -webkit-backdrop-filter: blur( 10px );
+    // backdrop-filter: blur( 6px );
+    // -webkit-backdrop-filter: blur( 10px );
+    @include mobile{
+        height: 10vh;
+    }
     .navbar{
         width: 100%;
         padding: 20px 5%;
         position: relative;
         height: 100%;
+        &.light{
+            color: $white;
+            .navbar{
+                &-menu{
+                    &-item{
+                        a{
+                            color: $white;
+                        }
+                        .dropdown{
+                            &-title{
+                                &::after{
+                                    border-color: $white;
+                                }
+                            }
+                            &-list{
+                                li{
+                                    a{
+                                        color: $white;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                &-logo{
+
+                }
+            }
+        }
+        &.dark{
+            color: $black;
+            .navbar{
+                &-menu{
+                    &-item{
+                        a{
+                            color: $black;
+                            height: 100%;
+                        }
+                        .dropdown{
+                            &-title{
+                                &::after{
+                                    border-color: $black;
+                                }
+                            }
+                            &-list{
+                                li{
+                                    a{
+                                        color: $white;
+                                    }
+                                    height: 100%;
+                                }
+                            }
+                        }
+                    }
+                }
+                &-logo{
+                    filter: brightness(0);
+                }
+            }
+        }
         &-logo{
             width: 100%;
             margin-block: auto;
@@ -27,11 +96,13 @@ header{
             gap: 50px;
             margin-block: auto;
             height: 100%;
+            @include mobile{
+                display: none;
+            }
             &-item{
                 display: flex;
                 align-items: center;
                 a{
-                    color: $white;
                     text-transform: uppercase;
                 }
                 .dropdown{
@@ -48,7 +119,7 @@ header{
                             width: 10px;
                             height: 10px;
                             position: absolute;
-                            border: 2px solid $white;
+                            border: 2px solid;
                             right: -8px;
                             top: 0;
                             bottom: 10px;
@@ -81,7 +152,6 @@ header{
                                 border-radius: 0px 0px 10px 10px;
                             }
                             a{
-                                color: $white;
                                 width: 100%;
                             }
                             &:hover{
@@ -103,6 +173,16 @@ header{
             margin-block: auto;
             height: 100%;
             color: $white;
+            &-greet{
+                @include mobile{
+                    span{
+                        display: none;
+                    }
+                    i{
+                        font-size: 25px;
+                    }
+                }
+            }
         }
     }
 }

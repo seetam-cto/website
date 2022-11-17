@@ -40,9 +40,9 @@ const Banner = ({banner, counts}) => {
         infinite: true,
         speed: 500,
         autoplay: true,
-        autoplaySpeed: 5000,
+        autoplaySpeed: 7000,
         className: "banner-slick",
-        slidesToShow: (counts.length - 1) > 3 ? 3 : counts.length - 1,
+        slidesToShow: (banner.length - 1) > 3 ? 3 : banner.length - 1,
         arrows: true,
         ref: slider,
         focusOnSelect: true,
@@ -62,19 +62,19 @@ const Banner = ({banner, counts}) => {
         <div className="banner">
             <div className="banner-background">
                 <div className="banner-background-overlay"></div>
-                <div style={{backgroundImage: `url(${currentSlide.cover_image})`}} className="banner-background-image"></div>
+                <div style={{backgroundImage: `url(${currentSlide.cover_image.src})`}} className="banner-background-image"></div>
                 {/* <Image layout={"fill"} objectFit='cover' src={currentSlide.cover_image}/> */}
             </div>
             <div className="row">
-                <div className="col-6 banner-left-container">
+                <div className="col-6 banner-left-container col-m-12">
                     <div className="row banner-left">
-                        <div className="col-2 d-flex align-end">
+                        <div className="col-2 d-flex align-end d-m-none">
                             <ul className="banner-slider-dots">
-                                {counts.map((c,i) => 
+                                {banner.map((c,i) => 
                                     <li key={i} onClick={() => {slider.current.slickGoTo(i); setCurDot(i)}} className={curDot === i ? 'active' : ''}></li>)}
                             </ul>
                         </div>
-                        <div className="col-10 d-flex flex-col justify-between">
+                        <div className="col-10 d-flex flex-col justify-between col-m-12">
                             <div className="banner-left-text">
                                 {currentSlide.name && <h2>
                                     <motion.span  
@@ -103,10 +103,13 @@ const Banner = ({banner, counts}) => {
                                     Explore <i className='bx bxs-chevron-right' ></i>
                                 </motion.button>
                             </div>
+                            <div className="banner-mobile-loader">
+                                {reload && <div className="progress"></div>}
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div className="col-6 banner-slider-container">
+                <div className="col-6 banner-slider-container col-m-12">
                     <div className="banner-slider">
                         <Slider {...settings}>
                             {banner && banner.map((b,i) => (
@@ -115,7 +118,7 @@ const Banner = ({banner, counts}) => {
                                     <div className="banner-slider-slide-overlay"></div>
                                     <div className="banner-slider-slide-content">
                                         <h3>{b.name}</h3>
-                                        <h4>{counts[i]} Properties</h4>
+                                        <h4>{b.counts} Properties</h4>
                                     </div>
                                 </div>
                             ))}

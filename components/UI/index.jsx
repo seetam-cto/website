@@ -23,10 +23,10 @@ export const CheckboxInput = ({label = "", value = false, onChange, icon}) => {
     return(
         <div onClick={() => onChange(!value)} className="form-checkbox">
             <div className={`form-checkbox-box ${value && 'active'}`}>
-                {value && <i class='bx bx-check' ></i>}
+                {value && <i className='bx bx-check' ></i>}
             </div>
             {label}
-            {icon && <i class={icon} ></i>}
+            {icon && <i className={icon} ></i>}
         </div>
     )
 }

@@ -12,8 +12,8 @@ const AdvanceBooking = ({advanceData}) => {
             <div className="advance-subtitle">
                 {advanceData.subTitle}
             </div>
-            <div className="row">
-                <div className="col-6 advance-list">
+            <div className="row d-m-flex flex-m-col-rev">
+                <div className="col-6 advance-list col-m-12">
                     {
                         advanceData.list.map((l, i) => (
                             <div key={i} className="row">
@@ -32,8 +32,9 @@ const AdvanceBooking = ({advanceData}) => {
                         ))
                     }
                 </div>
-                <div className="col-6 advance-image">
-                    <Image layout="fixed" width={550} height={700} objectFit='cover' src={advanceData.image} />
+                <div className="col-6 advance-image col-m-12">
+                    <div className='d-only'><Image layout="fixed" width={550} height={700} objectFit='cover' src={advanceData.image} className="d-only" /></div>
+                    <Image width={700} height={500}  objectFit='cover' src={advanceData.image} className="m-only"/>
                 </div>
             </div>
         </div>

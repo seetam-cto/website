@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react'
-import {motion} from "framer-motion"
+import {motion, AnimatePresence} from "framer-motion"
 import Slider from 'react-slick'
 import longArrow from "../../assets/images/arrow-right.svg"
 import Image from 'next/image'
@@ -59,6 +59,29 @@ const Deals = ({deals}) => {
         },
         nextArrow: <NextArrow reload={reload} />,
         prevArrow: <PrevArrow />,
+        responsive: [
+            {
+              breakpoint: 1024,
+              settings: {
+                slidesToShow: 3
+              }
+            },
+            {
+              breakpoint: 600,
+              settings: {
+                slidesToShow: 2,
+                slidesToScroll: 2,
+                initialSlide: 2
+              }
+            },
+            {
+              breakpoint: 480,
+              settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1
+              }
+            }
+          ]
     }
   return (
     <motion.div className="deals">
@@ -71,45 +94,52 @@ const Deals = ({deals}) => {
         <div className="deals-slider">
             <Slider {...settings}>
                 {deals.list && deals.list.map((p,i) => (
-                    <div key={i} className="deals-slider-slide">
+                    <AnimatePresence>
+                        <div key={i} className="deals-slider-slide">
                         <div className="deals-slider-slide-background">
-                            <Image layout='fill' objectFit='cover' src={p.gallery.cover_image} alt="" className="banner-slider-slide-background-image" />
+                            <Image layout='fill' objectFit='cover' src={p.gallery.photos[0]} alt="" className="banner-slider-slide-background-image" />
                             <div className="deals-slider-slide-background-overlay"></div>
                         </div>
                         <div className="deals-slider-slide-content">
                             <div className="row">
                                 <div className="col-10 adjuster">
-                                    {currentSlide === i && (
+                                    {currentSlide === i ? (
                                         <motion.h3
+                                        key={"deal-title"}
                                         initial={{opacity: 0, x: 100}}
                                         animate={{opacity: 1, x: 0}}
+                                        exit={{opacity: 0, x: 100}}
                                         transition={{bounce: 2, delay: 0.2, duration: 0.5}}
                                         className="title current">
                                             {deals.dealTitle[i]}
                                         </motion.h3>
+                                    ): (
+                                        <h3 className="title other">
+                                            <i className='bx bx-map' ></i> {p.nameLocation.address.state}
+                                        </h3>
                                     )}
-                                    <h3 className="title other">
-                                        <i class='bx bx-map' ></i> {p.basic_info.address.state}
-                                    </h3>
                                     {currentSlide === i ? (
                                         <>
                                             <motion.p
+                                            key={"deal-subtitle"}
                                             initial={{opacity: 0, x: 100}}
                                             animate={{opacity: 1, x: 0}}
                                             transition={{bounce: 2, delay: 0.4, duration: 0.5}}
                                             className='subtitle'>
-                                                {p.basic_info.content.substring(0,130)}
+                                                {p.nameLocation.about.substring(0,100)}
                                             </motion.p>
                                             <motion.h4
+                                            key={"deal-name"}
                                             initial={{y: 50, opacity: 0}}
                                             animate={{y: 0, opacity: 1}}
                                             transition={{duration: 0.3, delay: 0.6}}
                                             className="name">
-                                                <i class='bx bx-building-house' ></i>
-                                                <i class='bx bxs-check-circle verified' ></i>
-                                               <span>{`${p.basic_info.name}, ${p.basic_info.address.state}`}</span>
+                                                <i className='bx bx-building-house' ></i>
+                                                <i className='bx bxs-check-circle verified' ></i>
+                                               <span>{`${p.nameLocation.name}, ${p.nameLocation.address.state}`}</span>
                                             </motion.h4>
                                             <motion.div
+                                            key={"deal-bottombox"}
                                             initial={{opacity: 0}}
                                             animate={{opacity: 1}}
                                             transition={{duration: 0.3, delay: 0.8}}
@@ -134,9 +164,9 @@ const Deals = ({deals}) => {
                                         </div>
                                         <h4
                                         className="name">
-                                            <i class='bx bx-building-house' ></i>
-                                            <i class='bx bxs-check-circle verified' ></i>
-                                            {`${p.basic_info.name}, ${p.basic_info.address.state}`}
+                                            <i className='bx bx-building-house' ></i>
+                                            <i className='bx bxs-check-circle verified' ></i>
+                                            {`${p.nameLocation.name}, ${p.nameLocation.address.state}`}
                                         </h4>
                                         </div>
                                     )}
@@ -153,6 +183,7 @@ const Deals = ({deals}) => {
                             </div>
                         </div>
                     </div>
+                    </AnimatePresence>
                 ))}
             </Slider>
         </div>

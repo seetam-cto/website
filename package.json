@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export" : "next build && next export"
+    "export": "next build && next export"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
@@ -19,6 +19,7 @@
     "react": "18.2.0",
     "react-date-range": "^1.4.0",
     "react-dom": "18.2.0",
+    "react-modal": "^3.16.1",
     "react-redux": "^8.0.4",
     "react-slick": "^0.29.0",
     "redux": "^4.2.0",

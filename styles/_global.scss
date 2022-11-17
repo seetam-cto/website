@@ -82,6 +82,9 @@ li {
     @include tablet{
         width: 85%;
     }
+    @include mobile{
+        width: 100%;
+    }
 }
 
 .title {
@@ -116,4 +119,18 @@ li {
 
 .bg-purple{
     background-color: $purple !important;
+}
+
+.d-only{
+    display: block;
+    @include mobile{
+        display: none !important;
+    }
+}
+
+.m-only{
+    display: none;
+    @include mobile{
+        display: block !important;
+    }
 }

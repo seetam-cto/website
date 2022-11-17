@@ -4,6 +4,7 @@
 
 //pages
 @forward './pages/Home.scss';
+@forward './pages/About.scss';
 
 //components
 @forward './components/Header.scss';
@@ -13,3 +14,4 @@
 @forward './components/Locations.scss';
 @forward './components/AdvanceBooking.scss';
 @forward './components/Footer.scss';
+@forward './components/Auth.scss';

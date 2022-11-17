@@ -8,14 +8,14 @@ const Footer = ({footer, general}) => {
     <footer className="footer">
         <div className="container">
             <div className="row">
-                <div className="col-3">
+                <div className="col-2">
                     <div className="footer-logo">
                         <Image width={200} height={75} src={footer.logo} />
                         <ul className='footer-social'>
-                            <li><i class='bx bxl-facebook-square' ></i></li>
-                            <li><i class='bx bxl-instagram-alt' ></i></li>
-                            <li><i class='bx bxl-twitter' ></i></li>
-                            <li><i class='bx bxl-trip-advisor' ></i></li>
+                            <li><i className='bx bxl-facebook-square' ></i></li>
+                            <li><i className='bx bxl-instagram-alt' ></i></li>
+                            <li><i className='bx bxl-twitter' ></i></li>
+                            <li><i className='bx bxl-trip-advisor' ></i></li>
                         </ul>
                     </div>
                 </div>
@@ -43,7 +43,7 @@ const Footer = ({footer, general}) => {
                         ))}
                     </ul>
                 </div>
-                <div className="col-3">
+                <div className="col-4">
                     <p>SUBSCRIBE</p>
                     <ul className="footer-links">
                         <li>
@@ -51,19 +51,15 @@ const Footer = ({footer, general}) => {
                         </li>
                     </ul>
                     <div className="row d-flex align-center">
-                        <div className="col-12">&nbsp;</div>
-                        <div className="col-10">
-                            <div className="form-group">
+                        <div className="col-12">
+                            <div className="form-group footer-subscribe">
+                                <label className="form-label">&nbsp;</label>
                                 <input type="text"
                                 placeholder='Enter Email Address'
                                 className="form-control" />
-                            </div>
-                        </div>
-                        <div className="col-2">
-                            <div className="form-group">
                                 <button className="form-button explore explore-footer">
                                     Send
-                                    <i class='bx bxs-paper-plane' ></i>
+                                    <i className='bx bxs-paper-plane' ></i>
                                 </button>
                             </div>
                         </div>

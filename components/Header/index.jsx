@@ -2,22 +2,26 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-const Header = ({headerSettings}) => {
+const Header = ({theme = "light",headerSettings}) => {
     return (
-        <header>
-            <div className="navbar">
+        <header className={theme}>
+            <div className={`navbar ${theme}`}>
                 <div className="row">
-                    <div className="col-3">
+                    <div className="col-3 col-m-6">
                         <div className="navbar-logo">
-                            <Image
-                            objectFit={"contain"}
-                            width={180}
-                            height={80}
-                                src={headerSettings.general.logo}
-                            />
+                            <Link href={"/"}>
+                                <a>
+                                <Image
+                                objectFit={"contain"}
+                                width={500}
+                                height={100}
+                                    src={headerSettings.general.logo}
+                                />
+                                </a>
+                            </Link>
                         </div>
                     </div>
-                    <div className="col-7">
+                    <div className="col-7 d-m-none">
                         <div className="navbar-menu">
                             {headerSettings && headerSettings.general.menu.map((item, i) => (
                                 <div key={i} className="navbar-menu-item">
@@ -46,10 +50,10 @@ const Header = ({headerSettings}) => {
                             ))}
                         </div>
                     </div>
-                    <div className="col-2">
+                    <div className="col-2 col-m-6">
                         <div className="navbar-user">
                             <div className="navbar-user-greet">
-                                Hey Guest! <i className='bx bx-user-circle' ></i>
+                                <span>Hey Guest!</span> <i className='bx bx-user-circle' ></i>
                             </div>
                             <div className="navbar-user-currency">
                                 INR
