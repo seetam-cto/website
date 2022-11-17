@@ -295,7 +295,7 @@ const PropertyDetails = ({property}) => {
                                             <div className="col-3 image">
                                                 <Slider>
                                                     {room.images.map((img, i) =>
-                                                    <Image src={img} width={1600} height={900} /> 
+                                                    <Image key={i} src={img} width={1600} height={900} /> 
                                                     )}
                                                 </Slider>
                                             </div>
