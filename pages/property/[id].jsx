@@ -338,7 +338,7 @@ const PropertyDetails = ({property}) => {
 export async function getStaticPaths() {
     return {
       paths: [{ params: { id: '63752b4aad3e8758ae6ad042' } }],
-      fallback: true, // can also be true or 'blocking'
+      fallback: false, // can also be true or 'blocking'
     }
   }
 
