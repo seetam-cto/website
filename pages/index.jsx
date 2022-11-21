@@ -40,7 +40,7 @@ export default function Home({settingsData, properties}) {
       </Head>
       <AnimatePresence>
         <Header headerSettings={settingsData}/>
-        <Banner banner={banner}/>
+        <Banner banner={settingsData.homepage.banner}/>
         <SearchBar properties={properties} />
         {settingsData.homepage.deals.enabled && <Deals deals={settingsData.homepage.deals}/>}
         {/* {settingsData.homepage.locations.enabled && <LocationProps locations={settingsData.homepage.locations} properties={properties} />} */}
@@ -51,7 +51,7 @@ export default function Home({settingsData, properties}) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let res = await getSettings()
   // let properties = await getProperties()
   return {

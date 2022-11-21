@@ -7,12 +7,12 @@ const Header = ({theme = "light",headerSettings}) => {
         <header className={theme}>
             <div className={`navbar ${theme}`}>
                 <div className="row">
-                    <div className="col-3 col-m-6">
+                    <div className="col-md-3 col-sm-6">
                         <div className="navbar-logo">
                             <Link href={"/"}>
                                 <a>
                                 <Image
-                                objectFit={"contain"}
+                                objectFit={"cover"}
                                 width={1000}
                                 height={200}
                                     src={headerSettings.general.logo}

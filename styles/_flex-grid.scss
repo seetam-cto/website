@@ -48,6 +48,12 @@
     }
 }
 
+.col-m-100{
+    @include mobile{
+        width: 100% !important;
+    }
+}
+
 // medium screen
 
 @include tablet {

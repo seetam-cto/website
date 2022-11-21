@@ -3,6 +3,9 @@
 .footer{
     background-color: #F2F2F2;
     padding-block: 50px 0px;
+    @include mobile{
+        padding-inline: 25px;
+    }
     p{
         font-weight: 500;
         font-size: 20px;

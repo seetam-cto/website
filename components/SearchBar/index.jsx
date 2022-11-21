@@ -365,7 +365,7 @@ const SearchBar = ({properties}) => {
                             <GuestsBox explore={explore} data={searchq} setData={setSearchq} handleNext={afterGuests} />
                         )}
                     </div>
-                    <div className="col-20">
+                    <div className="col-20 col-m-100">
                         <div className="searchbar-item button">
                             <button className="form-button searchbar-item-button">
                                 Search

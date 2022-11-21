@@ -8,9 +8,9 @@ const Footer = ({footer, general}) => {
     <footer className="footer">
         <div className="container">
             <div className="row">
-                <div className="col-2">
+                <div className="col-md-2 col-sm-12">
                     <div className="footer-logo">
-                        <Image width={200} height={75} src={general.logo} />
+                        <Image width={200} height={75} objectFit={"contain"} src={general.logo} />
                         <ul className='footer-social'>
                             <li><i className='bx bxl-facebook-square' ></i></li>
                             <li><i className='bx bxl-instagram-alt' ></i></li>
@@ -19,7 +19,7 @@ const Footer = ({footer, general}) => {
                         </ul>
                     </div>
                 </div>
-                <div className="col-3">
+                <div className="col-md-3 col-sm-6">
                     <p>QUICK LINKS</p>
                     <ul className='footer-links'>
                         {footer.quickLinks.map((l, i) => (
@@ -31,7 +31,7 @@ const Footer = ({footer, general}) => {
                         ))}
                     </ul>
                 </div>
-                <div className="col-3">
+                <div className="col-md-3 col-sm-6">
                     <p>POLICY</p>
                     <ul className='footer-links'>
                         {footer.quickLinks.map((l, i) => (
@@ -43,7 +43,7 @@ const Footer = ({footer, general}) => {
                         ))}
                     </ul>
                 </div>
-                <div className="col-4">
+                {/* <div className="col-md-4 col-sm-12">
                     <p>SUBSCRIBE</p>
                     <ul className="footer-links">
                         <li>
@@ -64,7 +64,7 @@ const Footer = ({footer, general}) => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
             </div>
             <div className="row footer-copyright">
                 © 2022 All Rights Reserved | Okay Done

@@ -62,7 +62,7 @@ const Banner = ({banner, counts}) => {
         <div className="banner">
             <div className="banner-background">
                 <div className="banner-background-overlay"></div>
-                <div style={{backgroundImage: `url(${currentSlide.cover_image.src})`}} className="banner-background-image"></div>
+                <div style={{backgroundImage: `url(${currentSlide.background})`}} className="banner-background-image"></div>
                 {/* <Image layout={"fill"} objectFit='cover' src={currentSlide.cover_image}/> */}
             </div>
             <div className="row full">
@@ -76,20 +76,20 @@ const Banner = ({banner, counts}) => {
                         </div>
                         <div className="col-10 d-flex flex-col justify-between col-m-12">
                             <div className="banner-left-text">
-                                {currentSlide.name && <h2>
+                                {currentSlide.title && <h2>
                                     <motion.span  
                                     initial={{opacity: 0}}
                                     animate={{opacity: 1}}
                                     transition={{duration: 1}}
                                     >
-                                    {currentSlide.name}
+                                    {currentSlide.title}
                                     </motion.span>
                                     </h2>}
-                                <p>{currentSlide.about.length > 300 
+                                <p>{currentSlide.subTitle.length > 300 
                                 ? readMore 
-                                    ? <>{currentSlide.about}<span onClick={() => setReadMore(false)}>&nbsp;&nbsp;- <strong>Read Less</strong></span></> 
-                                    : <>{currentSlide.about.substring(0,295)}... <span onClick={() => setReadMore(true)}><strong>Read More</strong></span></>
-                                : currentSlide.about}</p>
+                                    ? <>{currentSlide.subTitle}<span onClick={() => setReadMore(false)}>&nbsp;&nbsp;- <strong>Read Less</strong></span></> 
+                                    : <>{currentSlide.subTitle.substring(0,295)}... <span onClick={() => setReadMore(true)}><strong>Read More</strong></span></>
+                                : currentSlide.subTitle}</p>
                             </div>
                             <div className="banner-left-cta">
                                 <p>Exciting Deals</p>
@@ -114,10 +114,10 @@ const Banner = ({banner, counts}) => {
                         <Slider {...settings}>
                             {banner && banner.map((b,i) => (
                                 <div key={i} className="banner-slider-slide">
-                                    <Image src={b.cover_image} layout={"fill"}  objectFit="cover" className="banner-slider-slide-background" />
+                                    <Image src={b.card} layout={"fill"}  objectFit="cover" className="banner-slider-slide-background" />
                                     <div className="banner-slider-slide-overlay"></div>
                                     <div className="banner-slider-slide-content">
-                                        <h3>{b.name}</h3>
+                                        <h3>{b.title}</h3>
                                         <h4>{b.counts} Properties</h4>
                                     </div>
                                 </div>
