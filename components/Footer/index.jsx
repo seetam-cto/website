@@ -8,7 +8,7 @@ const Footer = ({footer, general}) => {
     <footer className="footer">
         <div className="container">
             <div className="row">
-                <div className="col-md-2 col-sm-12">
+                <div className="col-md-12 col-12 col-sm-12 d-flex justify-center">
                     <div className="footer-logo">
                         <Image width={200} height={75} objectFit={"contain"} src={general.logo} />
                         <ul className='footer-social'>
@@ -19,7 +19,7 @@ const Footer = ({footer, general}) => {
                         </ul>
                     </div>
                 </div>
-                <div className="col-md-3 col-sm-6">
+                {/* <div className="col-md-3 col-sm-6">
                     <p>QUICK LINKS</p>
                     <ul className='footer-links'>
                         {footer.quickLinks.map((l, i) => (
@@ -30,8 +30,8 @@ const Footer = ({footer, general}) => {
                             </li>
                         ))}
                     </ul>
-                </div>
-                <div className="col-md-3 col-sm-6">
+                </div> */}
+                {/* <div className="col-md-3 col-sm-6">
                     <p>POLICY</p>
                     <ul className='footer-links'>
                         {footer.quickLinks.map((l, i) => (
@@ -42,7 +42,7 @@ const Footer = ({footer, general}) => {
                             </li>
                         ))}
                     </ul>
-                </div>
+                </div> */}
                 {/* <div className="col-md-4 col-sm-12">
                     <p>SUBSCRIBE</p>
                     <ul className="footer-links">

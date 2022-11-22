@@ -290,7 +290,7 @@ const SearchBar = ({properties}) => {
     const router = useRouter()
 
     const explore = () => {
-        let query = `query=${searchq.location}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&guests=${searchq.guests.adult + searchq.guests.child}`
+        let query = `query=${searchq.location ? searchq.location : 'all'}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&guests=${searchq.guests.adult + searchq.guests.child}`
         router.push(`/search?${query}`)
     }
   return (
@@ -367,8 +367,8 @@ const SearchBar = ({properties}) => {
                     </div>
                     <div className="col-20 col-m-100">
                         <div className="searchbar-item button">
-                            <button className="form-button searchbar-item-button">
-                                Search
+                            <button onClick={() => explore()} className="form-button searchbar-item-button">
+                                Search 
                             </button>
                         </div>
                     </div>
