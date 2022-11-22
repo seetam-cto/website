@@ -58,6 +58,28 @@ header{
         padding: 20px 5%;
         position: relative;
         height: 100%;
+        &-mobile-btn{
+            width: fit-content;
+            padding: 3px;
+            font-size: 2rem;
+            line-height: 1.1rem;
+            color: $red;
+            background: rgba( 255, 255, 255, 0.25 );
+            box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+            backdrop-filter: blur( 4px );
+            -webkit-backdrop-filter: blur( 4px );
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            border: 1px solid rgba( 255, 255, 255, 0.18 );
+            &:hover{
+                transform: scale(1.05);
+            }
+            display: none;
+            @include mobile{
+                display: block;
+            }
+        }
         &.light{
             color: $white;
             .navbar{

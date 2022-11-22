@@ -12,6 +12,7 @@
     background-color: $white;
     @include mobile{
         height: 90vh;
+        padding-block: 15vh 5vh;
     }
     &-left{
         z-index: 1;
@@ -41,6 +42,16 @@
         &-cta{
             color: $white;
             margin-bottom: 25px;
+            @include mobile{
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            p{
+                @include mobile{
+                    display: none;
+                }
+            }
             button{
                 margin-top: 10px;
             }
@@ -49,8 +60,9 @@
     &-background{
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        // object-fit: cover;
         position: absolute;
+        background-size: cover;
         top: 0;
         left: 0;
         z-index: 0;
@@ -74,7 +86,7 @@
             z-index: 5;
             transition: background-image 1s ease-in-out;
             background-repeat: no-repeat;
-            background-size: 100% 80vh;
+            background-size: cover;
             @include mobile{
                 background-size: cover;
             }
@@ -143,7 +155,8 @@
                 z-index: 2;
                 left: -200px;
                 @include mobile{
-                    left: 200px;
+                    right: 0;
+                    left: unset;
                 }
             }
             &.prev{

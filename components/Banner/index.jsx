@@ -93,15 +93,15 @@ const Banner = ({banner, counts}) => {
                             </div>
                             <div className="banner-left-cta">
                                 <p>Exciting Deals</p>
-                                <motion.button
-                                onClick={() => console.log(currentSlide.name)}
+                                <motion.a
+                                href={currentSlide.link}
                                 initial={{x: -100, opacity: 0}}
                                 animate={{x: 0, opacity: 1}}
                                 whileHover={{scale: 1.05}}
                                 transition={{ delay: 0, bounce: 1}}
                                 className="form-button explore">
                                     Explore <i className='bx bxs-chevron-right' ></i>
-                                </motion.button>
+                                </motion.a>
                             </div>
                             <div className="banner-mobile-loader">
                                 {reload && <div className="progress"></div>}
