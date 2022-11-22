@@ -88,6 +88,7 @@ const Search = ({result}) => {
                     <div className="container">
                         <div className="search-result-grid">
                         {result.properties
+                        .filter(pp => pp.status === "published")
                         .filter((prp) => prp.nameLocation.address.fullAddress.toLowerCase().includes(query === "all" ? "" : query.toLocaleLowerCase()))
                         .map((prp, i) => (
                             <PropertyBox property={prp} key={i} />

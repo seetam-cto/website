@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 //locationbox
 const LocationBox = ({data, setData, handleNext, properties}) => {
-    const [options, setOptions] = useState(properties.map((prp) => {
+    const [options, setOptions] = useState(properties.filter(pp => pp.status === "published").map((prp) => {
         return {
             name: prp.nameLocation.address.locality,
             value: prp.nameLocation.address.locality
