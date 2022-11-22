@@ -82,7 +82,7 @@ const Search = ({result}) => {
                     <div className="container">
                         <img src={bgImage.src} />
                     </div>
-                    <SearchBar />
+                    <SearchBar properties={result.properties} />
                 </div>
                 <div className="search-result">
                     <div className="container">
