@@ -56,7 +56,9 @@ const Header = ({theme = "light",headerSettings}) => {
                     </div>
                     <div className="col-1 d-m-none"></div>
                     <div className="col-sm-6 d-flex justify-end align-center">
-                        <button onClick={() => setNavrail(true)} className="navbar-mobile-btn">
+                        <button
+                        // onClick={() => setNavrail(true)} 
+                        className="navbar-mobile-btn">
                         <i className='bx bx-menu'></i>
                         </button>
                     </div>
