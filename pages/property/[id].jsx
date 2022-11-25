@@ -13,6 +13,7 @@ import { addDays } from 'date-fns';
 import Modal from 'react-modal'
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify'
+import sampleIcon from "../../assets/images/sample-icon.svg"
 
 const Gallery = ({imageList}) => {
     const settings = {
@@ -75,6 +76,30 @@ const Gallery = ({imageList}) => {
     )
 }
 
+const GalleryMobile = ({imageList}) => {
+    const settings = {
+        for2: {
+            infinite: true,
+            slidesToShow: 2,
+            speed: 500,
+            arrows: true,
+            focusOnSelect: true,
+            className: "property-mobile-gallery-slider",
+            nextArrow: <div className="arrow-next"><img src={sliderArrow} alt="" /></div>,
+            prevArrow: <div className="arrow-prev"><img src={sliderArrow} alt="" /></div>
+        }
+    };
+    return (
+        <Slider {...settings.for2}>
+            {imageList && imageList.map((image,i) => (
+                <div key={i} className="property-mobile-gallery-slider-slide">
+                    <img src={image} key={i} at="" />
+                </div>
+            ))}
+        </Slider>
+    )
+}
+
 const customStyles = {
     content: {
       top: '50%',
@@ -113,9 +138,10 @@ const EnquireForm = ({open, setOpen, data, clean}) => {
         isOpen={open}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Enquiry Form"
         >
             <div className="property-enquire">
+                <i onClick={() => closeModal()} className='property-enquire-close bx bx-x' ></i>
                 <h2>Enquire Now</h2>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <div className="form-group">
@@ -180,7 +206,7 @@ const EnquireForm = ({open, setOpen, data, clean}) => {
                     <button
                     onClick={() => handleEnquiry()}
                     style={{justifyContent: 'space-between'}} className="form-button full explore">
-                        Submit your enquiry<i class='bx bxs-paper-plane' ></i>
+                        Submit your enquiry<i className='bx bxs-paper-plane' ></i>
                     </button>
                 </form>
             </div>
@@ -208,7 +234,7 @@ const PropertyDetails = ({property}) => {
             </Head>
             <AnimatePresence>
                 <Header key="header" theme={"light other"} headerSettings={property.settings}/>
-                <div className="property-banner">
+                <div className="property-desktop property-banner">
                     <div className="property-banner-background">
                         <Image className='image' src={property.main.gallery.photos[0]} width={1600} height={900} />
                         <div className="overlay" />
@@ -226,7 +252,7 @@ const PropertyDetails = ({property}) => {
                         </div>
                     </div>
                 </div>
-                <div className="container">
+                <div className="property-desktop container">
                     <div className="row">
                         <div className="col-8">
                             <Gallery imageList={property.main.gallery.photos} />
@@ -237,7 +263,7 @@ const PropertyDetails = ({property}) => {
                                     <div style={{width: '70%'}}>
                                         <div className="booking-form-calendar">
                                             <DatePicker minDate={new Date()} className="booking-form-calendar-date" selected={startDate} onChange={(date) => setStartDate(date)} />
-                                            <i class='bx bx-calendar-edit'></i>
+                                            <i className='bx bx-calendar-edit'></i>
                                             <DatePicker minDate={addDays(new Date(), 1)} className="booking-form-calendar-date" selected={endDate} onChange={(date) => setEndDate(date)} />
                                         </div>
                                     </div>
@@ -277,7 +303,8 @@ const PropertyDetails = ({property}) => {
                                 <div className="amenities">
                                     {property.main.propertySetup.amenities.slice(0,12).map((amn, i) => (
                                         <span key={i} style={{marginRight: 20}}>
-                                            <i class='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
+                                            <img src={sampleIcon.src} alt="" />
+                                            {property.amenities.filter((am) => am.id === amn )[0].name}
                                         </span>
                                     ))}
                                 </div>
@@ -304,7 +331,7 @@ const PropertyDetails = ({property}) => {
                                                 <p className='property-rooms-room-amenities'>
                                                     {room.amenities.map((amn, i) => (
                                                         <span key={i} style={{marginRight: 20}}>
-                                                            <i class='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
+                                                            <i className='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
                                                         </span>
                                                     ))}
                                                 </p>
@@ -325,6 +352,85 @@ const PropertyDetails = ({property}) => {
                                 ))}
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div className="property-mobile">
+                    <div className="property-mobile-banner">
+                        <div className="property-mobile-banner-image">
+                            <Image className='image' src={property.main.gallery.photos[0]} width={1600} height={900} />
+                            <div className="overlay" />
+                        </div>
+                    </div>
+                    <div className="container pi-2">
+                        <div className="property-mobile-rating">
+                            <i className='bx bx-star' ></i> 4.62 <span>30+ Reviews</span>
+                        </div>
+                        <div className="property-mobile-details">
+                            <h1>{property.main.nameLocation.name}</h1>
+                            <p>{property.main.nameLocation.about}</p>
+                        </div>
+                        <div className="property-mobile-video">
+                            <Image src={property.main.gallery.photos[1]} width={1600} height={900}/>
+                        </div>
+                    </div>
+                    <div className="property-mobile-gallery">
+                        <h2>What you can expect?</h2>
+                        <GalleryMobile imageList={property.main.gallery.photos} />
+                    </div>
+                    <div className="container pi-2">
+                        <div className="property-mobile-amenities">
+                            <h2>In the property</h2>
+                            <div className="property-mobile-amenities-grid">
+                                {property.main.propertySetup.amenities.slice(0,10).map((amn, i) => (
+                                    <span key={i} style={{marginRight: 20}}>
+                                        <img src={sampleIcon.src} alt="" />
+                                        {property.amenities.filter((am) => am.id === amn )[0].name}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                        <div className="row">
+                        <div className="col-12">
+                            <h2>Rooms & Packages</h2>
+                            <div className="property-rooms">
+                                {property.rooms.map((room, i) => (
+                                    <div key={i} className="property-rooms-room">
+                                        <div className="row">
+                                            <div className="col-12 image">
+                                                <Slider>
+                                                    {room.images.map((img, i) =>
+                                                    <Image key={i} src={img} width={1600} height={900} /> 
+                                                    )}
+                                                </Slider>
+                                            </div>
+                                            <div className="col-12">
+                                                <h3>{room.name} <span>• {room.roomSize}sq.ft.</span></h3>
+                                                <div className="property-mobile-amenities-grid room">
+                                                    {room.amenities.slice(0,9).map((amn, i) => (
+                                                        <span key={i} style={{marginRight: 20}}>
+                                                            <img src={sampleIcon.src} alt="" />
+                                                            {property.amenities.filter((am) => am.id === amn )[0].name}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                            <div className="col-12 price-box">
+                                                <p>Prices starting at</p>
+                                                <div className="price">
+                                                    <span className='highlight'>
+                                                    ₹{ room.basePrice.mrp.toLocaleString('en-IN') }</span>
+                                                    /Night
+                                                </div>
+                                                <button style={{justifyContent: 'space-between'}} onClick={() => setEqState(true)} className="form-button full explore">
+                                                    Enquire Now <i className='bx bxs-chevron-right' ></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                     </div>
                 </div>
                 <EnquireForm open={eqState} setOpen={setEqState} data={{guests, startDate, endDate}} clean={cleanData} />

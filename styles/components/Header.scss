@@ -141,8 +141,13 @@ header{
             }
         }
         &-logo{
-            width: 100%;
+            width: 90%;
+            margin-top: 10px;
             margin-block: auto;
+            @include mobile{
+                width: 80%;
+                margin-top: 10px;
+            }
         }
         &-menu{
             display: flex;

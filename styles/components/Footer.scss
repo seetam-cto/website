@@ -16,6 +16,9 @@
         flex-direction: column;
         justify-content: center;
         width: 100%;
+        @include mobile{
+            width: 50%;
+        }
     }
     &-social{
         display: flex;

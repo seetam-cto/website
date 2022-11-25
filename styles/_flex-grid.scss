@@ -69,6 +69,8 @@
     }
 }
 
+
+
 // small screen
 
 @include mobile {
@@ -80,6 +82,11 @@
     }
     .hide-sm {
         display: none;
+    }
+    @for $i from 1 through 10 {
+        .pi-#{$i}{
+            padding-inline: $i*10px !important;
+        }
     }
 }
 

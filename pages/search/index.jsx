@@ -49,14 +49,14 @@ const PropertyBox = ({property}) => {
                 </div>
                 <div className="d-flex flex-col justify-between card-cover-content">
                     <div className="d-flex justify-between">
-                        <p><i class='bx bx-map'></i>{property.nameLocation.address.locality}</p>
-                        <i class='bx bxs-hot' ></i>
+                        <p><i className='bx bx-map'></i>{property.nameLocation.address.locality}</p>
+                        <i className='bx bxs-hot' ></i>
                     </div>
-                    <p><i class='bx bxs-star'></i>4.{property.nameLocation.name.length.toString().split(0,1)}</p>
+                    <p><i className='bx bxs-star'></i>4.{property.nameLocation.name.length.toString().split(0,1)}</p>
                 </div>
             </div>
             <div className="card-content">
-                <h4><i class='bx bx-buildings'></i><span>{property.nameLocation.name}</span></h4>
+                <h4><i className='bx bx-buildings'></i><span>{property.nameLocation.name}</span></h4>
                 <div className="price">
                     Staring from <PriceSpan id={property._id} /> • Night
                 </div>

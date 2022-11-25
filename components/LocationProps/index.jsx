@@ -13,13 +13,13 @@ const PropertyBox = ({prop, i}) => {
           </div>
           <div className="top">
             <div className="d-flex align-center">
-              <i class='bx bx-map'></i>
+              <i className='bx bx-map'></i>
               {prop.basic_info.address.state}
             </div>
-            <i class='bx bxs-hot'></i>
+            <i className='bx bxs-hot'></i>
           </div>
           <div className="bottom">
-            <i class='bx bxs-star'></i> {4.2}
+            <i className='bx bxs-star'></i> {4.2}
           </div>
         </div>
         <div className="locations-properties-box-content">

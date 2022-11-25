@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import { DateRangePicker } from 'react-date-range';
 import { addDays, eachWeekendOfInterval } from 'date-fns';
 import longArrow from "../../assets/images/next.svg"
@@ -8,6 +8,7 @@ import Image from 'next/image';
 import { CheckboxInput, CounterInput } from '../UI';
 import SelectSearch from 'react-select-search';
 import { useRouter } from 'next/router';
+import Modal from 'react-modal';
 
 //locationbox
 const LocationBox = ({data, setData, handleNext, properties}) => {
@@ -41,26 +42,26 @@ const LocationBox = ({data, setData, handleNext, properties}) => {
             </div>
             {data.location 
             ? (
-                <button onClick={() => handleNext(true)} className="form-button full explore">
+                <button onClick={() => handleNext(true)} className="form-button searchbar-locationbox-hideMobile full explore">
                     Let&apos;s explore {data.location}
                     <i className='bx bx-planet' ></i>
                 </button>
             )
             : (<>
-                <h4 className="searchbar-locationbox-divide">OR</h4>
+                <h4 className="searchbar-locationbox-divide searchbar-locationbox-hideMobile">OR</h4>
                 <button
                 onClick={() => {
                     setData({...data, location: "all"});
                     handleNext(true)
                 }}
-                className="form-button full explore">
+                className="form-button searchbar-locationbox-hideMobile full explore">
                     Show all SwitchOff destinations
                     <i className='bx bx-planet' ></i>
                 </button>
                 </>
             )
             }
-            <div className="searchbar-locationbox-recent">
+            <div className="searchbar-locationbox-recent searchbar-locationbox-hideMobile">
                 <p>Recent Searches</p>
             </div>
         </motion.div>
@@ -213,9 +214,10 @@ const GuestsBox = ({data, setData, handleNext, explore}) => {
         animate={{scale: 1, opacity: 1}}
         exit={{scale: 0, opacity: 0}}
         transition={{bounce: 2}}
+        key={"desktop-search"}
         className="searchbar-guestsbox">
             <div className="searchbar-title">
-                <div onClick={() => handleNext(false)} className="back">
+                <div onClick={() => handleNext(false)} className="searchbar-guestsbox-hideMobile back">
                     <i className='bx bxs-chevron-left' ></i>
                 </div>
                 <h4>How may guests?</h4>
@@ -230,7 +232,7 @@ const GuestsBox = ({data, setData, handleNext, explore}) => {
                     <CounterInput label={"Ages 17 and below"} value={data.guests.child} onChange={handleChild} />
                 </div>
             </div>
-            <div className="row full">
+            <div className="row full searchbar-guestsbox-checks">
                 <div className="col-6 d-flex justify-start align-center">
                     <CheckboxInput label={"Pets"} value={data.pets} icon={"bx bxs-dog"} onChange={handlePets} />
                 </div>
@@ -241,7 +243,7 @@ const GuestsBox = ({data, setData, handleNext, explore}) => {
             <p>&nbsp;</p>
             <div className="row full">
                 <div className="col-12 d-flex justify-end  align-center">
-                    <button onClick={() => explore()} className="form-button explore">
+                    <button onClick={() => explore()} className="full-m form-button explore">
                         Explore <i className='bx bxs-chevron-right' ></i>
                     </button>
                 </div>
@@ -251,8 +253,9 @@ const GuestsBox = ({data, setData, handleNext, explore}) => {
 }
 
 const SearchBar = ({properties}) => {
+    const router = useRouter()
     const [searchq, setSearchq] = useState({
-        location: '',
+        location: router.query ? router.query.query : '',
         checkin: new Date(),
         checkout: addDays(new Date(), 2),
         guests: {
@@ -287,20 +290,19 @@ const SearchBar = ({properties}) => {
         !value && setCalendarbox(!value)
     }
 
-    const router = useRouter()
-
     const explore = () => {
-        let query = `query=${searchq.location ? searchq.location : 'all'}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&guests=${searchq.guests.adult + searchq.guests.child}`
+        let query = `query=${searchq.location ? searchq.location : 'all'}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&adults=${searchq.guests.adult}&childs${searchq.guests.child}&pets=${searchq.pets}`
         router.push(`/search?${query}`)
     }
+    const [mobileSearch, setMobileSearch] = useState(false)
   return (
     <>
         {(locationbox || calendarbox || guestsbox) && 
             <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
         <div className="searchbar">
-        {(locationbox || calendarbox || guestsbox) && 
-            <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
-            <div className="container searchbar-container">
+            {(locationbox || calendarbox || guestsbox) && 
+                <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
+            <div className="searchbar-desktop container searchbar-container">
                 <div className="row full">
                     <div className="col-20 m-full searchbar-gap">
                         <div
@@ -374,14 +376,100 @@ const SearchBar = ({properties}) => {
                     </div>
                 </div>
             </div>
+            <div onClick={() => setMobileSearch(true)} className="searchbar-mobile-button">         
+                <div className="row">
+                    <div className="col-sm-9">
+                        <div className="searchbar-mobile-main">
+                            <div className="icon">
+                                <i class='bx bx-map' ></i>
+                            </div>
+                            <div className="text">
+                                <h4>Plan your holiday</h4>
+                                <p>Where. When. Guests & Rooms</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-sm-3 d-flex align-center justify-end">
+                        <button className="form-button explore block">
+                            Start <i className='bx bx-chevron-right' ></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <SearchBarMobile
+            searchq={searchq} setSearchq={setSearchq}
+            properties={properties} explore={explore}
+            open={mobileSearch} setOpen={setMobileSearch} />
         </div>
     </>
     
   )
 }
 
-export const SearchBarMobile = () => {
-    
+export const SearchBarMobile = ({open, setOpen, searchq, setSearchq, properties, explore}) => {
+    const customStyles = {
+        overlay: {
+            backgroundColor: 'transparent'
+        },
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          backgroundImage: 'linear-gradient(to bottom, #000000, #00000000, #000000)',
+          transform: 'translate(-50%, -50%)',
+        },
+    };
+
+    function closeModal() {
+        setOpen(false);
+    }
+
+    return (
+        <Modal
+        isOpen={open}
+        onRequestClose={closeModal}
+        style={customStyles}
+      >
+        <AnimatePresence>
+        <motion.div
+        initial={{scale: 0, opacity: 0}}
+        animate={{scale: 1, opacity: 1}}
+        exit={{scale: 0, opacity: 0}}
+        key={"mobile-search"}
+        className="searchbar-mobile">
+            <div onClick={() => closeModal()} className="close-btn">
+                <i className='bx bx-x'></i>
+            </div>
+            <LocationBox
+            handleNext={closeModal}
+            data={searchq} setData={setSearchq} properties={properties}/>
+            <div className="searchbar-mobile-calendar">
+                <h4>When?</h4>
+                <div className="searchbar-mobile-calendar-boxes">
+                    <div className="searchbar-mobile-calendar-boxes-box">
+                        CHECK IN
+                        <input
+                        value={moment(searchq.checkin).format("YYYY-MM-DD")}
+                        onChange={(e) => setSearchq({...searchq, checkin: e.target.value})}
+                        type="date" name="" className='form-control' id="" />
+                    </div>
+                    <div className="divider"></div>
+                    <div className="searchbar-mobile-calendar-boxes-box">
+                        CHECK OUT
+                        <input
+                        value={moment(searchq.checkout).format("YYYY-MM-DD")}
+                        onChange={(e) => setSearchq({...searchq, checkout: e.target.value})}
+                        type="date" name="" className='form-control' id="" />
+                    </div>
+                </div>
+            </div>
+            <GuestsBox data={searchq} setData={setSearchq} explore={explore} />
+        </motion.div>
+        </AnimatePresence>
+      </Modal>
+    )
 } 
 
 export default SearchBar

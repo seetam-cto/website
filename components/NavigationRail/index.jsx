@@ -24,7 +24,7 @@ const NavigationRail = ({settings, close}) => {
                 <div className="col-sm-4">
                     <div className="d-flex justify-end">
                         <button onClick={() => close(false)} className="navbar-mobile-btn">
-                            <i class='bx bx-x'></i>
+                            <i className='bx bx-x'></i>
                         </button>
                     </div>
                 </div>

@@ -9,6 +9,11 @@
     width: 100%;
     min-height: 100vh;
     background-color: $white;
+    &-desktop{
+        @include mobile{
+            display: none;
+        }
+    }
     h2{
         font-weight: 500;
     }
@@ -144,13 +149,24 @@
         padding-block: 15vh 10vh;
         position: relative;
         color: $black;
+        @include mobile{
+            margin-top: 9vh;
+            padding: 20px;
+            height: 30vh;
+        }
         &-image{
+            @include mobile{
+                display: none;
+            }
             img{
                 border-radius: 20px;
             }
         }
         h1{
             font-weight: 500;
+            @include mobile{
+                font-size: 1.2rem;
+            }
         }
         p{
             font-weight: 500;
@@ -182,6 +198,9 @@
                 position: absolute;
                 top: 0;
                 left: 0;
+                @include mobile{
+                    background-image: linear-gradient(#ffffff, #ffffff90, #ffffff00);
+                }
             }
         }
         .container{
@@ -200,8 +219,9 @@
             padding-block: 20px;
             border-bottom: 1px solid #00000010;
             &-amenities{
-                display: flex;
-                flex-wrap: wrap;
+                font-size: 0.8rem;
+                display: grid;
+                grid-template-columns: 33% 34% 33%;
             }
             .slick-prev {
                 left: 10px;
@@ -249,17 +269,154 @@
             margin-top: 20px;
             display: grid;
             row-gap: 20px;
-            column-gap: 20px;
+            column-gap: 10px;
             grid-template-columns: auto auto auto auto;
+            span{
+                display: flex;
+                align-items: center;
+            }
+            img{
+                width: 20px;
+                height: 20px;
+                margin-right: 5px;
+            }
         }
     }
     &-enquire{
         min-width: 500px;
         padding: 20px;
+        position: relative;
+        @include mobile{
+            min-width: 80vw;
+            width: 80vw;
+        }
         h2{
             font-weight: 500;
             width: 100%;
             text-align: center;
+        }
+        &-close{
+            position: absolute;
+            font-size: 2rem;
+            top: 0px;
+            right: 0px;
+        }
+    }
+}
+
+.property-mobile{
+    display: none;
+    @include mobile{
+        display: block;
+    }
+    h2{
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-block: 20px;
+        width: 100%;
+        text-align: center;
+    }
+    &-banner{
+        margin-top: 9vh;
+        margin-bottom: 2vh;
+        &-image{
+            position: relative;
+            .image{
+                width: 100%;
+                height: 100%;
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+            .overlay{
+                background-image: linear-gradient(#ffffff, #ffffff90, #ffffff00, #ffffff00);
+                height: 100%;
+                width: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+        }
+    }
+    &-rating{
+        font-size: 1rem;
+        opacity: 0.7;
+        span{
+            text-decoration: underline;
+        }
+    }
+    &-details{
+        h1{
+            font-size: 1.5rem;
+        }
+        p{
+            font-size: 1rem;
+        }
+    }
+    &-video{
+        margin-top: 20px;
+        img{
+            border-radius: 10px;
+        }
+    }
+    &-gallery{
+        margin-top: 1rem;
+        &-slider{
+            margin-right: -50px;
+            .slick-slide{
+                transform: scale(1) translateX(20px);
+            }
+            &-slide{
+                border-radius: 10px;
+                position: relative;
+                object-fit: cover;
+                width: 200px !important;
+                height: 200px !important;
+                img{
+                    height: 100%;
+                    width: 100%;
+                    object-fit: cover;
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+    &-amenities{
+        &-grid{
+            display: grid;
+            grid-template-columns: 50% 50%;
+            &.room{
+                margin-block: 10px;
+                grid-template-columns: 33% 34% 33%;
+                span{
+                    width: 80%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-bottom: 15px;
+                    font-size: 0.8rem;
+                    text-align: center;
+                    img{
+                        width: 20px;
+                        height: 20px;
+                    }
+                }
+            }
+            span{
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                margin-bottom: 15px;
+                font-size: 1rem;
+                img{
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+
         }
     }
 }
