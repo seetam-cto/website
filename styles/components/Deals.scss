@@ -1,370 +1,99 @@
 @use '../abstracts/' as *;
 
 .deals{
-    height: 75vh;
-    overflow: hidden;
-    padding-bottom: 100px;
+    padding-block: 10vh;
+    background-color: $bodyBg;
     @include mobile{
         height: auto;
     }
     &-title{
-        font-size: 40px;
+        font-size: 2rem;
+        line-height: 2rem;
         font-weight: 500;
-        text-align: center;
+        margin-top: 1rem;
         width: 100%;
-        margin: 30px auto 10px auto;
         @include mobile{
             font-size: 1.6rem;
         }
     }
     &-subtitle{
-        font-size: 25px;
+        font-size: 1rem;
         font-weight: 400;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 50px;
+        width: 80%;
         opacity: 0.7;
+        margin-top: 1rem;
         @include mobile{
             font-size: 1rem;
         }
     }
-    &-slider{
-        width: 100%;
-        z-index: 11;
-        padding-inline: 12.5%;
-        &-arrow{
-            width: 100px;
-            height: 30px;
+    &-slide{
+        background-color: $white;
+        border-radius: 20px;
+        border: 10px solid $white;
+        width: fit-content;
+        box-shadow: 0px 0px 25px #25252520;
+        position: relative;
+        overflow: hidden;
+        min-height: 300px;
+        width: 85%;
+        margin-inline: auto;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: all 0.5s ease-in-out;
+        h4{
             position: absolute;
-            bottom: -45px;
-            cursor: pointer;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            height: 50%;
+            background-image: linear-gradient(#00000000, #252525);
+            color: $white;
+            font-size: 1.3rem;
             display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            transition: all 0.5s ease-in-out;
+        }
+    }
+    &-tiles{
+        width: 100%;
+        display: grid;
+        grid-template-columns: 20% 20% 20% 20% 20%;
+        &-tile{
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            @include mobile{
-                bottom: -60px;
+            padding: 10px;
+            box-sizing: border-box;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+            h3{
+                width: 100%;
+                text-align: center;
+                font-size: 1rem;
+                line-height: 1.1rem;
+                margin-top: 1rem;
+            }
+            &-image{
+                border: 3px solid $red !important;
+                border-radius: 50% !important;
             }
             &:hover{
-                transform: scale(1.1);
-            }
-            .progress{
-                position: absolute;
-                right: 0;
-                z-index: 10;
-                height: 30px;
-                transition: all 0.3s ease;
-                background-color: #00000000;
-                mask-image: url(../../assets/images/arrow-left.svg);
-                mask-repeat: no-repeat;
-                mask-position: center;
-                mask-size: contain;
-                width: 100px;
-                &::after{
-                    background-color: $red;
-                    height: 30px;
-                    width: 100px;
-                    content: "";
-                    position: absolute;
-                    left: 0;
-                    @include keyframes(arrowProgress){
-                        0%{
-                            transform: translateX(-100px);
-                            opacity: 1;
-                        }
-                        100%{
-                            transform: translateX(0px);
-                            opacity: 1;
-                        }
-                    }
-                    @include animate(arrowProgress, 4.3s, ease-in-out, 1);
-                }
-            }
-            img{
-                width: 100px;
-                height: 30px;
-                z-index: 5;
-                filter: brightness(0.8);
-            }
-            &.next{
-                img{
-                    transform: rotate(180deg);
-                }
-                z-index: 2;
-                right: 0px;
-            }
-            &.prev{
-                z-index: 2;
-                left: 0px;
+                border-radius: 10px;
+                background-color: $white;
             }
         }
-        .slick{
-            width: 80%;
-            overflow: visible;
-            &-track{
-                max-height: 50vh;
-            }
-            &-slide{
-                transition: all 0.5s ease-in;
-                transform: scale(0.8);
-                .deals-slider-slide-content{
-                    .adjuster{
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                    }
-                    .title{
-                        &.current{
-                            display: none;
-                        }
-                        &.other{
-                            display: block;
-                        }
-                    }
-                    .name{
-                        justify-self: flex-end;
-                        margin-bottom: 0;
-                        font-size: 20px;
-                        @include mobile{
-                            font-size: 1rem;
-                        }
-                    }
-                    // .subtitle{
-                    //     display: none;
-                    // }
-                }
-                .deals-slider-slide-background-overlay{
-                    background-image: linear-gradient(to bottom, #000000C0, #00000020, #00000050);
-                }
-                &.slick-active, .slick-cloned{
-                    transform: scale(0.8);
-                    transition: all 0.5s ease-in;
-                }
-            }
-            &-list{
-                overflow: visible !important;
-            }
-            &-current{
-                transition: all 0.5s ease-in;
-                transform: scale(1.1) !important;
-                margin-inline: 70px;
-                @include mobile {
-                    margin: 0;
-                }
-                .deals-slider-slide-content{
-                    .title{
-                        &.current{
-                            display: block;
-                        }
-                        &.other{
-                            display: none;
-                        }
-                    }
-                    .adjuster{
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: stretch;
-                    }
-                    .name{
-                        justify-self: flex-end;
-                        margin-bottom: 0;
-                        font-size: 15px;
-                        @include mobile{
-                            font-size: 0.9rem;
-                        }
-                    }
-                    // .subtitle{
-                    //     display: block;
-                    // }
-                }
-                .deals-slider-slide-background-overlay{
-                    background-image: linear-gradient(to bottom, #000000C0, #000000A0);
-                }
-                // width: 530px !important;
-            }
-        }
-        &-slide{
-            height: 45vh;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0px 0px 40px #64646460;
-            position: relative;
-            &-background{
-                width: 100%;
-                height: 100%;
-                position: relative;
-                z-index: 5;
-                &-image{
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    z-index: 1;
-                }
-                &-overlay{
-                    width: 100%;
-                    height: 100%;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    background-image: linear-gradient(to bottom, #000000C0, #00000050);
-                }
-            }
-            &-content{
-                z-index: 10;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                padding: 30px;
-                display: flex;
-                align-items: stretch;
-                justify-content: center;
-                transition: all 0.4s ease-in-out;
-                @include mobile{
-                    padding: 20px 20px;
-                }
-                .title{
-                    color: $white;
-                    font-size: 18px;
-                    font-weight: 500;
-                    margin-bottom: 15px;
-                    @include mobile{
-                        font-size: 1rem;
-                        margin-bottom: 5px;
-                    }
-                }
-                .subtitle{
-                    color: $white;
-                    font-size: 14px;
-                    font-weight: 400;
-                    margin-bottom: 15px;
-                    opacity: 0.9;
-                    @include mobile{
-                        font-size: 0.8rem;
-                        margin-bottom: 5px;
-                    }
-                }
-                .name{
-                    color: $white;
-                    font-size: 14px;
-                    margin-block: 0px;
-                    font-weight: 500;
-                    display: flex;
-                    align-items: flex-start;
-                    position: relative;
-                    @include mobile{
-                        font-size: 1rem;
-                        margin-block: 5px;
-                    }
-                    i{
-                        font-size: 20px;
-                        margin-right: 15px;
-                        margin-top: 3px;
-                        &.verified{
-                            width: 8px;
-                            height: 8px;
-                            position: absolute;
-                            font-size: 14px;
-                            top: 0px;
-                            left: 15px;
-                            color: $green;
-                            background-color: $white;
-                            border-radius: 50%;
-                            display: flex;
-                            align-items: center;
-                            justify-content: center;
-                        }
-                    }
-                }
-                .rating{
-                    color: $white;
-                    display: flex;
-                    align-items: center;
-                    i{
-                        color: $white;
-                        font-size: 20px;
-                        margin-right: 5px;
-                    }
-                }
-                .bottom-box{
-                    position: absolute;
-                    bottom: 25px;
-                    p{
-                        color: $white;
-                        opacity: 0.8;
-                        font-size: 16px;
-                        @include mobile{
-                            font-size: 14px;
-                        }
-                    }
-                    span{
-                        color: $white;
-                        font-size: 30px;
-                        @include mobile{
-                            font-size: 1.5rem;
-                        }
-                    }
-                    .progress-loader{
-                        position: relative;
-                        overflow: hidden;
-                        .front{
-                            z-index: 10;
-                        }
-                        .progress{
-                            background-color: #f04848;
-                            position: absolute;
-                            right: 0;
-                            z-index: 0;
-                            height: 100%;
-                            transition: all 0.3s ease;
-                            width: 100%;
-                            border-radius: 10px;
-                            @include keyframes(arrowProgress){
-                                0%{
-                                    transform: translateX(-100%);
-                                    opacity: 1;
-                                }
-                                100%{
-                                    transform: translateX(0%);
-                                    opacity: 1;
-                                }
-                            }
-                            @include animate(arrowProgress, 4.3s, linear, 1);
-                        }
-                    }
-                }
-                &-side{
-                    height: 100%;
-                    i{
-                        color: #c98383;
-                        font-size: 30px;
-                        transition: all 0.3s ease-in-out;
-                        &.active{
-                            color: $red;
-                        }
-                    }
-                    .rating{
-                        color: $white;
-                        display: flex;
-                        align-items: center;
-                        i{
-                            color: $white;
-                            font-size: 17px;
-                            margin-right: 5px;
-                        }
-                    }
-                }
-            }
-            @include mobile{
-                height: 45vh;
-            }
+    }
+    &-explore{
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        justify-content: flex-end;
+        align-items: center;
+        &-button{
+            height: 3rem !important;
         }
     }
 }

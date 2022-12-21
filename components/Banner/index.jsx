@@ -1,131 +1,95 @@
 import Image from 'next/image'
 import React, {useState, useEffect, useRef} from 'react'
-import Slider from "react-slick";
-import longArrow from "../../assets/images/arrow-right.svg"
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
+import { Navigation, A11y, EffectFlip, EffectCreative, EffectCards, EffectCoverflow, Pagination } from 'swiper';
 
-const NextArrow = (props) => {
-    const {onClick, reload} = props
-    const [progress, setProgress] = useState(reload)
-    useEffect(() => {
-        setProgress(reload)
-    },[reload])
-    return (
-        <div onClick={onClick} className="banner-slider-arrow next">
-            <Image src={longArrow} layout="fill" />
-            {progress && <div className='progress'>&nbsp;</div>}
-        </div>
-    )
-}
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Row, Col, Typography, Space, Button } from 'antd';
+import { RightCircleOutlined, FireOutlined} from '@ant-design/icons';
+import { BannerSearch } from '../SearchBar';
+import Experiences from '../Experiences';
+import Lottie from 'react-lottie';
+import * as mousedown from "../../assets/images/scroll-down.json"
+const {Title, Paragraph} = Typography
+import SwiperCore, { Autoplay } from 'swiper';
 
-const PrevArrow = (props) => {
-    const {onClick} = props
-    return (
-        <div onClick={onClick} className="banner-slider-arrow prev">
-            <Image src={longArrow} layout="fill" />
-        </div>
-    )
-}
+const mouseDownOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: mousedown,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+};
 
-const Banner = ({banner, counts}) => {
-    const [background, setBackground] = useState("https://switchoff-assets.fra1.digitaloceanspaces.com/09367f86-5431-46e0-a4fa-70e521ca43d6.jpg")
+const Banner = ({banner, properties, homepage}) => {
     const [currentSlide, setCurrentSlide] = useState(banner[0])
-    const [curDot, setCurDot] = useState(0)
-    const slider = useRef(null)
-    const [reload, setReload] = useState(456)
-    const [readMore, setReadMore] = useState(false)
-
-    var settings = {
-        dots: false,
-        infinite: true,
-        speed: 500,
-        autoplay: true,
-        autoplaySpeed: 7000,
-        className: "banner-slick",
-        slidesToShow: (banner.length - 1) > 3 ? 3 : banner.length - 1,
-        arrows: true,
-        ref: slider,
-        focusOnSelect: true,
-        pauseOnHover: false,
-        // useTransforms: true,
-        beforeChange: () => setReload(false),
-        afterChange: (index) => {
-            setReload(true)
-            setCurDot(index)
-            setCurrentSlide(banner[index])
-        },
-        nextArrow: <NextArrow reload={reload} />,
-        prevArrow: <PrevArrow />,
-    };
-
+    SwiperCore.use([Autoplay]);
     return (
         <div className="banner">
+            <AnimatePresence>
             <div className="banner-background">
-                <div className="banner-background-overlay"></div>
-                <div style={{backgroundImage: `url(${currentSlide.background})`}} className="banner-background-image"></div>
-                {/* <Image layout={"fill"} objectFit='cover' src={currentSlide.cover_image}/> */}
+                <div className='banner-background-image' style={{backgroundImage: `url(${currentSlide.background})`}} width={1920} height={1080} />
+                <div className="banner-background-overlay" />
             </div>
-            <div className="row full">
-                <div className="col-6 banner-left-container col-m-12">
-                    <div className="row banner-left">
-                        <div className="col-2 d-flex align-end d-m-none">
-                            <ul className="banner-slider-dots">
-                                {banner.map((c,i) => 
-                                    <li key={i} onClick={() => {slider.current.slickGoTo(i); setCurDot(i)}} className={curDot === i ? 'active' : ''}></li>)}
-                            </ul>
-                        </div>
-                        <div className="col-10 d-flex flex-col justify-between col-m-12">
-                            <div className="banner-left-text">
-                                {currentSlide.title && <h2>
-                                    <motion.span  
-                                    initial={{opacity: 0}}
-                                    animate={{opacity: 1}}
-                                    transition={{duration: 1}}
-                                    >
-                                    {currentSlide.title}
-                                    </motion.span>
-                                    </h2>}
-                                <p>{currentSlide.subTitle.length > 300 
-                                ? readMore 
-                                    ? <>{currentSlide.subTitle}<span onClick={() => setReadMore(false)}>&nbsp;&nbsp;- <strong>Read Less</strong></span></> 
-                                    : <>{currentSlide.subTitle.substring(0,295)}... <span onClick={() => setReadMore(true)}><strong>Read More</strong></span></>
-                                : currentSlide.subTitle}</p>
+            <div className="banner-content">
+                <div className="container">
+                    <Row>
+                        <Col span={10}>
+                            <div className='banner-content-container'>
+                                <h1 className='banner-content-header'>Spend vacations with<br />serene experiences</h1>
+                                <BannerSearch properties={properties} />
+                                <Experiences experiences={homepage.experiences} />
                             </div>
-                            <div className="banner-left-cta">
-                                <p>Exciting Deals</p>
-                                <motion.a
-                                href={currentSlide.link}
-                                initial={{x: -100, opacity: 0}}
-                                animate={{x: 0, opacity: 1}}
-                                whileHover={{scale: 1.05}}
-                                transition={{ delay: 0, bounce: 1}}
-                                className="form-button explore">
-                                    Explore <i className='bx bxs-chevron-right' ></i>
-                                </motion.a>
+                        </Col>
+                        <Col span={7} offset={5}>
+                            <Swiper
+                            modules={[Pagination, EffectCards, A11y ]}
+                            spaceBetween={20}
+                            slidesPerView={1}
+                            loop
+                            autoplay={true}
+                            speed={1000}
+                            effect='cards'
+                            onSwiper={(swiper) => console.log(swiper)}
+                            className="banner-slider"
+                            onSlideChange={(swiper) => setCurrentSlide(banner[swiper.realIndex])}
+                            >
+                                {banner && banner.map((slide, i) => (
+                                    <SwiperSlide key={i}>
+                                        <div KEY={`${i + Math.random()}`} className="banner-slider-slide">
+                                            <img src={slide.card} className="banner-slider-slide-image" />
+                                            <div className="banner-slider-slide-content">
+                                                <h3>Trip to {(slide.location && slide.location.name) ? slide.location.name : slide.title}</h3>
+                                                <Paragraph
+                                                ellipsis={{
+                                                    rows: 3,
+                                                    expandable: true,
+                                                    onEllipsis: (ellipsis) => {
+                                                      console.log('Ellipsis changed:', ellipsis);
+                                                    },
+                                                  }}
+                                                  title={`${slide.subTitle}`}
+                                                >{slide.subTitle}</Paragraph>
+                                            </div>
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+                            {banner&& banner.map((sl) => <img src={sl.background} style={{display: 'none'}} />)}
+                        </Col>
+                        <Col span={24}>
+                            <div className="banner-scrolldown">
+                            <Lottie options={mouseDownOptions}
+                            height={50}
+                            isClickToPauseDisabled={true}
+                            width={50}/>
                             </div>
-                            <div className="banner-mobile-loader">
-                                {reload && <div className="progress"></div>}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-6 banner-slider-container col-m-12">
-                    <div className="banner-slider">
-                        <Slider {...settings}>
-                            {banner && banner.map((b,i) => (
-                                <div key={i} className="banner-slider-slide">
-                                    <Image src={b.card} layout={"fill"}  objectFit="cover" className="banner-slider-slide-background" />
-                                    <div className="banner-slider-slide-overlay"></div>
-                                    <div className="banner-slider-slide-content">
-                                        <h3>{b.title}</h3>
-                                        <h4>{b.counts} Properties</h4>
-                                    </div>
-                                </div>
-                            ))}
-                        </Slider>
-                    </div>
+                        </Col>
+                    </Row>
                 </div>
             </div>
+            </AnimatePresence>
         </div>
     )
 }

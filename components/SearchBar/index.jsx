@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { AnimatePresence, motion } from "framer-motion"
 import { DateRangePicker } from 'react-date-range';
-import { addDays, eachWeekendOfInterval } from 'date-fns';
+import { addDays } from 'date-fns';
 import longArrow from "../../assets/images/next.svg"
 import moment from "moment"
 import Image from 'next/image';
@@ -9,6 +9,12 @@ import { CheckboxInput, CounterInput } from '../UI';
 import SelectSearch from 'react-select-search';
 import { useRouter } from 'next/router';
 import Modal from 'react-modal';
+import { Card, Col, Divider, Form, Input,
+    DatePicker, Tooltip, Popover, Space, Checkbox,
+    Row, Select, Button, InputNumber } from 'antd';
+import dayjs from "dayjs"
+
+const {RangePicker} = DatePicker
 
 //locationbox
 const LocationBox = ({data, setData, handleNext, properties}) => {
@@ -381,7 +387,7 @@ const SearchBar = ({properties}) => {
                     <div className="col-sm-9">
                         <div className="searchbar-mobile-main">
                             <div className="icon">
-                                <i class='bx bx-map' ></i>
+                                <i className='bx bx-map' ></i>
                             </div>
                             <div className="text">
                                 <h4>Plan your holiday</h4>
@@ -470,6 +476,184 @@ export const SearchBarMobile = ({open, setOpen, searchq, setSearchq, properties,
         </AnimatePresence>
       </Modal>
     )
-} 
+}
+
+export const BannerSearch = ({properties}) => {
+    const [step, setStep] = useState(0)
+    const [options, setOptions] = useState([])
+
+    const router = useRouter()
+
+    const disabledDate = (current) => {
+    return current && current < dayjs().endOf('day');
+    };
+    useEffect(() => {
+        let arr = properties.filter(pp => pp.status === "published").map((prp) => prp.nameLocation.address.locality)
+        let newArr = Array.from(new Set(arr))
+        setOptions(newArr.map((ar) => {
+            return {
+                label: ar,
+                value: ar
+            }
+        }))
+    },[])
+
+    const [form] = Form.useForm()
+    const [guestsOpen, setGuestsOpen] = useState(false)
+
+    const handleOpenChange = (newOpen) => {
+    setGuestsOpen(newOpen);
+    };
+    const [searchQuery, setSearchQuery] = useState({
+        location: null,
+        checkin: new Date(),
+        checkout: addDays(new Date(), 2),
+        guests: {
+            adult: 1,
+            child: 0,
+        },
+        pets: false
+    })
+
+    const explore = () => {
+        let query = `query=${searchQuery.location ? searchQuery.location : 'all'}&start=${moment(searchQuery.checkin).format("MM-DD-YYYY")}&end=${moment(searchQuery.checkout).format("MM-DD-YYYY")}&adults=${searchQuery.guests.adult}&childs${searchQuery.guests.child}&pets=${searchQuery.pets}`
+        router.push(`/search?${query}`)
+    }
+
+    return (
+        <div className="banner-searchbar">
+            <div className="banner-searchbar-container" style={{}}>
+                <Form
+                form={form}
+                initialValues={{
+                    ["search_location"]: searchQuery.location,
+                    ["search_adults"]: searchQuery.guests.adult,
+                    ["search_childrens"]: searchQuery.guests.child,
+                    ["search_pet"]: searchQuery.pets,
+                }}
+                >
+                    <motion.div
+                    initial={{x: 0}}
+                    whileInView={{x: `-${step*33.33}%`}}
+                    className="banner-searchbar-formtrack">
+                        <Row gutter={0} style={{margin: 0}}>
+                            <Col span={8} style={{padding: 0}}>
+                                <Row>
+                                    <Col span={16}>
+                                        <div className="banner-searchbar-icon">
+                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                            <Form.Item
+                                            style={{width: '90%', padding: 0, margin: 0}}
+                                            name={"search_location"}
+                                            >
+                                            <Select
+                                            showSearch
+                                            showArrow={false}
+                                            placeholder="Where shall we take you?"
+                                            optionFilterProp="children"
+                                            bordered={false}
+                                            value={searchQuery.location}
+                                            onChange={(value) => setSearchQuery({...searchQuery, location: value})}
+                                            className="banner-searchbar-location"
+                                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                            filterSort={(optionA, optionB) =>
+                                            (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+                                            }
+                                            style={{width: "90%"}}
+                                            size="large"
+                                            options={options} />
+                                            </Form.Item>
+                                        </div>
+                                    </Col>
+                                    <Col span={8}>
+                                        <Button style={{borderRadius: 10}} block size='large' onClick={() => setStep(1)} type='primary'>Let's Go</Button>
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col span={8} style={{padding: 0}}>
+                                <Row>
+                                    <Col span={3} style={{paddingRight: 0}}>
+                                    <Button size='large' className='banner-searchbar-buttons back' icon={<i class="fa-solid fa-circle-arrow-left"></i>} onClick={() => setStep(0)}></Button>
+                                    </Col>
+                                    <Col span={13} style={{padding: 0}}>
+                                        <Form.Item
+                                        style={{padding: 0, margin: 0}}
+                                        name={"search_dates"}
+                                        >
+                                            <RangePicker
+                                            disabledDate={disabledDate}
+                                            placeholder={["Check-in", "Check-out"]}
+                                            bordered={false} size='large' />
+                                        </Form.Item>
+                                    </Col>
+                                    <Col span={8}>
+                                    <Button style={{borderRadius: 10}} type="primary" block size='large' onClick={() => setStep(2)}>Add Guests</Button>
+                                    </Col>
+                                </Row>
+                            </Col>
+                            <Col span={8} style={{padding: 0}}>
+                                <Row>
+                                    <Col span={3} style={{paddingRight: 0}}>
+                                    <Button size='large' className='banner-searchbar-buttons back' icon={<i class="fa-solid fa-circle-arrow-left"></i>} onClick={() => setStep(1)}></Button>
+                                    </Col>
+                                    <Col span={12} offset={1} style={{padding: 0}}>
+                                        <Popover
+                                        trigger="click"
+                                        open={guestsOpen}
+                                        onOpenChange={handleOpenChange}
+                                        placement='bottom' content={
+                                            <Space style={{width: 200}} direction='vertical'>
+                                                <Form.Item
+                                                style={{padding: 0, margin: 0}}
+                                                name={"search_adults"}
+                                                >
+                                                    <InputNumber size='large' min={1} max={20}
+                                                    value={searchQuery.guests.adult}
+                                                    onChange={(value) => setSearchQuery({...searchQuery, guests: {...searchQuery.guests, adult: value ? value : 1}})}
+                                                    style={{width: '100%', backgroundColor: "#ffffff40", borderRadius: 5}} 
+                                                    addonBefore={<span style={{width: 60, display: "block"}}>Adults</span>} />
+                                                </Form.Item>
+                                                <Form.Item
+                                                style={{padding: 0, margin: 0}}
+                                                name={"search_childrens"}
+                                                >
+                                                    <InputNumber size='large' min={0} max={10}
+                                                    value={searchQuery.guests.child}
+                                                    onChange={(value) => setSearchQuery({...searchQuery, guests: {...searchQuery.guests, child: value ? value : 0}})}
+                                                    style={{width: '100%', backgroundColor: "#ffffff40", borderRadius: 5}} 
+                                                    addonBefore={<span style={{width: 60, display: "block"}}>Children</span>} />
+                                                </Form.Item>
+                                                <Form.Item
+                                                style={{padding: 0, margin: 0}}
+                                                name={"search_pet"}
+                                                >
+                                                    <Checkbox size="large" value={searchQuery.pets} onChange={(e) => setSearchQuery({...searchQuery, pets: e.target.checked})}>Are Pets Allowed?</Checkbox>
+                                                </Form.Item>
+                                            </Space>
+                                        }>
+                                            <Button size='large' block type="text">Adults {searchQuery.guests.adult}, Children {searchQuery.guests.child}, Pets </Button>
+                                        </Popover>
+                                    </Col>
+                                    <Col span={8}>
+                                        <Button style={{borderRadius: 10}} type="primary" block size='large' onClick={() => explore()}>Explore</Button>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    </motion.div>
+                </Form>
+            </div>
+            <button
+            onClick={() => {
+                setData({...data, location: "all"});
+                handleNext(true)
+            }}
+            className="form-button banner-searchbar-all full explore">
+                Show all SwitchOff destinations
+                <i className='bx bx-planet' ></i>
+            </button>
+        </div>
+    )
+}
 
 export default SearchBar

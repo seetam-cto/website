@@ -1,9 +1,6 @@
 @use './abstracts/' as *;
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 * {
     padding: 0;
@@ -11,44 +8,33 @@
     box-sizing: border-box;
 }
 
+#globalLoader{
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    background-color: $mainBg;
+    transition: all 1s linear;
+    @include flex(center, center)
+}
+
 html {
     overflow-x: hidden;
     overflow-y: scroll;
     &::-webkit-scrollbar{
-        width: 10px;
-        background-color: transparent;
-        &-track{
-            width: 10px;
-            height: 100%;
-            background-color: #a0a0a0;
-        }
-        &-thumb{
-            background-color: $red;
-            border-radius: 20px;
-        }
+        display: none;
     }
 }
 
 body {
-    font-family: $fontFamily;
+    font-family: $fontFamily !important;
     color: $txtColor;
     font-size: $fontSizeNormal;
     line-height: 1.5;
     background-color: $bodyBg;
     overflow: hidden;
-    // &::-webkit-scrollbar{
-    //     width: 10px;
-    //     background-color: transparent;
-    //     &-track{
-    //         width: 10px;
-    //         height: 100%;
-    //         background-color: #a0a0a0;
-    //     }
-    //     &-thumb{
-    //         background-color: $red;
-    //         border-radius: 20px;
-    //     }
-    // }
 }
 
 a {
@@ -65,6 +51,11 @@ li {
     list-style-type: none;
 }
 
+h1,h2,h3,h4,h5{
+    font-family: $fontFamily;
+    font-weight: unset;
+}
+
 .mb {
     margin-bottom: $spacing;
 
@@ -74,16 +65,25 @@ li {
 }
 
 .container{
-    width: 75%;
+    width: 1320px;
     margin-inline: auto;
-    @include laptop{
-        width: 75%;
-    }
-    @include tablet{
-        width: 85%;
-    }
-    @include mobile{
+    @media screen and (max-width: 575px) {
         width: 100%;
+    }
+    @media screen and (min-width: 576px) {
+        width: 540px;
+    }
+    @media screen and (min-width: 768px) {
+        width: 720px;
+    }
+    @media screen and (min-width: 992px) {
+        width: 960px;
+    }
+    @media screen and (min-width: 1200px) {
+        width: 1140px;
+    }
+    @media screen and (min-width: 1400px) {
+        width: 1320px;
     }
 }
 

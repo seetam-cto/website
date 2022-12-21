@@ -1,65 +1,99 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {motion} from "framer-motion"
 import Image from 'next/image'
+import { Col, Row, Tabs, Button } from 'antd'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { A11y, Navigation } from 'swiper';
 
-const PropertyBox = ({prop, i}) => {
+const PropertyCard = ({property}) => {
   return (
-    <div key={i} className="col-3 col-m-12 gap-s">
-      <div className="locations-properties-box">
-        <div className="locations-properties-box-cover">
-          <div className="background">
-            <Image src={prop.gallery.cover_image} width={500} height={375} objectFit={"cover"} />
-            <div className="overlay"></div>
-          </div>
-          <div className="top">
-            <div className="d-flex align-center">
-              <i className='bx bx-map'></i>
-              {prop.basic_info.address.state}
-            </div>
-            <i className='bx bxs-hot'></i>
-          </div>
-          <div className="bottom">
-            <i className='bx bxs-star'></i> {4.2}
-          </div>
+    <div className="locations-property">
+      <img
+      src={property.gallery.photos[0]}
+      alt=""
+      className="locations-property-background" />
+      <div className="locations-property-background-overlay"/>
+      <div className="locations-property-favourite">
+        <i class="fa-regular fa-heart"></i>
+      </div>
+      <div className="locations-property-content">
+        <div>
+        <h2>{property.nameLocation.name}</h2>
+        <div className="locations-property-content-price">
+          From <span>₹{property.pricingCalendar.pricePerNight}</span> / per night
         </div>
-        <div className="locations-properties-box-content">
-          <div className="title">
-            <i className='bx bx-buildings' ></i>
-            <h4>{`${prop.nameLocation.name.substring(0,20)} ${prop.NameLocation.name.length > 20 ? '...' : ''}`}</h4>
-          </div>
-          <div className="price">
-            <span className="mrp">₹30,000</span>
-            <span className="sale">₹27,000</span>
-            <span>•</span>
-            <span>Night</span>
-          </div>
+        </div>
+        <div className="locations-property-content-footer">
+          <Button icon={<i class="fa-solid fa-location-dot"></i>}>{property.nameLocation.address.locality}</Button>
+          <Button icon={<i class="fa-solid fa-star"></i>}>4.7</Button>
         </div>
       </div>
     </div>
   )
 }
 
-const LocationProps = ({locations, properties}) => {
+const PropertyGrid = ({properties}) => {
   return (
-    <motion.div className="locations">
-        <div className="locations-container">
-            <div className="locations-title">
-                {locations.title}
-            </div>
-            <div className="locations-subtitle">
-                {locations.subTitle}
-            </div>
-            <div className="locations-properties">
-              <div className="container">
-              <div className="row">
-                {properties.slice(0,8).map((prop,i) => (
-                  <PropertyBox prop={prop} key={i} i={i} />
-                ))}
-              </div>
-              </div>
-            </div>
-        </div>
-    </motion.div>
+    <Swiper
+    modules={[ A11y, Navigation ]}
+    spaceBetween={20}
+    slidesPerView={4}
+    speed={1000}
+    navigation={{ clickable: true }}
+    onSwiper={(swiper) => console.log(swiper)}
+    >
+      {properties.map((property, i) => (
+        <SwiperSlide key={i}>
+          <PropertyCard property={property} />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  )
+}
+
+const LocationProps = ({locations, properties}) => {
+  const [tabs, setTabs] = useState([])
+  const createPropTabs = () => {
+    let newLocation = locations.list.map((loc) => {
+      return {
+        key: loc.name,
+        value: properties.filter((prop) => prop.nameLocation.address.locality === loc.name || prop.nameLocation.address.state === loc.name).length
+      }
+    })
+    console.log(newLocation)
+    let sortedList = newLocation.sort((a,b) => b.value - a.value)
+    let newlist = sortedList.map((loc, i) => {
+      return {
+        label: loc.key,
+        key: i,
+        children: <PropertyGrid properties={properties.filter((prop) => 
+                    prop.nameLocation.address.locality === loc.key || 
+                    prop.nameLocation.address.state === loc.key
+                  )} />
+      }
+    })
+    setTabs(newlist)
+  }
+  useEffect(() => {
+    createPropTabs()
+  },[])
+  return (
+    <div className="locations">
+      <div className="container">
+        <Row>
+          <Col span={24}>
+            <h2 className='locations-title'>{locations.title}</h2>
+            <p className='locations-subtitle'>{locations.subTitle}</p>
+          </Col>
+          <Col span={24}>
+            <Tabs
+            defaultActiveKey='0'
+            items={tabs}
+            />
+          </Col>
+        </Row>
+      </div>
+    </div>
   )
 }
 

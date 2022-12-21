@@ -329,11 +329,14 @@ const PropertyDetails = ({property}) => {
                                             <div className="col-6">
                                                 <h3>{room.name} <span>• {room.roomSize}sq.ft.</span></h3>
                                                 <p className='property-rooms-room-amenities'>
-                                                    {room.amenities.map((amn, i) => (
+                                                    {room.amenities.slice(0,12).map((amn, i) => (
                                                         <span key={i} style={{marginRight: 20}}>
                                                             <i className='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
                                                         </span>
                                                     ))}
+                                                    <span key={i} style={{marginRight: 20, marginTop: 10}}>
+                                                    <i class='bx bxs-chevron-down-circle'></i> View More
+                                                    </span>
                                                 </p>
                                             </div>
                                             <div className="col-3 price-box">

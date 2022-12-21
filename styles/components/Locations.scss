@@ -1,150 +1,106 @@
 @use '../abstracts/' as *;
 
 .locations{
+    .ant-tabs-tab{
+        font-size: 1rem;
+        &-active{
+            border-bottom: 2px solid $red;
+        }
+    }
     height: auto;
     padding-bottom: 100px;
     width: 100%;
     padding: 40px;
-    &-container{
-        background-color: #F2F2F2;
-        box-shadow: 0px 0px 35px #33333330;
-        padding-block: 30px;
-        border-radius: 30px;
-    }
     &-title{
-        font-size: 40px;
+        font-size: 2rem;
+        line-height: 2rem;
         font-weight: 500;
-        text-align: center;
-        width: 100%;
-        margin: 30px auto 10px auto;
+        margin-top: 1rem;
+        width: 30%;
+        @include mobile{
+            font-size: 1.6rem;
+        }
     }
     &-subtitle{
-        font-size: 25px;
+        font-size: 1rem;
         font-weight: 400;
-        text-align: center;
-        width: 100%;
-        margin-bottom: 50px;
+        width: 50%;
         opacity: 0.7;
-    }
-    &-properties{
-        .gap{
-            &-s{
-                padding-inline: 15px;
-            }
+        margin-top: 1rem;
+        @include mobile{
+            font-size: 1rem;
         }
-        &-box{
+    }
+    &-property{
+        width: 100%;
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        height: 50vh;
+        &-background{
             width: 100%;
-            background-color: $white;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+        }
+        &-content{
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            padding: 8px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 20px -3px #33333320;
-            transition: all 0.4s ease-in-out;
-            cursor: pointer;
-            &:hover{
-                box-shadow: 0px 0px 20px 1px #ff636350;
+            height: 35%;
+            background-color: #000000A0;
+            backdrop-filter: blur(8px);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            h2{
+                color: $white;
+                font-size: 1.3rem;
+                line-height: 1.5rem;
             }
-            &-cover{
+            &-price{
+                color: $white;
+                font-size: 1rem;
+                span{
+                    font-size: 1.5rem;
+                }
+            }
+            &-footer{
                 display: flex;
-                flex-direction: column;
                 justify-content: space-between;
-                align-content: space-between;
-                width: 100%;
-                position: relative;
-                .background{
-                    width: 100%;
-                    position: relative;
-                    z-index: 0;
-                    overflow: hidden;
+                align-items: center;
+                button{
+                    color: $white;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
                     padding: 0;
-                    border-radius: 8px;
-                    display: flex;
-                    span{
-                        padding: 0;
-                        margin: 0;
-                        height: 100% !important;
-                    }
-                    img{
-                        border-radius: 8px;
-                        width: 100%;
-                        height: 100%;
-                    }
-                    .overlay{
-                        position: absolute;
-                        height: 100%;
-                        width: 100%;
-                        background-image: linear-gradient(to bottom, #000000, #00000050,#00000050, #000000);
-                        opacity: 0.4;
-                        top: 0;
-                        left: 0;
-                    }
-                }
-                .top{
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    z-index: 5;
-                    color: $white;
-                    padding: 10px;
-                    font-size: 14px;
-                    div i{
-                        margin-right: 5px;
-                    }
-                }
-                .bottom{
-                    width: 100%;
-                    display: flex;
-                    align-items: center;
-                    position: absolute;
-                    bottom: 0;
-                    z-index: 5;
-                    color: $white;
-                    padding: 10px;
-                    font-size: 14px;
+                    font-size: 1rem;
                     i{
-                        margin-right: 5px;
-                    }
-                }
-            }
-            &-content{
-                .title{
-                    display: flex;
-                    align-items: flex-start;
-                    padding: 15px 10px;
-                    i{
-                        font-size: 18px;
-                        margin-right: 5px;
-                        margin-top: 5px;
-                    }
-                    h4{
-                        font-size: 1.2rem;
-                        font-weight: 500;
-                        width: 90%;
-                        overflow-wrap: break-word;
-                    }
-                }
-                .price{
-                    padding-inline: 10px;
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                    font-size: 0.9rem;
-                    opacity: 0.8;
-                    .mrp{
-                        text-decoration: line-through;
-                        opacity: 0.7;
-                    }
-                    .sale{
-                        color: $green;
-                        font-size: 1rem;
-                        opacity: 1;
+                        margin-right: 10px;
                     }
                 }
             }
         }
+        &-favourite{
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background-color: #000000B0;
+            border-radius: 50%;
+            cursor: pointer;
+            @include flex();
+            i{
+                color: $white;
+                font-size: 1rem;
+            }
+        }
     }
+    .swiper-button-next{}
 }

@@ -2,62 +2,50 @@
 
 header{
     width: 100%;
-    height: 10vh;
+    height: 8vh;
+    padding-top: 5vh;
     position: fixed;
     top: 0;
     z-index: 100;
-    // background-image: linear-gradient(to bottom, #000000F0, #00000000);
     &.light{
         &.other{
             color: $black !important;
-            .navbar{
-                &-menu{
-                    &-item{
-                        a{
-                            color: $black !important;
-                            height: 100%;
-                        }
-                        .dropdown{
-                            &-title{
-                                &::after{
-                                    border-color: $black !important;
-                                }
-                            }
-                            &-list{
-                                li{
-                                    a{
-                                        color: $white !important;
-                                    }
-                                    height: 100%;
-                                }
-                            }
-                        }
-                    }
-                }
-                &-logo{
-                    filter: brightness(0);
-                }
-            }
-            background-image: linear-gradient(to bottom, #FFFFFFF0, #00000000);
-            backdrop-filter: blur(10px);
         }
-        background-image: linear-gradient(to bottom, #000000F0, #00000000);
     }
-    &.dark{
-        background-color: $white;
-    }
-    // background: rgba( 255, 255, 255, 0.1 );
-    // box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
-    // backdrop-filter: blur( 6px );
-    // -webkit-backdrop-filter: blur( 10px );
     @include mobile{
         height: 10vh;
     }
     .navbar{
+        &-container{
+            padding-inline: 3%;
+            border-radius: 30vh;
+            background-color: $white;
+            box-shadow: 0px 0px 25px #00000020;
+            width: 1420px;
+            margin-inline: auto;
+            @media screen and (max-width: 575px) {
+                width: 100%;
+            }
+            @media screen and (min-width: 576px) {
+                width: 540px;
+            }
+            @media screen and (min-width: 768px) {
+                width: 720px;
+            }
+            @media screen and (min-width: 992px) {
+                width: 960px;
+            }
+            @media screen and (min-width: 1200px) {
+                width: 1240px;
+            }
+            @media screen and (min-width: 1400px) {
+                width: 1420px;
+            }
+        }
         width: 100%;
-        padding: 20px 5%;
         position: relative;
         height: 100%;
+        padding-block: 0.5vh;
         &-mobile-btn{
             width: fit-content;
             padding: 3px;
@@ -81,31 +69,11 @@ header{
             }
         }
         &.light{
-            color: $white;
-            .navbar{
-                &-menu{
-                    &-item{
-                        a{
-                            color: $white;
-                        }
-                        .dropdown{
-                            &-title{
-                                &::after{
-                                    border-color: $white;
-                                }
-                            }
-                            &-list{
-                                li{
-                                    a{
-                                        color: $white;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                &-logo{
-
+            color: $black;
+            a{
+                color: $black;
+                &:hover{
+                    color: $black;
                 }
             }
         }
@@ -151,98 +119,21 @@ header{
         }
         &-menu{
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
-            gap: 50px;
+            gap: 20px;
             margin-block: auto;
             height: 100%;
             @include mobile{
                 display: none;
             }
-            &-item{
-                display: flex;
-                align-items: center;
-                a{
-                    text-transform: uppercase;
-                }
-                .dropdown{
-                    position: relative;
-                    &-title{
-                        position: relative;
-                        &:hover + .dropdown-list{
-                            display: block !important;
-                        }
-                        padding-block: 30px;
-                        padding-right: 30px;
-                        &::after{
-                            content: "";
-                            width: 10px;
-                            height: 10px;
-                            position: absolute;
-                            border: 2px solid;
-                            right: -8px;
-                            top: 0;
-                            bottom: 10px;
-                            transform: rotate(45deg);
-                            border-width: 0px 2px 2px 0px;
-                            margin-block: auto;
-                        }
-                    }
-                    &-list{
-                        display: none;
-                        width: max-content;
-                        position: absolute;
-                        border-radius: 10px;
-                        margin-top: 20px;
-                        background: rgba(46, 46, 46, 0.8);
-                        box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.35 );
-                        backdrop-filter: blur( 6px );
-                        -webkit-backdrop-filter: blur( 10px );
-                        border-radius: 10px;
-                        border: 1px solid rgba( 255, 255, 255, 0.18 );
-                        &:hover{
-                            display: block;
-                        }
-                        li{
-                            padding: 10px 20px;
-                            &:first-child{
-                                border-radius: 10px 10px 0px 0px;
-                            }
-                            &:last-child{
-                                border-radius: 0px 0px 10px 10px;
-                            }
-                            a{
-                                width: 100%;
-                            }
-                            &:hover{
-                                background-color: #ff7979;
-                                a{
-                                    color: $white;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
         &-user{
+            width: 100%;
+            height: 100%;
             display: flex;
             justify-content: flex-end;
             align-items: center;
-            gap: 50px;
-            margin-block: auto;
-            height: 100%;
-            color: $white;
-            &-greet{
-                @include mobile{
-                    span{
-                        display: none;
-                    }
-                    i{
-                        font-size: 25px;
-                    }
-                }
-            }
         }
     }
 }

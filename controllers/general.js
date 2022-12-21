@@ -1,9 +1,10 @@
 import axios from "axios"
 
 export const getSettings = async () => {
-    let settings = await axios.get(`${process.env.REACT_APP_API}/settings`).then((res) => {return res.data})
+    let settings = await axios.get(`${process.env.REACT_APP_API}/settings/all`).then((res) => {return res.data})
     let properties = await axios.get(`${process.env.REACT_APP_API}/properties`).then((res) => {return res.data})
-    return {settings, properties}
+    let banners = await axios.get(`${process.env.REACT_APP_API}/banners`).then((res) => {return res.data})
+    return {settings, properties, banners}
 }
 
 // await axios.get(`${process.env.REACT_APP_API}/settings`).then((res) => {return res.data})
@@ -22,7 +23,8 @@ export const client = axios.create({
 export const getPropertyDetails = async (id) => {
     let property = await axios.get(`${process.env.REACT_APP_API}/property/${id}`).then((res) => {return res.data})
     let rooms = await axios.get(`${process.env.REACT_APP_API}/properties/${id}/rooms`).then((res) => {return res.data})
-    let settings = await axios.get(`${process.env.REACT_APP_API}/settings`).then((res) => {return res.data})
+    let settings = await axios.get(`${process.env.REACT_APP_API}/settings/all`).then((res) => {return res.data})
+    // let banners = await axios.get(`${process.env.REACT_APP_API}/settings/banners`).then((res) => {return res.data})
     let amenities1 = await client.get(`${process.env.REACT_WP_API}/accommodation_types/amenities?per_page=100&page=1`).then((res) => {return res.data})
     let amenities2 = await client.get(`${process.env.REACT_WP_API}/accommodation_types/amenities?per_page=100&page=2`).then((res) => {return res.data})
     let amenities = [...amenities1, ...amenities2]

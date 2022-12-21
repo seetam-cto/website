@@ -149,6 +149,7 @@
         padding-block: 15vh 10vh;
         position: relative;
         color: $black;
+        margin-bottom: 5vh;
         @include mobile{
             margin-top: 9vh;
             padding: 20px;
@@ -164,12 +165,19 @@
         }
         h1{
             font-weight: 500;
+            color: $white;
+            font-size: 3rem;
+            line-height: 3rem;
+            margin: 0;
+            padding: 0;
             @include mobile{
                 font-size: 1.2rem;
             }
         }
         p{
-            font-weight: 500;
+            font-weight: 400;
+            font-size: 1rem;
+            color: $white;
         }
         &-background{
             width: 100%;
@@ -192,7 +200,8 @@
                 }
             }
             .overlay{
-                background-image: linear-gradient(#ffffff00, #ffffff90, #ffffff);
+                // background-image: linear-gradient(#ffffff00, #ffffff90, #ffffff);
+                background-color: #000000B0;
                 height: 100%;
                 width: 100%;
                 position: absolute;
@@ -211,13 +220,15 @@
     &-rooms{
         width: 100%;
         padding: 20px;
-        background-color: #00000010;
+        background-color: $white;
         margin-block: 20px 100px;
         border-radius: 10px;
-        box-shadow: 0px 0px 25px #33333310;
         &-room{
-            padding-block: 20px;
-            border-bottom: 1px solid #00000010;
+            padding: 20px;
+            border: 2px solid $red;
+            margin-block: 10px;
+            border-radius: 20px;
+            box-shadow: 0px 0px 25px #33333310;
             &-amenities{
                 font-size: 0.8rem;
                 display: grid;
@@ -231,7 +242,7 @@
                 right: 10px;
             }
             &:last-child{
-                border: none;
+                border: 2px solid $red;
             }
             h3{
                 font-weight: 500;

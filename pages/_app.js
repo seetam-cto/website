@@ -11,8 +11,26 @@ import { store } from "../store/store"
 import { Provider } from "react-redux"
 import NextNProgress from 'nextjs-progressbar';
 import Script from "next/script";
+import 'swiper/css/bundle';
+import { ConfigProvider } from 'antd';
+import React, {useEffect} from "react"
+import { useRouter } from "next/router";
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+            const loader = document.getElementById('globalLoader');
+        if (loader){
+          setTimeout(() => {
+            loader.style.opacity = "0"
+            setTimeout(() => {
+              loader.style.display = 'none';
+            }, 1000)
+          }, 2000)
+        }
+    }
+}, [router]);
   return (
     <>
     <Script async src="https://www.googletagmanager.com/gtag/js?id=G-5QMWVR4FB3"/>
@@ -29,8 +47,18 @@ function MyApp({ Component, pageProps }) {
     }}/>
     <Provider store={store}>
       <>
-        <NextNProgress color="#FF5A5F" />
+        <NextNProgress color="#4ecca3" />
+        <ConfigProvider
+        theme={{ token: {
+            colorPrimary: '#4ecca3',
+            colorLink: '#393e46',
+            colorLinkHover: '#543885',
+            colorBgElevated: '#ffffff',
+            fontFamily: "'Jost', sans-serif"
+          }}}
+        >
         <Component {...pageProps} />
+        </ConfigProvider>
       </>
     </Provider>
     </>
