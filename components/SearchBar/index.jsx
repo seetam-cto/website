@@ -566,7 +566,7 @@ export const BannerSearch = ({properties}) => {
                                         </div>
                                     </Col>
                                     <Col span={8}>
-                                        <Button style={{borderRadius: 10}} block size='large' onClick={() => setStep(1)} type='primary'>Let's Go</Button>
+                                        <Button style={{borderRadius: 10}} block size='large' onClick={() => setStep(1)} type='primary'>Let&apos;s Go</Button>
                                     </Col>
                                 </Row>
                             </Col>
