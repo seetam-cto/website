@@ -43,7 +43,7 @@ const Deals = ({deals}) => {
                     <div className="deals-slide"style={{backgroundImage: `url(${deals.list[currentSlide].icon})`}}>
                         <h4>{deals.list[currentSlide].title}</h4>
                     </div>
-                    {deals.list.map((img) => <img style={{display: 'none'}} src={img.icon} />)}
+                    {deals.list.map((img, i) => <img key={`${i}-fakeloads`} style={{display: 'none'}} src={img.icon} />)}
                 </Col>
             </Row>
             </div>

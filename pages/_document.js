@@ -16,7 +16,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <script src="https://kit.fontawesome.com/6f7794673e.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/6f7794673e.js" crossorigin="anonymous" async />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
       </Head>
       <body style={{backgroundColor: "#F3F4FA"}}>

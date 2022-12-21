@@ -76,7 +76,7 @@ const Banner = ({banner, properties, homepage}) => {
                                     </SwiperSlide>
                                 ))}
                             </Swiper>
-                            {banner&& banner.map((sl) => <img src={sl.background} style={{display: 'none'}} />)}
+                            {banner&& banner.map((sl, i) => <img key={`${i}-bannerfakeload`} src={sl.background} style={{display: 'none'}} />)}
                         </Col>
                         <Col span={24}>
                             <div className="banner-scrolldown">
