@@ -14,6 +14,7 @@ header{
     }
     @include mobile{
         height: 10vh;
+        padding-top: 2vh;
     }
     .navbar{
         &-container{
@@ -24,7 +25,9 @@ header{
             width: 1420px;
             margin-inline: auto;
             @media screen and (max-width: 575px) {
-                width: 100%;
+                width: 92%;
+                background-color: transparent;
+                box-shadow: none;
             }
             @media screen and (min-width: 576px) {
                 width: 540px;
@@ -51,7 +54,7 @@ header{
             padding: 3px;
             font-size: 2rem;
             line-height: 1.1rem;
-            color: $red;
+            color: $primary;
             background: rgba( 255, 255, 255, 0.25 );
             box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
             backdrop-filter: blur( 4px );
@@ -113,8 +116,20 @@ header{
             margin-top: 10px;
             margin-block: auto;
             @include mobile{
-                width: 80%;
-                margin-top: 10px;
+                width: 100%;
+                margin-top: 0px;
+                height: 100%;
+            }
+            &-link{
+                @include mobile{
+                    @include flex(center);
+                    height: 100%;
+                    background-color: $white;
+                    margin-inline: -15px;
+                    padding-inline: 15px;
+                    padding-block: 5px;
+                    border-radius: 30px;
+                }
             }
         }
         &-menu{
@@ -127,13 +142,67 @@ header{
             @include mobile{
                 display: none;
             }
+            &-mobile{
+                &-item{
+                    background-color: transparent;
+                    box-shadow: none;
+                    border: none;
+                    &.active{
+                        background-color: #00000050;
+                        color: $white;
+                    }
+                }
+            }
         }
         &-user{
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: flex-end;
+            gap: 10px;
             align-items: center;
+            position: relative;
+            &-favourites{
+                font-size: 1.5rem;
+                line-height: 1.5rem;
+                padding: 0;
+                margin-right: 1rem;
+                border: none;
+                outline: 0;
+                box-shadow: none;
+                position: relative;
+                &:hover{
+                    i{
+                        color: $red;
+                    }
+                }
+                &-badge{
+                    position: absolute;
+                    top: -10px;
+                    right: -10px;
+                    font-size: 0.8rem;
+                    line-height: 0.8rem;
+                    height: 20px;
+                    width: 20px;
+                    font-weight: 400;
+                    color: $white;
+                    background-color: $red;
+                    @include flex(center);
+                    border-radius: 50%;
+                }
+            }
+            &-mobile{
+                background-color: transparent;
+                width: 30px;
+                height: 30px;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+                font-size: 25px;
+                color: $white;
+                text-align: right;
+                margin-left: 10px;
+            }
         }
     }
 }

@@ -1,43 +1,92 @@
 @use '../abstracts/' as *;
 
 .footer{
-    background-color: #F2F2F2;
-    padding-block: 50px 0px;
-    @include mobile{
-        padding-inline: 25px;
-    }
-    p{
-        font-weight: 500;
-        font-size: 20px;
-        margin-bottom: 20px;
-    }
-    &-logo{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        width: 100%;
-        @include mobile{
-            width: 50%;
+    position: relative;
+    &-bg{
+        min-height: 100vh;
+        background-image: url(../../assets/images/footerbg.jpg);
+        background-size: cover;
+        background-position: bottom center;
+        position: relative;
+        z-index: 0;
+        &-overlay{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(to bottom, $white, transparent, transparent, #84C4D650,#84C4D6);
         }
     }
-    &-social{
+    &-top{
+        width: 100%;
+        padding-block: 10vh 5vh;
+        background-image: linear-gradient(to bottom, transparent, #84C4D6);
+    }
+    &-bottom{
+        background-color: #00AB6650;
+        backdrop-filter: blur(5px);
+        padding: 10px;
+        color: $white;
+        font-size: 0.8rem;
+    }
+    &-content{
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        z-index: 5;
+    }
+    &-logo{
+        width: 100%;
+        object-fit: contain;
+        filter: brightness(10);
+    }
+    &-link{
         display: flex;
-        justify-content: center;
-        gap: 15px;
+        list-style: none;
+        padding: 0;
+        flex-direction: column;
+        gap: 5px;
         li{
+            a{
+                width: fit-content;
+                color: $white;
+                font-size: 1rem;
+                line-height: 1.5rem;
+            }
+        }
+        &-title{
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: $white;
+        }
+    }
+    &-socials{
+        display: flex;
+        justify-content: space-between;
+        width: 250px;
+        margin-top: 1rem;
+        i{
+            font-size: 1.5rem;
+            color: $white;
+        }
+    }
+    &-cta{
+        &-call{
+            margin-top: 1rem;
+            font-size: 2rem;
+            font-weight: 600;
             i{
-                font-size: 30px;
+                color: $white;
+                margin-right: 1rem;
+                text-shadow: 0px 0px 15px #117fe67c;
+            }
+            span{
+                color: #117fe6;
             }
         }
     }
     &-copyright{
-        padding-block: 20px;
-        display: flex;
-        justify-content: center;
-        margin-top: 30px;
-        border-top: 1px solid #00000060;
-    }
-    &-subscribe{
-        flex-direction: row;
+        color: $white;
     }
 }

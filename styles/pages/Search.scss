@@ -7,10 +7,13 @@
     &-bar{
         width: 100%;
         position: relative;
-        min-height: 200px;
         @include mobile{
-            min-height: auto;
             padding-block: 10px;
+        }
+        &-banner{
+            display: flex;
+            height: 100%;
+            align-items: center;
         }
         img{
             width: 80%;
@@ -56,6 +59,7 @@
         margin-block: 50px;
         @include mobile{
             padding-inline: 20px;
+            margin-top: 0px;
         }
         &-grid{
             display: grid;
@@ -125,7 +129,7 @@
                     }
                     .price{
                         span{
-                            color: $red;
+                            color: $primary;
                             font-size: 1.2rem;
                             font-weight: 600;
                         }

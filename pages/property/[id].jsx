@@ -462,7 +462,6 @@ export async function getServerSideProps({params}) {
     }catch(err){
         console.log(err)
     }
-    console.log(res)
     // let rooms = await getRooms(params.id)
     return {
       props: {

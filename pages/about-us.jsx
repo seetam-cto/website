@@ -13,7 +13,6 @@ import SearchBar from '../components/SearchBar'
 
 export default function About({settingsData}) {
   let sets = useSelector((state) => state.settings)
-  // console.log(sets)
   const dispatch = useDispatch()
   const router = useRouter()
   useEffect(() => {

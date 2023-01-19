@@ -4,8 +4,27 @@ import Image from 'next/image'
 import { Col, Row, Tabs, Button } from 'antd'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation } from 'swiper';
+import { useAtom } from 'jotai';
+import {favourites, getFavourites } from '../../store/states';
 
-const PropertyCard = ({property}) => {
+export const PropertyCard = ({property}) => {
+  const [favs, setFavs] = useAtom(favourites)
+  const [isFav, setIsFav] = useState(favs.includes(property._id))
+
+  useEffect(() => {
+    if(isFav){
+      if(!favs.includes(property._id)){
+        let newFav = [...favs, property._id]
+        setFavs(newFav)
+      }
+    }else{
+      setFavs(favs.filter((prop) => prop != property._id))
+    }
+  },[isFav])
+
+  const handleFav = () => {
+    setIsFav(!isFav)
+  }
   return (
     <div className="locations-property">
       <img
@@ -13,8 +32,8 @@ const PropertyCard = ({property}) => {
       alt=""
       className="locations-property-background" />
       <div className="locations-property-background-overlay"/>
-      <div className="locations-property-favourite">
-        <i class="fa-regular fa-heart"></i>
+      <div onClick={() => handleFav()} className="locations-property-favourite">
+        <i style={{color: isFav ? '#ee5151' : 'white'}} className={`fa-${isFav ? 'solid' : 'regular'} fa-heart`}></i>
       </div>
       <div className="locations-property-content">
         <div>
@@ -24,8 +43,8 @@ const PropertyCard = ({property}) => {
         </div>
         </div>
         <div className="locations-property-content-footer">
-          <Button icon={<i class="fa-solid fa-location-dot"></i>}>{property.nameLocation.address.locality}</Button>
-          <Button icon={<i class="fa-solid fa-star"></i>}>4.7</Button>
+          <Button icon={<i className="fa-solid fa-location-dot"></i>}>{property.nameLocation.address.locality}</Button>
+          <Button icon={<i className="fa-solid fa-star"></i>}>4.7</Button>
         </div>
       </div>
     </div>
@@ -37,10 +56,23 @@ const PropertyGrid = ({properties}) => {
     <Swiper
     modules={[ A11y, Navigation ]}
     spaceBetween={20}
-    slidesPerView={4}
+    slidesPerView={1}
     speed={1000}
     navigation={{ clickable: true }}
     onSwiper={(swiper) => console.log(swiper)}
+    breakpoints={{
+      360: {
+        slidesPerView: 1
+      },
+      768: {
+        spaceBetween: 20,
+        slidesPerView: 2
+      },
+      1024: {
+        spaceBetween: 20,
+        slidesPerView: 4
+      }
+    }}
     >
       {properties.map((property, i) => (
         <SwiperSlide key={i}>
@@ -60,7 +92,6 @@ const LocationProps = ({locations, properties}) => {
         value: properties.filter((prop) => prop.nameLocation.address.locality === loc.name || prop.nameLocation.address.state === loc.name).length
       }
     })
-    console.log(newLocation)
     let sortedList = newLocation.sort((a,b) => b.value - a.value)
     let newlist = sortedList.map((loc, i) => {
       return {

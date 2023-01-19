@@ -5,13 +5,13 @@ import { addDays } from 'date-fns';
 import longArrow from "../../assets/images/next.svg"
 import moment from "moment"
 import Image from 'next/image';
-import { CheckboxInput, CounterInput } from '../UI';
+import { CheckboxInput, CounterInput, RangeDatePicker } from '../UI';
 import SelectSearch from 'react-select-search';
 import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import { Card, Col, Divider, Form, Input,
     DatePicker, Tooltip, Popover, Space, Checkbox,
-    Row, Select, Button, InputNumber } from 'antd';
+    Row, Select, Button, InputNumber, Slider } from 'antd';
 import dayjs from "dayjs"
 
 const {RangePicker} = DatePicker
@@ -89,7 +89,6 @@ export const CalendarBox = ({data, setData, handleNext}) => {
       ]);
     const handleSelect = (date) => {
         setState([date.selection])
-        console.log(date.selection)
         setData({
             ...data,
             checkin: date.selection.startDate,
@@ -478,7 +477,7 @@ export const SearchBarMobile = ({open, setOpen, searchq, setSearchq, properties,
     )
 }
 
-export const BannerSearch = ({properties}) => {
+export const BannerSearch = ({properties, showAll=true}) => {
     const [step, setStep] = useState(0)
     const [options, setOptions] = useState([])
 
@@ -515,14 +514,17 @@ export const BannerSearch = ({properties}) => {
         pets: false
     })
 
+    const {query, start, end, adults, childs, pets} = router.query
+
+
     const explore = () => {
-        let query = `query=${searchQuery.location ? searchQuery.location : 'all'}&start=${moment(searchQuery.checkin).format("MM-DD-YYYY")}&end=${moment(searchQuery.checkout).format("MM-DD-YYYY")}&adults=${searchQuery.guests.adult}&childs${searchQuery.guests.child}&pets=${searchQuery.pets}`
+        let query = `query=${searchQuery.location ? searchQuery.location : 'all'}&start=${moment(searchQuery.checkin).format("MM-DD-YYYY")}&end=${moment(searchQuery.checkout).format("MM-DD-YYYY")}&adults=${searchQuery.guests.adult}&childs=${searchQuery.guests.child}&pets=${searchQuery.pets}`
         router.push(`/search?${query}`)
     }
 
     return (
         <div className="banner-searchbar">
-            <div className="banner-searchbar-container" style={{}}>
+            <div className="banner-searchbar-container">
                 <Form
                 form={form}
                 initialValues={{
@@ -535,11 +537,12 @@ export const BannerSearch = ({properties}) => {
                     <motion.div
                     initial={{x: 0}}
                     whileInView={{x: `-${step*33.33}%`}}
+                    key={"searchbar-long-multistep"}
                     className="banner-searchbar-formtrack">
                         <Row gutter={0} style={{margin: 0}}>
                             <Col span={8} style={{padding: 0}}>
                                 <Row>
-                                    <Col span={16}>
+                                    <Col span={16} className="banner-searchbar-location-mobile">
                                         <div className="banner-searchbar-icon">
                                             <i class="fa-solid fa-magnifying-glass"></i>
                                             <Form.Item
@@ -549,7 +552,7 @@ export const BannerSearch = ({properties}) => {
                                             <Select
                                             showSearch
                                             showArrow={false}
-                                            placeholder="Where shall we take you?"
+                                            placeholder="Search destination..."
                                             optionFilterProp="children"
                                             bordered={false}
                                             value={searchQuery.location}
@@ -565,7 +568,7 @@ export const BannerSearch = ({properties}) => {
                                             </Form.Item>
                                         </div>
                                     </Col>
-                                    <Col span={8}>
+                                    <Col span={8} className="banner-searchbar-location-mobile-button">
                                         <Button style={{borderRadius: 10}} block size='large' onClick={() => setStep(1)} type='primary'>Let&apos;s Go</Button>
                                     </Col>
                                 </Row>
@@ -580,14 +583,18 @@ export const BannerSearch = ({properties}) => {
                                         style={{padding: 0, margin: 0}}
                                         name={"search_dates"}
                                         >
-                                            <RangePicker
+                                            {/* <RangePicker
+                                            disabledDate={disabledDate}
+                                            placeholder={["Check-in", "Check-out"]}
+                                            bordered={false} size='large' /> */}
+                                            <RangeDatePicker 
                                             disabledDate={disabledDate}
                                             placeholder={["Check-in", "Check-out"]}
                                             bordered={false} size='large' />
                                         </Form.Item>
                                     </Col>
                                     <Col span={8}>
-                                    <Button style={{borderRadius: 10}} type="primary" block size='large' onClick={() => setStep(2)}>Add Guests</Button>
+                                    <Button style={{borderRadius: 10}} type="primary" block size='large' onClick={() => setStep(2)}>Guests</Button>
                                     </Col>
                                 </Row>
                             </Col>
@@ -627,11 +634,11 @@ export const BannerSearch = ({properties}) => {
                                                 style={{padding: 0, margin: 0}}
                                                 name={"search_pet"}
                                                 >
-                                                    <Checkbox size="large" value={searchQuery.pets} onChange={(e) => setSearchQuery({...searchQuery, pets: e.target.checked})}>Are Pets Allowed?</Checkbox>
+                                                    <Checkbox size="large" value={searchQuery.pets} onChange={(e) => setSearchQuery({...searchQuery, pets: e.target.checked})}>Pets Allowed</Checkbox>
                                                 </Form.Item>
                                             </Space>
                                         }>
-                                            <Button size='large' block type="text">Adults {searchQuery.guests.adult}, Children {searchQuery.guests.child}, Pets </Button>
+                                            <Button size='large' className='banner-searchbar-buttons-guests' block type="text">Adults {searchQuery.guests.adult}, Childs {searchQuery.guests.child}{searchQuery.pets && ', Pets'} </Button>
                                         </Popover>
                                     </Col>
                                     <Col span={8}>
@@ -643,15 +650,55 @@ export const BannerSearch = ({properties}) => {
                     </motion.div>
                 </Form>
             </div>
-            <button
-            onClick={() => {
-                setData({...data, location: "all"});
-                handleNext(true)
-            }}
-            className="form-button banner-searchbar-all full explore">
-                Show all SwitchOff destinations
-                <i className='bx bx-planet' ></i>
-            </button>
+            {showAll && (
+                <button
+                onClick={() => {
+                    setData({...data, location: "all"});
+                    handleNext(true)
+                }}
+                className="form-button banner-searchbar-all full explore">
+                    Show all SwitchOff destinations
+                    <i className='bx bx-planet' ></i>
+                </button>
+            )}
+        </div>
+    )
+}
+
+export const ExtraFilters = () => {
+    return (
+        <div className="filters">
+            <div className="filters-container">
+                <Form
+                layout='vertical'
+                >
+                    <Row gutter={10} style={{paddingInline: 20}}>
+                        <Col md={24}>
+                        <Form.Item
+                        style={{margin: 0}}
+                        label="Price Range"
+                        >
+                            <Slider size="large" 
+                            max={500000} min={5000} step={5000}
+                            marks={{
+                                5000: '₹5k',
+                                500000: '₹5L+'
+                            }}
+                            range defaultValue={[20000, 200000]} />
+                        </Form.Item>
+                        </Col>
+                        <Col md={24}>
+                            Filter2
+                        </Col>
+                        <Col md={24}>
+                            Filter3
+                        </Col>
+                        <Col md={24}>
+                            Filter4
+                        </Col>
+                    </Row>
+                </Form>
+            </div>
         </div>
     )
 }

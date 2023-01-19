@@ -35,3 +35,10 @@ export const getRooms = async (id) => {
     let rooms = await axios.get(`https://stage.switchoff.in/api/properties/${id}/rooms`).then((res) => {return res.data})
     return rooms
 }
+
+export const getBlogsBySlug = async (slug) => {
+    let properties = await axios.get(`${process.env.REACT_APP_API}/properties`).then((res) => {return res.data})
+    let settings = await axios.get(`${process.env.REACT_APP_API}/settings/all`).then((res) => {return res.data})
+    let blog = await axios.get(`https://stage.switchoff.in/api/blogs/slug/${slug}`).then((res) => {return res.data})
+    return {settings, blog, properties}
+}

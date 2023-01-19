@@ -5,6 +5,8 @@
     background-color: $bodyBg;
     @include mobile{
         height: auto;
+        padding-top: 0;
+        padding: 20px;
     }
     &-title{
         font-size: 2rem;
@@ -13,7 +15,8 @@
         margin-top: 1rem;
         width: 100%;
         @include mobile{
-            font-size: 1.6rem;
+            font-size: 2rem;
+            text-align: center;
         }
     }
     &-subtitle{
@@ -24,6 +27,10 @@
         margin-top: 1rem;
         @include mobile{
             font-size: 1rem;
+            text-align: center;
+            width: 100%;
+            padding-inline: 10%;
+            margin-bottom: 20px;
         }
     }
     &-slide{
@@ -41,6 +48,11 @@
         background-repeat: no-repeat;
         background-position: center;
         transition: all 0.5s ease-in-out;
+        @include mobile{
+            width: 100%;
+            margin-top: 20px;
+            border-width: 5px;
+        }
         h4{
             position: absolute;
             bottom: 0;
@@ -59,8 +71,19 @@
     }
     &-tiles{
         width: 100%;
-        display: grid;
-        grid-template-columns: 20% 20% 20% 20% 20%;
+        &-track{
+            display: grid;
+            grid-template-columns: 20% 20% 20% 20% 20%;
+            @include mobile{
+                width: 135%;
+                padding-inline: 20px;
+            }
+        }
+        @include mobile{
+            width: calc(100% + 60px);
+            overflow-x: scroll;
+            margin-inline: -30px;
+        }
         &-tile{
             display: flex;
             flex-direction: column;
@@ -75,9 +98,13 @@
                 font-size: 1rem;
                 line-height: 1.1rem;
                 margin-top: 1rem;
+                @include mobile{
+                    font-size: 12px;
+                    line-height: 14px;
+                }
             }
             &-image{
-                border: 3px solid $red !important;
+                border: 3px solid $primary !important;
                 border-radius: 50% !important;
             }
             &:hover{

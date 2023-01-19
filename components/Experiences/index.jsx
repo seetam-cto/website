@@ -9,7 +9,7 @@ const Experiences = ({experiences}) => {
         <h2>{experiences.title}</h2>
         <Row gutter={5}>
             {experiences.list.slice(0,6).map((exp, i) => (
-                <Col key={i} span={4}>
+                <Col key={`${i}-exp-tile`} span={4}>
                     <motion.div
                     key={`exp-tile-${i}-motion`}
                     initial={{opacity: 0}}

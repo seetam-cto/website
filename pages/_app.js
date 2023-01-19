@@ -15,8 +15,9 @@ import 'swiper/css/bundle';
 import { ConfigProvider } from 'antd';
 import React, {useEffect} from "react"
 import { useRouter } from "next/router";
+import {SessionProvider} from "next-auth/react"
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps, session }) {
   const router = useRouter()
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -57,7 +58,9 @@ function MyApp({ Component, pageProps }) {
             fontFamily: "'Jost', sans-serif"
           }}}
         >
-        <Component {...pageProps} />
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+        </SessionProvider>
         </ConfigProvider>
       </>
     </Provider>

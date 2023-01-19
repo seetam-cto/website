@@ -1,4 +1,5 @@
 import React from 'react'
+import { DatePicker } from 'antd'
 
 export const CounterInput = ({label = "", value = 0, onChange, min = 0}) => {
     return (
@@ -29,4 +30,13 @@ export const CheckboxInput = ({label = "", value = false, onChange, icon}) => {
             {icon && <i className={icon} ></i>}
         </div>
     )
+}
+
+export const RangeDatePicker = (props) => {
+    const panelRender = (panelNode) => (
+        <div className='mobile-date-picker'>
+          {panelNode}
+        </div>
+    );
+    return <DatePicker.RangePicker panelRender={panelRender} {...props} />;
 }

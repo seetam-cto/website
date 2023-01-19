@@ -11,6 +11,11 @@
             color: $white;
             width: 100%;
             text-align: center;
+            @include mobile{
+                font-size: 1.3rem;
+                line-height: 1.5rem;
+                font-weight: 300;
+            }
         }
         &-tile{
             display: flex;
@@ -29,6 +34,14 @@
                 font-size: 0.9rem;
                 color: $white;
                 line-height: 1rem;
+                @include mobile{
+                    font-size: 0.7rem;
+                }
+            }
+            img{
+                @include mobile{
+                    transform: scale(0.85);
+                }
             }
         }
     }

@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React, {useState, useEffect, useRef} from 'react'
 import { AnimatePresence, motion } from "framer-motion"
-import { Navigation, A11y, EffectFlip, EffectCreative, EffectCards, EffectCoverflow, Pagination } from 'swiper';
+import { Navigation, A11y, EffectFlip, EffectCreative, EffectCards, EffectCoverflow, Pagination, EffectCube } from 'swiper';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Row, Col, Typography, Space, Button } from 'antd';
@@ -35,16 +35,17 @@ const Banner = ({banner, properties, homepage}) => {
             <div className="banner-content">
                 <div className="container">
                     <Row>
-                        <Col span={10}>
+                        <Col xs={24} md={10}>
                             <div className='banner-content-container'>
                                 <h1 className='banner-content-header'>Spend vacations with<br />serene experiences</h1>
                                 <BannerSearch properties={properties} />
                                 <Experiences experiences={homepage.experiences} />
                             </div>
                         </Col>
-                        <Col span={7} offset={5}>
+                        <Col md={5}>&nbsp;</Col>
+                        <Col xs={24} md={7}>
                             <Swiper
-                            modules={[Pagination, EffectCards, A11y ]}
+                            modules={[Pagination, EffectCards, A11y]}
                             spaceBetween={20}
                             slidesPerView={1}
                             loop
@@ -56,21 +57,12 @@ const Banner = ({banner, properties, homepage}) => {
                             onSlideChange={(swiper) => setCurrentSlide(banner[swiper.realIndex])}
                             >
                                 {banner && banner.map((slide, i) => (
-                                    <SwiperSlide key={i}>
-                                        <div KEY={`${i + Math.random()}`} className="banner-slider-slide">
+                                    <SwiperSlide key={`${i}-outer-slide-banner`}>
+                                        <div key={`${i}-inner-slide}`} className="banner-slider-slide">
                                             <img src={slide.card} className="banner-slider-slide-image" />
                                             <div className="banner-slider-slide-content">
                                                 <h3>Trip to {(slide.location && slide.location.name) ? slide.location.name : slide.title}</h3>
-                                                <Paragraph
-                                                ellipsis={{
-                                                    rows: 3,
-                                                    expandable: true,
-                                                    onEllipsis: (ellipsis) => {
-                                                      console.log('Ellipsis changed:', ellipsis);
-                                                    },
-                                                  }}
-                                                  title={`${slide.subTitle}`}
-                                                >{slide.subTitle}</Paragraph>
+                                                <p>{slide.subTitle.slice(0,120)}...</p>
                                             </div>
                                         </div>
                                     </SwiperSlide>

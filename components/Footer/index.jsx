@@ -2,73 +2,71 @@ import React, {useState, useEffect, useRef} from 'react'
 import Image from 'next/image'
 import { motion } from "framer-motion"
 import Link from 'next/link'
+import { Row, Col } from 'antd'
 
 const Footer = ({footer, general}) => {
   return (
     <footer className="footer">
-        <div className="container">
-            <div className="row">
-                <div className="col-md-12 col-12 col-sm-12 d-flex justify-center">
-                    <div className="footer-logo">
-                        <Image width={200} height={75} objectFit={"contain"} src={general.logo} />
-                        <ul className='footer-social'>
-                            <li><i className='bx bxl-facebook-square' ></i></li>
-                            <li><i className='bx bxl-instagram-alt' ></i></li>
-                            <li><i className='bx bxl-twitter' ></i></li>
-                            <li><i className='bx bxl-trip-advisor' ></i></li>
-                        </ul>
-                    </div>
-                </div>
-                {/* <div className="col-md-3 col-sm-6">
-                    <p>QUICK LINKS</p>
-                    <ul className='footer-links'>
-                        {footer.quickLinks.map((l, i) => (
-                            <li key={i}>
-                                <Link href={l.link}>
-                                    <a>{l.text}</a>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div> */}
-                {/* <div className="col-md-3 col-sm-6">
-                    <p>POLICY</p>
-                    <ul className='footer-links'>
-                        {footer.quickLinks.map((l, i) => (
-                            <li key={i}>
-                                <Link href={l.link}>
-                                    <a>{l.text}</a>
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div> */}
-                {/* <div className="col-md-4 col-sm-12">
-                    <p>SUBSCRIBE</p>
-                    <ul className="footer-links">
-                        <li>
-                            Subscribe to our newsletter, so that you can be the first to know about new offers and promotions.
-                        </li>
-                    </ul>
-                    <div className="row d-flex align-center">
-                        <div className="col-12">
-                            <div className="form-group footer-subscribe">
-                                <label className="form-label">&nbsp;</label>
-                                <input type="text"
-                                placeholder='Enter Email Address'
-                                className="form-control" />
-                                <button className="form-button explore explore-footer">
-                                    Send
-                                    <i className='bx bxs-paper-plane' ></i>
-                                </button>
-                            </div>
+        <div className="footer-bg">
+            <div className="footer-bg-overlay" />
+        </div>
+        <div className="footer-content">
+        <div className="footer-top">
+            <div className="container">
+                <Row>
+                    <Col md={10}>
+                        <Image className='footer-logo' src={footer.logo} width={250} height={60} />
+                        <p className='footer-copyright'>Copyright © 2022 . All Rights reserved.</p>
+                        <a href={`tel:${general.contact.phone}`} className="footer-cta-call">
+                            <i class="fa-solid fa-phone-volume"></i>
+                            <span>{general.contact.phone}</span>
+                        </a>
+                        <div className="footer-socials">
+                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
                         </div>
-                    </div>
-                </div> */}
+                    </Col>
+                    <Col md={4}>
+                        <h3 className='footer-link-title'>{footer.link1.title}</h3>
+                        <ul className='footer-link'>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                        </ul>
+                    </Col>
+                    <Col md={4}>
+                        <h3 className='footer-link-title'>{footer.link2.title}</h3>
+                        <ul className='footer-link'>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                        </ul>
+                    </Col>
+                    <Col md={4}>
+                        <h3 className='footer-link-title'>{footer.link3.title}</h3>
+                        <ul className='footer-link'>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                            <li><Link href="#"><a>Sub-Link</a></Link></li>
+                        </ul>
+                    </Col>
+                    <Col md={2}>
+
+                    </Col>
+                </Row>
             </div>
-            <div className="row footer-copyright">
-                © 2022 All Rights Reserved | Okay Done
+        </div>
+        <div className="footer-bottom">
+            <div className="container">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </div>
+        </div>
         </div>
     </footer>
   )

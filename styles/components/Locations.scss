@@ -4,13 +4,16 @@
     .ant-tabs-tab{
         font-size: 1rem;
         &-active{
-            border-bottom: 2px solid $red;
+            border-bottom: 2px solid $primary;
         }
     }
     height: auto;
     padding-bottom: 100px;
     width: 100%;
     padding: 40px;
+    @include mobile{
+        padding: 20px;
+    }
     &-title{
         font-size: 2rem;
         line-height: 2rem;
@@ -19,6 +22,7 @@
         width: 30%;
         @include mobile{
             font-size: 1.6rem;
+            width: 100%;
         }
     }
     &-subtitle{
@@ -29,6 +33,7 @@
         margin-top: 1rem;
         @include mobile{
             font-size: 1rem;
+            width: 100%;
         }
     }
     &-property{
@@ -37,24 +42,35 @@
         border-radius: 20px;
         overflow: hidden;
         height: 50vh;
+        &:hover{
+            .locations-property-background{
+                transform: scale(1.2);
+            }
+        }
         &-background{
             width: 100%;
             height: 100%;
             object-fit: cover;
             z-index: 0;
+            transition: transform 3s linear;
         }
         &-content{
             position: absolute;
+            cursor: pointer;
             bottom: 0;
             left: 0;
             width: 100%;
             height: 35%;
-            background-color: #000000A0;
             backdrop-filter: blur(8px);
             padding: 15px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: all 0.3s ease-in-out;
+            background-image: linear-gradient(to bottom, #000000A0, #000000A0);
+            &:hover{
+                background-image: linear-gradient(to bottom, #00cfa2A0, #FFFFFF50);
+            }
             h2{
                 color: $white;
                 font-size: 1.3rem;
@@ -79,6 +95,88 @@
                     box-shadow: none;
                     padding: 0;
                     font-size: 1rem;
+                    i{
+                        margin-right: 10px;
+                    }
+                }
+            }
+        }
+        &-favourite{
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+            background-color: #000000B0;
+            border-radius: 50%;
+            cursor: pointer;
+            @include flex();
+            i{
+                color: $white;
+                font-size: 1rem;
+            }
+        }
+    }
+    &-search-property{
+        width: 100%;
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        height: 35vh;
+        &:hover{
+            .locations-property-background{
+                transform: scale(1.2);
+            }
+        }
+        &-background{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 0;
+            transition: transform 3s linear;
+        }
+        &-content{
+            position: absolute;
+            cursor: pointer;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 35%;
+            // backdrop-filter: blur(8px);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-image: linear-gradient(to bottom, #00000000, #000000D0);
+            &:hover{
+                background-image: linear-gradient(to bottom, #00cfa2A0, #FFFFFF50);
+                backdrop-filter: blur(8px);
+            }
+            h2{
+                color: $white;
+                font-size: 1.1rem;
+                line-height: 1.4rem;
+            }
+            &-price{
+                color: $white;
+                font-size: 0.9rem;
+                span{
+                    font-size: 1.1rem;
+                }
+            }
+            &-footer{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                button{
+                    color: $white;
+                    background-color: transparent;
+                    border: none;
+                    outline: none;
+                    box-shadow: none;
+                    padding: 0;
+                    font-size: 0.9rem;
                     i{
                         margin-right: 10px;
                     }
