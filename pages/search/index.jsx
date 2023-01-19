@@ -130,7 +130,7 @@ const Search = ({result}) => {
                             .filter((prp) => prp.nameLocation.address.fullAddress.toLowerCase().includes(query === "all" ? "" : query.toLocaleLowerCase()))
                             .slice(from, to)
                             .map((prp, i) => (
-                                <Col md={6}>
+                                <Col key={`${i}-colcol`} md={6}>
                                     <PropertyBox property={prp} key={i} />
                                 </Col>
                             ))}
