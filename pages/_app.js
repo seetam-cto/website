@@ -16,6 +16,7 @@ import { ConfigProvider } from 'antd';
 import React, {useEffect} from "react"
 import { useRouter } from "next/router";
 import {SessionProvider} from "next-auth/react"
+import Login from "../components/Auth";
 
 function MyApp({ Component, pageProps, session }) {
   const router = useRouter()
@@ -46,6 +47,7 @@ function MyApp({ Component, pageProps, session }) {
       gtag('config', 'G-5QMWVR4FB3');
     `,
     }}/>
+    {/* <Script async src="https://otpless.com/auth.js" /> */}
     <Provider store={store}>
       <>
         <NextNProgress color="#4ecca3" />
@@ -60,6 +62,7 @@ function MyApp({ Component, pageProps, session }) {
         >
         <SessionProvider session={session}>
           <Component {...pageProps} />
+          <Login />
         </SessionProvider>
         </ConfigProvider>
       </>

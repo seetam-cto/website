@@ -1,0 +1,139 @@
+@use '../abstracts/' as *;
+
+.qsa{
+    background-color: #F3F4FA;
+    min-height: 10vh;
+    @include flex();
+    padding-block: 4rem;
+    &-box{
+        background-color: $white;
+        width: 100%;
+        border-radius: 10px;
+        overflow: hidden;
+        &-image{
+            width: 500px !important;
+            height: 100% !important;
+            &.bx{
+                display: flex;
+                flex-direction: column;
+                img:only-child{
+                    height: 100%;
+                }
+                img{
+                    height: calc( 100% / var(--height) ) !important;
+                    flex: 1;
+                }
+            }
+            img{
+                height: 100%;
+                width: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+    }
+    &-innerbox{
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    &-title{
+        font-size: 2rem;
+        line-height: 2rem;
+        font-weight: 500;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 1rem;
+        @include mobile{
+            font-size: 1.6rem;
+            width: 100%;
+        }
+    }
+    &-subtitle{
+        font-size: 1rem;
+        line-height: 1.5rem;
+        font-weight: 400;
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        @include mobile{
+            font-size: 0.9rem;
+            width: 100%;
+        }
+    }
+    &-qs{
+        margin-top: 2rem;
+        min-width: 600px;
+        max-width: 800px;
+    }
+    &-q{
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        &-optns{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            &-btn{
+                padding: 0;
+                overflow: hidden;
+                width: 100%;
+                height: 60px;
+                position: relative;
+                &:hover{
+                    img{
+                        transform: scale(1.05);
+                    }
+                }
+                &.wi{
+                    width: 100%;
+                }
+                &.active{
+                    img{
+                        filter: saturate(1);
+                    }
+                    background-color: $primary;
+                    .qsa-q-optns-btn-text.wi{
+                        color: $white;
+                    }
+                }
+                &-text{
+                    position: absolute;
+                    z-index: 4;
+                    width: 100%;
+                    height: 100%;
+                    @include flex();
+                    font-size: 1rem;
+                    line-height: 1.2rem;
+                    color: $white;
+                    font-weight: 600;
+                    top: 0;
+                    left: 0;
+                    background-image: linear-gradient(to bottom, #00000010, #000000A0);
+                    &.wi{
+                        background-image: none;
+                        color: $black;
+                    }
+                }
+                img{
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    transition: transform 0.3s ease-in-out;
+                    filter: saturate(0);
+                }
+            }
+        }
+        &-buttons{
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

@@ -100,7 +100,7 @@ const Header = ({theme = "light",headerSettings}) => {
                                 <Button className='navbar-user-mobile'><i className="fa-solid fa-heart"></i></Button>
                                 <Button onClick={() => setNavrail(true)} className='navbar-user-mobile'>
                                     <i className="fa-solid fa-layer-group"></i>
-                                    {/* <i class="fa-solid fa-bars"></i> */}
+                                    {/* <i className="fa-solid fa-bars"></i> */}
                                 </Button>
                             </div>
                         </Col>
@@ -110,9 +110,9 @@ const Header = ({theme = "light",headerSettings}) => {
             <AnimatePresence>
                 {navrail && <NavigationRail close={setNavrail} settings={headerSettings.general} />}
             </AnimatePresence>
-            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            {/* <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                 <Button type='primary' onClick={() => signIn()}>Sign In</Button>
-            </Modal>
+            </Modal> */}
         </header>
     )
 }

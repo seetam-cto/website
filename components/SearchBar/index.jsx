@@ -13,6 +13,7 @@ import { Card, Col, Divider, Form, Input,
     DatePicker, Tooltip, Popover, Space, Checkbox,
     Row, Select, Button, InputNumber, Slider } from 'antd';
 import dayjs from "dayjs"
+import { DownOutlined, UpOutlined } from '@ant-design/icons';
 
 const {RangePicker} = DatePicker
 
@@ -257,159 +258,159 @@ const GuestsBox = ({data, setData, handleNext, explore}) => {
     )
 }
 
-const SearchBar = ({properties}) => {
-    const router = useRouter()
-    const [searchq, setSearchq] = useState({
-        location: router.query ? router.query.query : '',
-        checkin: new Date(),
-        checkout: addDays(new Date(), 2),
-        guests: {
-            adult: 1,
-            child: 0,
-        },
-        handicap: false,
-        pets: false
-    })
-    const closeAll = () => {
-        setLocationbox(false)
-        setCalendarbox(false)
-        setGuestsbox(false)
-    }
-    const [locationbox, setLocationbox] = useState(false)
-    const [calendarbox, setCalendarbox] = useState(false)
-    const [guestsbox, setGuestsbox] = useState(false)
+// const SearchBar = ({properties}) => {
+//     const router = useRouter()
+//     const [searchq, setSearchq] = useState({
+//         location: router.query ? router.query.query : '',
+//         checkin: new Date(),
+//         checkout: addDays(new Date(), 2),
+//         guests: {
+//             adult: 1,
+//             child: 0,
+//         },
+//         handicap: false,
+//         pets: false
+//     })
+//     const closeAll = () => {
+//         setLocationbox(false)
+//         setCalendarbox(false)
+//         setGuestsbox(false)
+//     }
+//     const [locationbox, setLocationbox] = useState(false)
+//     const [calendarbox, setCalendarbox] = useState(false)
+//     const [guestsbox, setGuestsbox] = useState(false)
 
-    const afterLocation = (value) => {
-        setLocationbox(!value)
-        setCalendarbox(value)
-    }
+//     const afterLocation = (value) => {
+//         setLocationbox(!value)
+//         setCalendarbox(value)
+//     }
 
-    const afterCalendar = (value) => {
-        value ? setCalendarbox(!value) : setCalendarbox(value)
-        !value && setLocationbox(!value)
-        value && setGuestsbox(value)
-    }
+//     const afterCalendar = (value) => {
+//         value ? setCalendarbox(!value) : setCalendarbox(value)
+//         !value && setLocationbox(!value)
+//         value && setGuestsbox(value)
+//     }
 
-    const afterGuests = (value) => {
-        setGuestsbox(value)
-        !value && setCalendarbox(!value)
-    }
+//     const afterGuests = (value) => {
+//         setGuestsbox(value)
+//         !value && setCalendarbox(!value)
+//     }
 
-    const explore = () => {
-        let query = `query=${searchq.location ? searchq.location : 'all'}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&adults=${searchq.guests.adult}&childs${searchq.guests.child}&pets=${searchq.pets}`
-        router.push(`/search?${query}`)
-    }
-    const [mobileSearch, setMobileSearch] = useState(false)
-  return (
-    <>
-        {(locationbox || calendarbox || guestsbox) && 
-            <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
-        <div className="searchbar">
-            {(locationbox || calendarbox || guestsbox) && 
-                <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
-            <div className="searchbar-desktop container searchbar-container">
-                <div className="row full">
-                    <div className="col-20 m-full searchbar-gap">
-                        <div
-                        onClick={() => {setLocationbox(true); }}
-                        className="searchbar-item">
-                            <div className="icon">
-                                <i className='bx bx-map' ></i>
-                            </div>
-                            <div className="content">
-                                <h3>Location</h3>
-                                <p>{searchq.location ? searchq.location : 'Your Destination'}</p>
-                            </div>
-                        </div>
-                        {locationbox && (
-                            <LocationBox properties={properties} data={searchq} setData={setSearchq} handleNext={afterLocation} />
-                        )}
-                    </div>
-                    <div className="col-20 searchbar-gap">
-                        <div
-                        onClick={() => {setCalendarbox(true); }}
-                        className="searchbar-item">
-                            <div className="icon">
-                                <i className='bx bxs-calendar-check'></i>
-                            </div>
-                            <div className="content">
-                                <h3>Check In</h3>
-                                <p>{searchq.checkin ? moment(searchq.checkin).format('MMM Do YYYY') : 'Choose your date'}</p>
-                            </div>
-                        </div>
-                        {calendarbox && (
-                            <CalendarBox data={searchq} setData={setSearchq} handleNext={afterCalendar} />
-                        )}
-                    </div>
-                    <div className="col-20 searchbar-gap">
-                        <div
-                        onClick={() => {setCalendarbox(true); }}
-                        className="searchbar-item">
-                            <div className="icon">
-                                <i className='bx bx-calendar-check' ></i>
-                            </div>
-                            <div className="content">
-                                <h3>Check Out</h3>
-                                <p>{searchq.checkout
-                                ? moment(searchq.checkout).format('MMM Do YYYY') 
-                                : 'Choose your date'}</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-20 m-full">
-                        <div
-                        onClick={() => {setGuestsbox(true); }}
-                        className="searchbar-item">
-                            <div className="icon">
-                                <i className='bx bxs-user' ></i>
-                            </div>
-                            <div className="content">
-                                <h3>Guests</h3>
-                                <p>{(searchq.guests.adult + searchq.guests.child) > 1 ? ("Total Guests " + (searchq.guests.adult + searchq.guests.child)) : 'Number of guests'}</p>
-                            </div>
-                        </div>
-                        {guestsbox && (
-                            <GuestsBox explore={explore} data={searchq} setData={setSearchq} handleNext={afterGuests} />
-                        )}
-                    </div>
-                    <div className="col-20 col-m-100">
-                        <div className="searchbar-item button">
-                            <button onClick={() => explore()} className="form-button searchbar-item-button">
-                                Search 
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div onClick={() => setMobileSearch(true)} className="searchbar-mobile-button">         
-                <div className="row">
-                    <div className="col-sm-9">
-                        <div className="searchbar-mobile-main">
-                            <div className="icon">
-                                <i className='bx bx-map' ></i>
-                            </div>
-                            <div className="text">
-                                <h4>Plan your holiday</h4>
-                                <p>Where. When. Guests & Rooms</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-sm-3 d-flex align-center justify-end">
-                        <button className="form-button explore block">
-                            Start <i className='bx bx-chevron-right' ></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <SearchBarMobile
-            searchq={searchq} setSearchq={setSearchq}
-            properties={properties} explore={explore}
-            open={mobileSearch} setOpen={setMobileSearch} />
-        </div>
-    </>
+//     const explore = () => {
+//         let query = `query=${searchq.location ? searchq.location : 'all'}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&adults=${searchq.guests.adult}&childs${searchq.guests.child}&pets=${searchq.pets}`
+//         router.push(`/search?${query}`)
+//     }
+//     const [mobileSearch, setMobileSearch] = useState(false)
+//   return (
+//     <>
+//         {(locationbox || calendarbox || guestsbox) && 
+//             <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
+//         <div className="searchbar">
+//             {(locationbox || calendarbox || guestsbox) && 
+//                 <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
+//             <div className="searchbar-desktop container searchbar-container">
+//                 <div className="row full">
+//                     <div className="col-20 m-full searchbar-gap">
+//                         <div
+//                         onClick={() => {setLocationbox(true); }}
+//                         className="searchbar-item">
+//                             <div className="icon">
+//                                 <i className='bx bx-map' ></i>
+//                             </div>
+//                             <div className="content">
+//                                 <h3>Location</h3>
+//                                 <p>{searchq.location ? searchq.location : 'Your Destination'}</p>
+//                             </div>
+//                         </div>
+//                         {locationbox && (
+//                             <LocationBox properties={properties} data={searchq} setData={setSearchq} handleNext={afterLocation} />
+//                         )}
+//                     </div>
+//                     <div className="col-20 searchbar-gap">
+//                         <div
+//                         onClick={() => {setCalendarbox(true); }}
+//                         className="searchbar-item">
+//                             <div className="icon">
+//                                 <i className='bx bxs-calendar-check'></i>
+//                             </div>
+//                             <div className="content">
+//                                 <h3>Check In</h3>
+//                                 <p>{searchq.checkin ? moment(searchq.checkin).format('MMM Do YYYY') : 'Choose your date'}</p>
+//                             </div>
+//                         </div>
+//                         {calendarbox && (
+//                             <CalendarBox data={searchq} setData={setSearchq} handleNext={afterCalendar} />
+//                         )}
+//                     </div>
+//                     <div className="col-20 searchbar-gap">
+//                         <div
+//                         onClick={() => {setCalendarbox(true); }}
+//                         className="searchbar-item">
+//                             <div className="icon">
+//                                 <i className='bx bx-calendar-check' ></i>
+//                             </div>
+//                             <div className="content">
+//                                 <h3>Check Out</h3>
+//                                 <p>{searchq.checkout
+//                                 ? moment(searchq.checkout).format('MMM Do YYYY') 
+//                                 : 'Choose your date'}</p>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <div className="col-20 m-full">
+//                         <div
+//                         onClick={() => {setGuestsbox(true); }}
+//                         className="searchbar-item">
+//                             <div className="icon">
+//                                 <i className='bx bxs-user' ></i>
+//                             </div>
+//                             <div className="content">
+//                                 <h3>Guests</h3>
+//                                 <p>{(searchq.guests.adult + searchq.guests.child) > 1 ? ("Total Guests " + (searchq.guests.adult + searchq.guests.child)) : 'Number of guests'}</p>
+//                             </div>
+//                         </div>
+//                         {guestsbox && (
+//                             <GuestsBox explore={explore} data={searchq} setData={setSearchq} handleNext={afterGuests} />
+//                         )}
+//                     </div>
+//                     <div className="col-20 col-m-100">
+//                         <div className="searchbar-item button">
+//                             <button onClick={() => explore()} className="form-button searchbar-item-button">
+//                                 Search 
+//                             </button>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//             <div onClick={() => setMobileSearch(true)} className="searchbar-mobile-button">         
+//                 <div className="row">
+//                     <div className="col-sm-9">
+//                         <div className="searchbar-mobile-main">
+//                             <div className="icon">
+//                                 <i className='bx bx-map' ></i>
+//                             </div>
+//                             <div className="text">
+//                                 <h4>Plan your holiday</h4>
+//                                 <p>Where. When. Guests & Rooms</p>
+//                             </div>
+//                         </div>
+//                     </div>
+//                     <div className="col-sm-3 d-flex align-center justify-end">
+//                         <button className="form-button explore block">
+//                             Start <i className='bx bx-chevron-right' ></i>
+//                         </button>
+//                     </div>
+//                 </div>
+//             </div>
+//             <SearchBarMobile
+//             searchq={searchq} setSearchq={setSearchq}
+//             properties={properties} explore={explore}
+//             open={mobileSearch} setOpen={setMobileSearch} />
+//         </div>
+//     </>
     
-  )
-}
+//   )
+// }
 
 export const SearchBarMobile = ({open, setOpen, searchq, setSearchq, properties, explore}) => {
     const customStyles = {
@@ -540,11 +541,11 @@ export const BannerSearch = ({properties, showAll=true}) => {
                     key={"searchbar-long-multistep"}
                     className="banner-searchbar-formtrack">
                         <Row gutter={0} style={{margin: 0}}>
-                            <Col span={8} style={{padding: 0}}>
+                            <Col span={8} style={{paddingInline: 20}}>
                                 <Row>
                                     <Col span={16} className="banner-searchbar-location-mobile">
                                         <div className="banner-searchbar-icon">
-                                            <i class="fa-solid fa-magnifying-glass"></i>
+                                            <i className="fa-solid fa-magnifying-glass"></i>
                                             <Form.Item
                                             style={{width: '90%', padding: 0, margin: 0}}
                                             name={"search_location"}
@@ -573,10 +574,10 @@ export const BannerSearch = ({properties, showAll=true}) => {
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col span={8} style={{padding: 0}}>
+                            <Col span={8} style={{paddingInline: 20}}>
                                 <Row>
                                     <Col span={3} style={{paddingRight: 0}}>
-                                    <Button size='large' className='banner-searchbar-buttons back' icon={<i class="fa-solid fa-circle-arrow-left"></i>} onClick={() => setStep(0)}></Button>
+                                    <Button size='large' className='banner-searchbar-buttons back' icon={<i className="fa-solid fa-circle-arrow-left"></i>} onClick={() => setStep(0)}></Button>
                                     </Col>
                                     <Col span={13} style={{padding: 0}}>
                                         <Form.Item
@@ -598,10 +599,10 @@ export const BannerSearch = ({properties, showAll=true}) => {
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col span={8} style={{padding: 0}}>
+                            <Col span={8} style={{paddingInline: 20}}>
                                 <Row>
                                     <Col span={3} style={{paddingRight: 0}}>
-                                    <Button size='large' className='banner-searchbar-buttons back' icon={<i class="fa-solid fa-circle-arrow-left"></i>} onClick={() => setStep(1)}></Button>
+                                    <Button size='large' className='banner-searchbar-buttons back' icon={<i className="fa-solid fa-circle-arrow-left"></i>} onClick={() => setStep(1)}></Button>
                                     </Col>
                                     <Col span={12} offset={1} style={{padding: 0}}>
                                         <Popover
@@ -650,7 +651,7 @@ export const BannerSearch = ({properties, showAll=true}) => {
                     </motion.div>
                 </Form>
             </div>
-            {showAll && (
+            {/* {showAll && (
                 <button
                 onClick={() => {
                     setData({...data, location: "all"});
@@ -660,12 +661,13 @@ export const BannerSearch = ({properties, showAll=true}) => {
                     Show all SwitchOff destinations
                     <i className='bx bx-planet' ></i>
                 </button>
-            )}
+            )} */}
         </div>
     )
 }
 
-export const ExtraFilters = () => {
+export const ExtraFilters = ({priceRange = [1000, 50000], setPriceRange, locations, selectedLocs, setSelectedLocs}) => {
+    const [showMoreLocs, setShowMoreLocs] = useState(false)
     return (
         <div className="filters">
             <div className="filters-container">
@@ -676,19 +678,39 @@ export const ExtraFilters = () => {
                         <Col md={24}>
                         <Form.Item
                         style={{margin: 0}}
-                        label="Price Range"
+                        label={<h4 className='filters-title'>Price Per Night</h4>}
                         >
                             <Slider size="large" 
-                            max={500000} min={5000} step={5000}
+                            max={50000} min={1000} step={5000}
                             marks={{
-                                5000: '₹5k',
-                                500000: '₹5L+'
+                                1000: '₹1k',
+                                50000: '₹50k+'
                             }}
-                            range defaultValue={[20000, 200000]} />
+                            value={priceRange}
+                            onChange={(price) => setPriceRange(price)}
+                            range defaultValue={priceRange} />
+                            <Button className='filters-buttons' onClick={() => setPriceRange([5000,25000])} block>Less than ₹25,000</Button>
+                            <Button className='filters-buttons' onClick={() => setPriceRange([25000,50000])} block>More than ₹50,000</Button>
+                            <Button className='filters-buttons' onClick={() => setPriceRange([5000,50000])} block>Not Sure Yet</Button>
                         </Form.Item>
+                        <Divider />
                         </Col>
                         <Col md={24}>
-                            Filter2
+                            <Form.Item
+                            style={{margin: 0}}
+                            label={<h4 className='filters-title'>Destination</h4>}
+                            >
+                                <Checkbox.Group
+                                defaultValue={selectedLocs}
+                                value={selectedLocs}
+                                onChange={(value) => setSelectedLocs(value)}>
+                                    <Row>
+                                        {locations.slice(0,showMoreLocs ? locations.length : 10).map((loc) => <Col span={24}><Checkbox value={loc.value}>{loc.label}</Checkbox></Col>)}
+                                        <Col style={{marginTop: 10}} span={24}><Button type='ghost' onClick={() => setShowMoreLocs(!showMoreLocs)}>Show More {showMoreLocs ? <UpOutlined /> : <DownOutlined />}</Button></Col>
+                                    </Row>
+                                </Checkbox.Group>
+                            </Form.Item>
+                            <Divider />
                         </Col>
                         <Col md={24}>
                             Filter3
@@ -703,4 +725,4 @@ export const ExtraFilters = () => {
     )
 }
 
-export default SearchBar
+// export default SearchBar

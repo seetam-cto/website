@@ -13,7 +13,16 @@
         &-banner{
             display: flex;
             height: 100%;
-            align-items: center;
+            align-items: flex-end;
+            padding-bottom: 12px;
+            &-container{
+                height: 80px;
+                width: 100%;
+                background-color: #00000010;
+                border-radius: 5px;
+                border: dashed 1px #353535;
+                @include flex()
+            }
         }
         img{
             width: 80%;

@@ -228,26 +228,26 @@ const PropertyDetails = ({property}) => {
     return (
         <div className="property">
             <Head>
-                <title>{property.main.nameLocation.name} | SwitchOff</title>
-                <meta name="description" content={property.main.nameLocation.about} />
+                <title>{property?.main?.nameLocation?.name} | SwitchOff</title>
+                <meta name="description" content={property?.main?.nameLocation?.about} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <AnimatePresence>
                 <Header key="header" theme={"light other"} headerSettings={property.settings}/>
                 <div className="property-desktop property-banner">
                     <div className="property-banner-background">
-                        <Image className='image' src={property.main.gallery.photos[0]} width={1600} height={900} />
+                        <Image className='image' src={property?.main?.gallery?.photos[0]} width={1600} height={900} />
                         <div className="overlay" />
                     </div>
                     <div className="property-top"/>
                     <div className="container">
                         <div className="row">
                             <div className="col-6  d-flex flex-col justify-center" style={{gap: 50}}>
-                                <h1>{property.main.nameLocation.name}</h1>
-                                <p>{property.main.nameLocation.about}</p>
+                                <h1>{property?.main?.nameLocation?.name}</h1>
+                                <p>{property?.main?.nameLocation?.about}</p>
                             </div>
                             <div className="col-6 property-banner-image">
-                                <Image src={property.main.gallery.photos[1]} width={1600} height={900}/>
+                                <Image src={property?.main?.gallery?.photos[1]} width={1600} height={900}/>
                             </div>
                         </div>
                     </div>
@@ -255,7 +255,7 @@ const PropertyDetails = ({property}) => {
                 <div className="property-desktop container">
                     <div className="row">
                         <div className="col-8">
-                            <Gallery imageList={property.main.gallery.photos} />
+                            <Gallery imageList={property?.main?.gallery?.photos} />
                         </div>
                         <div className="col-4">
                             <div className="booking-form">
@@ -279,7 +279,7 @@ const PropertyDetails = ({property}) => {
                                 Prices Starting from 
                                 <span>
                                     <span className='highlight'>
-                                    ₹{ property.rooms.sort((a,b) => {
+                                    ₹{ property?.rooms?.sort((a,b) => {
                                         let keyA = a.basePrice.mrp;
                                         let keyB = b.basePrice.mrp;
                                         // Compare the 2 dates
@@ -301,10 +301,10 @@ const PropertyDetails = ({property}) => {
                             <div className="property-amenities">
                                 <h2>In the property</h2>
                                 <div className="amenities">
-                                    {property.main.propertySetup.amenities.slice(0,12).map((amn, i) => (
+                                    {property?.main?.propertySetup?.amenities.slice(0,12).map((amn, i) => (
                                         <span key={i} style={{marginRight: 20}}>
                                             <img src={sampleIcon.src} alt="" />
-                                            {property.amenities.filter((am) => am.id === amn )[0].name}
+                                            {property?.amenities.filter((am) => am.id === amn )[0].name}
                                         </span>
                                     ))}
                                 </div>
@@ -316,7 +316,7 @@ const PropertyDetails = ({property}) => {
                         <div className="col-12">
                             <h2>Rooms & Packages</h2>
                             <div className="property-rooms">
-                                {property.rooms.map((room, i) => (
+                                {property?.rooms.map((room, i) => (
                                     <div key={i} className="property-rooms-room">
                                         <div className="row">
                                             <div className="col-3 image">
@@ -331,11 +331,11 @@ const PropertyDetails = ({property}) => {
                                                 <p className='property-rooms-room-amenities'>
                                                     {room.amenities.slice(0,12).map((amn, i) => (
                                                         <span key={i} style={{marginRight: 20}}>
-                                                            <i className='bx bx-check'></i> {property.amenities.filter((am) => am.id === amn )[0].name}
+                                                            <i className='bx bx-check'></i> {property?.amenities.filter((am) => am.id === amn )[0].name}
                                                         </span>
                                                     ))}
                                                     <span key={i} style={{marginRight: 20, marginTop: 10}}>
-                                                    <i class='bx bxs-chevron-down-circle'></i> View More
+                                                    <i className='bx bxs-chevron-down-circle'></i> View More
                                                     </span>
                                                 </p>
                                             </div>
@@ -343,7 +343,7 @@ const PropertyDetails = ({property}) => {
                                                 <p>Prices starting at</p>
                                                 <div className="price">
                                                     <span className='highlight'>
-                                                    ₹{ room.basePrice.mrp.toLocaleString('en-IN') }</span>
+                                                    ₹{ room?.basePrice?.mrp.toLocaleString('en-IN') }</span>
                                                     /Night
                                                 </div>
                                                 <button style={{justifyContent: 'space-between'}} onClick={() => setEqState(true)} className="form-button full explore">
@@ -360,7 +360,7 @@ const PropertyDetails = ({property}) => {
                 <div className="property-mobile">
                     <div className="property-mobile-banner">
                         <div className="property-mobile-banner-image">
-                            <Image className='image' src={property.main.gallery.photos[0]} width={1600} height={900} />
+                            <Image className='image' src={property?.main?.gallery?.photos[0]} width={1600} height={900} />
                             <div className="overlay" />
                         </div>
                     </div>
@@ -369,50 +369,50 @@ const PropertyDetails = ({property}) => {
                             <i className='bx bx-star' ></i> 4.62 <span>30+ Reviews</span>
                         </div>
                         <div className="property-mobile-details">
-                            <h1>{property.main.nameLocation.name}</h1>
-                            <p>{property.main.nameLocation.about}</p>
+                            <h1>{property?.main?.nameLocation?.name}</h1>
+                            <p>{property?.main?.nameLocation?.about}</p>
                         </div>
                         <div className="property-mobile-video">
-                            <Image src={property.main.gallery.photos[1]} width={1600} height={900}/>
+                            <Image src={property?.main?.gallery?.photos[1]} width={1600} height={900}/>
                         </div>
                     </div>
                     <div className="property-mobile-gallery">
                         <h2>What you can expect?</h2>
-                        <GalleryMobile imageList={property.main.gallery.photos} />
+                        <GalleryMobile imageList={property?.main?.gallery?.photos} />
                     </div>
                     <div className="container pi-2">
                         <div className="property-mobile-amenities">
                             <h2>In the property</h2>
                             <div className="property-mobile-amenities-grid">
-                                {property.main.propertySetup.amenities.slice(0,10).map((amn, i) => (
+                                {property?.main?.propertySetup?.amenities.slice(0,10).map((amn, i) => (
                                     <span key={i} style={{marginRight: 20}}>
                                         <img src={sampleIcon.src} alt="" />
-                                        {property.amenities.filter((am) => am.id === amn )[0].name}
+                                        {property?.amenities.filter((am) => am.id === amn )[0].name}
                                     </span>
                                 ))}
-                            </div>
+                            </div>?
                         </div>
                         <div className="row">
                         <div className="col-12">
                             <h2>Rooms & Packages</h2>
                             <div className="property-rooms">
-                                {property.rooms.map((room, i) => (
+                                {property?.rooms.map((room, i) => (
                                     <div key={i} className="property-rooms-room">
                                         <div className="row">
                                             <div className="col-12 image">
                                                 <Slider>
-                                                    {room.images.map((img, i) =>
+                                                    {room?.images.map((img, i) =>
                                                     <Image key={i} src={img} width={1600} height={900} /> 
                                                     )}
                                                 </Slider>
                                             </div>
                                             <div className="col-12">
-                                                <h3>{room.name} <span>• {room.roomSize}sq.ft.</span></h3>
+                                                <h3>{room?.name} <span>• {room?.roomSize}sq.ft.</span></h3>
                                                 <div className="property-mobile-amenities-grid room">
-                                                    {room.amenities.slice(0,9).map((amn, i) => (
+                                                    {room?.amenities.slice(0,9).map((amn, i) => (
                                                         <span key={i} style={{marginRight: 20}}>
                                                             <img src={sampleIcon.src} alt="" />
-                                                            {property.amenities.filter((am) => am.id === amn )[0].name}
+                                                            {property?.amenities.filter((am) => am.id === amn )[0].name}
                                                         </span>
                                                     ))}
                                                 </div>
@@ -421,7 +421,7 @@ const PropertyDetails = ({property}) => {
                                                 <p>Prices starting at</p>
                                                 <div className="price">
                                                     <span className='highlight'>
-                                                    ₹{ room.basePrice.mrp.toLocaleString('en-IN') }</span>
+                                                    ₹{ room?.basePrice?.mrp.toLocaleString('en-IN') }</span>
                                                     /Night
                                                 </div>
                                                 <button style={{justifyContent: 'space-between'}} onClick={() => setEqState(true)} className="form-button full explore">

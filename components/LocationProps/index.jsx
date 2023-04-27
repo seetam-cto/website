@@ -1,16 +1,17 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {motion} from "framer-motion"
 import Image from 'next/image'
-import { Col, Row, Tabs, Button } from 'antd'
+import { Col, Row, Tabs, Button, Tooltip } from 'antd'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation } from 'swiper';
 import { useAtom } from 'jotai';
 import {favourites, getFavourites } from '../../store/states';
+import { useRouter } from 'next/router';
 
 export const PropertyCard = ({property}) => {
   const [favs, setFavs] = useAtom(favourites)
   const [isFav, setIsFav] = useState(favs.includes(property._id))
-
+  const router = useRouter()
   useEffect(() => {
     if(isFav){
       if(!favs.includes(property._id)){
@@ -26,7 +27,7 @@ export const PropertyCard = ({property}) => {
     setIsFav(!isFav)
   }
   return (
-    <div className="locations-property">
+    <div onClick={() => router.push(`/property/${property._id}`)} className="locations-property">
       <img
       src={property.gallery.photos[0]}
       alt=""
@@ -37,7 +38,7 @@ export const PropertyCard = ({property}) => {
       </div>
       <div className="locations-property-content">
         <div>
-        <h2>{property.nameLocation.name}</h2>
+        <h2>{property.nameLocation.name.length > 20 ? <Tooltip title={property.nameLocation.name} color="black">{property.nameLocation.name.slice(0,20) + '...'}</Tooltip> : property.nameLocation.name}</h2>
         <div className="locations-property-content-price">
           From <span>₹{property.pricingCalendar.pricePerNight}</span> / per night
         </div>
@@ -56,25 +57,29 @@ const PropertyGrid = ({properties}) => {
     <Swiper
     modules={[ A11y, Navigation ]}
     spaceBetween={20}
+    slidesPerGroup={4}
     slidesPerView={1}
     speed={1000}
     navigation={{ clickable: true }}
     onSwiper={(swiper) => console.log(swiper)}
     breakpoints={{
       360: {
-        slidesPerView: 1
+        slidesPerView: 1,
+        slidesPerGroup: 1
       },
       768: {
         spaceBetween: 20,
-        slidesPerView: 2
+        slidesPerView: 2,
+        slidesPerGroup: 2
       },
       1024: {
         spaceBetween: 20,
-        slidesPerView: 4
+        slidesPerView: 4,
+        slidesPerGroup: 4
       }
     }}
     >
-      {properties.map((property, i) => (
+      {properties.slice(0,15).map((property, i) => (
         <SwiperSlide key={i}>
           <PropertyCard property={property} />
         </SwiperSlide>

@@ -94,6 +94,19 @@ const Search = ({result}) => {
       setFrom(((page - 1)*12))
       setTo(12+((page - 1)*12))
     }
+    const [priceRange, setPriceRange] = useState([10000, 50000])
+    const [locationList, setLocationList] = useState([])
+    const [selectedLocs, setSelectedLocs] = useState([])
+    
+    const listLocations = () => {
+      let newlist = result.properties.map((prp) => {return prp.nameLocation.address.locality})
+      setLocationList([...new Set(newlist)].map((ll) => {return {label: ll, value: ll}}))
+    }
+
+    useEffect(() => {
+      listLocations()
+    },[])
+
     return (
         <div className="search">
             <Head>
@@ -108,7 +121,9 @@ const Search = ({result}) => {
                         <Row gutter={20}>
                             <Col md={12}>
                               <div className="search-bar-banner">
-                              Ad Banner
+                                <div className="search-bar-banner-container">
+                                Ad Banner
+                                </div>
                               </div>
                             </Col>
                             <Col md={12}>
@@ -121,13 +136,14 @@ const Search = ({result}) => {
                     <div className="container">
                         <Row gutter={[20,20]}>
                           <Col md={4} style={{padding: 0}}>
-                            <ExtraFilters />
+                            <ExtraFilters priceRange={priceRange} locations={locationList} selectedLocs={selectedLocs} setSelectedLocs={setSelectedLocs} setPriceRange={setPriceRange} />
                           </Col>
                           <Col md={20}>
                             <Row gutter={[20,20]}>
                             {result.properties
                             .filter(pp => pp.status === "published")
                             .filter((prp) => prp.nameLocation.address.fullAddress.toLowerCase().includes(query === "all" ? "" : query.toLocaleLowerCase()))
+                            .filter((prp) => prp.pricingCalendar.pricePerNight > priceRange[0] && prp.pricingCalendar.pricePerNight < priceRange[1])
                             .slice(from, to)
                             .map((prp, i) => (
                                 <Col key={`${i}-colcol`} md={6}>
@@ -139,7 +155,9 @@ const Search = ({result}) => {
                             <div className="search-result-pages">
                             <Pagination
                             onChange={(page) => onPageChange(page)}
-                            defaultCurrent={1} pageSize={12} total={result.properties.length} showSizeChanger={false} />
+                            defaultCurrent={1} pageSize={12} total={result.properties
+                              .filter((prp) => prp.pricingCalendar.pricePerNight > priceRange[0] && prp.pricingCalendar.pricePerNight < priceRange[1])
+                              .filter((prp) => prp.nameLocation.address.fullAddress.toLowerCase().includes(query === "all" ? "" : query.toLocaleLowerCase())).length} showSizeChanger={false} />
                             </div>
                           </Col>
                         </Row>

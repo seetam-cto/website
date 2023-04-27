@@ -7,6 +7,12 @@ export const getSettings = async () => {
     return {settings, properties, banners}
 }
 
+export const getAllBlogs = async () => {
+    let settings = await axios.get(`${process.env.REACT_APP_API}/settings/all`).then((res) => {return res.data})
+    let blogs = await axios.get(`${process.env.REACT_APP_API}/blogs`).then((res) => {return res.data})
+    return {settings, blogs}
+}
+
 // await axios.get(`${process.env.REACT_APP_API}/settings`).then((res) => {return res.data})
 
 export const getProperties = async () => {
@@ -42,3 +48,9 @@ export const getBlogsBySlug = async (slug) => {
     let blog = await axios.get(`https://stage.switchoff.in/api/blogs/slug/${slug}`).then((res) => {return res.data})
     return {settings, blog, properties}
 }
+
+export const registerVendor = async (data) => 
+    await axios.post(`https://stage.switchoff.in/api/vendor/register`, data)
+
+export const loginVendor = async (data) => 
+    await axios.post(`https://stage.switchoff.in/api/vendor/login`, data)

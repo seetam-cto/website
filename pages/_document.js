@@ -16,6 +16,7 @@ export default function Document() {
   return (
     <Html>
       <Head>
+        {/* <script type="text/javascript" src="https://sdk.cashfree.com/js/ui/2.0.0/cashfree.sandbox.js"></script> */}
         <script src="https://kit.fontawesome.com/6f7794673e.js" crossOrigin="anonymous" async />
         <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
         <link rel="preconnect" href="https://fonts.googleapis.com" />

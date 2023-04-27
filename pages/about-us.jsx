@@ -9,7 +9,7 @@ import Banner from '../components/Banner'
 import {AnimatePresence} from "framer-motion"
 import Deals from '../components/Deals'
 import Footer from '../components/Footer'
-import SearchBar from '../components/SearchBar'
+import { BannerSearch } from '../components/SearchBar'
 
 export default function About({settingsData}) {
   let sets = useSelector((state) => state.settings)
@@ -39,7 +39,7 @@ export default function About({settingsData}) {
         <div className="about-top">
             <h1>About SwitchOff</h1>
         </div>
-        <SearchBar />
+        {/* <BannerSearch showAll={false} properties={result.properties} /> */}
         <div className="about">
             <div className="container">
                 <p>Some switch-off in the mountains, some switch off at the beach, some switch-off to explore and travel that’ll teach. We at Switch-off aim to evolve the way everyone travels. From the grammable experience to the soul-nourishing feels – everything that travel has to offer is going to change with Switch-off.</p>

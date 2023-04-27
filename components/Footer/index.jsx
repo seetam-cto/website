@@ -7,9 +7,9 @@ import { Row, Col } from 'antd'
 const Footer = ({footer, general}) => {
   return (
     <footer className="footer">
-        <div className="footer-bg">
+        {/* <div className="footer-bg">
             <div className="footer-bg-overlay" />
-        </div>
+        </div> */}
         <div className="footer-content">
         <div className="footer-top">
             <div className="container">
@@ -18,15 +18,15 @@ const Footer = ({footer, general}) => {
                         <Image className='footer-logo' src={footer.logo} width={250} height={60} />
                         <p className='footer-copyright'>Copyright © 2022 . All Rights reserved.</p>
                         <a href={`tel:${general.contact.phone}`} className="footer-cta-call">
-                            <i class="fa-solid fa-phone-volume"></i>
+                            <i className="fa-solid fa-phone-volume"></i>
                             <span>{general.contact.phone}</span>
                         </a>
                         <div className="footer-socials">
-                            <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                            <a href="#"><i class="fa-brands fa-youtube"></i></a>
-                            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#"><i className="fa-brands fa-instagram"></i></a>
+                            <a href="#"><i className="fa-brands fa-facebook"></i></a>
+                            <a href="#"><i className="fa-brands fa-twitter"></i></a>
+                            <a href="#"><i className="fa-brands fa-youtube"></i></a>
+                            <a href="#"><i className="fa-brands fa-linkedin"></i></a>
                         </div>
                     </Col>
                     <Col md={4}>
@@ -54,7 +54,7 @@ const Footer = ({footer, general}) => {
                             <li><Link href="#"><a>Sub-Link</a></Link></li>
                             <li><Link href="#"><a>Sub-Link</a></Link></li>
                             <li><Link href="#"><a>Sub-Link</a></Link></li>
-                        </ul>
+                        </ul>                        
                     </Col>
                     <Col md={2}>
 
@@ -64,7 +64,10 @@ const Footer = ({footer, general}) => {
         </div>
         <div className="footer-bottom">
             <div className="container">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                <div className="footer-bottom-box">
+                <p>© SwitchOff 2023</p>
+                <p>All Rights Reserved</p>
+                </div>
             </div>
         </div>
         </div>

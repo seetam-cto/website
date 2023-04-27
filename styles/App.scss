@@ -8,6 +8,8 @@
 @forward './pages/Property.scss';
 @forward './pages/Search.scss';
 @forward './pages/Blog.scss';
+@forward './pages/Checkout.scss';
+@forward './pages/Intranet.scss';
 
 //components
 @forward './components/Header.scss';
@@ -19,4 +21,6 @@
 @forward './components/Footer.scss';
 @forward './components/Auth.scss';
 @forward './components/NavigationRail.scss';
-@forward './components/Experiences.scss'
+@forward './components/Experiences.scss';
+@forward './components/TopDestinations.scss';
+@forward './components/Questionaire.scss';
