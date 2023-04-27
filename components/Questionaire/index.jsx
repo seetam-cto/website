@@ -52,7 +52,7 @@ const Questionaire = ({locations, experiences}) => {
                                     Let us inspire you
                                 </div>
                                 <p className="qsa-subtitle">
-                                    Your tailor-made SwitchOff adventure starts here. Tell us your outline travel plans and we'll recommend some amazing resort to visit.
+                                    Your tailor-made SwitchOff adventure starts here. Tell us your outline travel plans and we&apos;ll recommend some amazing resort to visit.
                                 </p>
                                 <div className="qsa-qs">
                                     <Steps
@@ -100,8 +100,8 @@ const Questionaire = ({locations, experiences}) => {
                                                 </div>
                                                 <div className="qsa-q-optns">
                                                     <Row justify={'center'} gutter={[20,20]}>
-                                                        {locations?.list && locations?.list.map((loc) => (
-                                                            <Col md={6} xs={24}>
+                                                        {locations?.list && locations?.list.map((loc, i) => (
+                                                            <Col key={i} md={6} xs={24}>
                                                                 <Button onClick={() => handleSelectLoc({name: loc.name, pic: loc.cover_image})} className={`qsa-q-optns-btn ${selectedLocs.map((l) => {return l.name}).includes(loc.name) ? 'active' : ''}`}>
                                                                     <img src={loc.cover_image} />
                                                                     <div className="qsa-q-optns-btn-text">
@@ -128,8 +128,8 @@ const Questionaire = ({locations, experiences}) => {
                                         </div>
                                         <div className="qsa-q-optns">
                                             <Row style={{width: '100%'}} justify={'center'} gutter={[20,20]}>
-                                                {experiences && experiences.map((exp) => (
-                                                    <Col md={6} xs={24}>
+                                                {experiences && experiences.map((exp, i) => (
+                                                    <Col md={6} xs={24} key={i}>
                                                         <Button onClick={() => handleSelectExp(exp.title)} className={`qsa-q-optns-btn wi ${selectedExp.includes(exp.title) ? 'active' : ''}`}>
                                                             <div className="qsa-q-optns-btn-text wi">
                                                                 {exp.title}

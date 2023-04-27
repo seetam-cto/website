@@ -39,7 +39,7 @@ export default function IntranetRegister({settingsData}) {
       })
       router.push("/extranet/register")
     }
-  },[sets])
+  },[sets, dispatch, router, settingsData])
   const [form] = Form.useForm();
   const onFinish = async (values) => {
     try{

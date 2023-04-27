@@ -705,7 +705,7 @@ export const ExtraFilters = ({priceRange = [1000, 50000], setPriceRange, locatio
                                 value={selectedLocs}
                                 onChange={(value) => setSelectedLocs(value)}>
                                     <Row>
-                                        {locations.slice(0,showMoreLocs ? locations.length : 10).map((loc) => <Col span={24}><Checkbox value={loc.value}>{loc.label}</Checkbox></Col>)}
+                                        {locations.slice(0,showMoreLocs ? locations.length : 10).map((loc, i) => <Col key={i} span={24}><Checkbox value={loc.value}>{loc.label}</Checkbox></Col>)}
                                         <Col style={{marginTop: 10}} span={24}><Button type='ghost' onClick={() => setShowMoreLocs(!showMoreLocs)}>Show More {showMoreLocs ? <UpOutlined /> : <DownOutlined />}</Button></Col>
                                     </Row>
                                 </Checkbox.Group>
