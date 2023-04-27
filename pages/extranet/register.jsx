@@ -150,7 +150,7 @@ export default function IntranetRegister({settingsData}) {
                                     <Input size='large' placeholder='Enter Phone Number' prefix={"+91"} maxLength={10} inputMode='number' value={userData.phone_number} onChange={(e) => setUserData({...userData, phone_number: e.target.value})} />
                                 </Form.Item>
                                 <Button htmlType='submit' type='primary' size='large' block>Register</Button>
-                                <Divider children={<p>Already a partner?</p>} />
+                                <Divider><p>Already a partner?</p></Divider>
                                 <Button size='large' block onClick={() => setFormState('login')}>Login Now</Button>
                             </Form>
                           </motion.div>
@@ -182,7 +182,7 @@ export default function IntranetRegister({settingsData}) {
                                     <Input.Password size='large' placeholder='Enter password' value={loginData.password} onChange={(e) => setLoginData({...loginData, password: e.target.value})} />
                                 </Form.Item>
                                 <Button htmlType='submit' type='primary' size='large' block>Login</Button>
-                                <Divider children={<p>Partner with us.</p>} />
+                                <Divider><p>Partner with us.</p></Divider>
                                 <Button size='large' block onClick={() => setFormState('register')}>Register Now</Button>
                             </Form>
                           </motion.div>
@@ -199,7 +199,7 @@ export default function IntranetRegister({settingsData}) {
                             className='intranet-register center'>
                                 <i className="fa-solid fa-circle-check"></i>
                                 <p>{userData.name}, we willl contact you soon for Verification!</p>
-                                <Divider children={<p>Already a partner?</p>} />
+                                <Divider><p>Already a partner?</p></Divider>
                                 <Button size='large' block onClick={() => setFormState('login')}>Login Now</Button>
                             </div>
                           </motion.div>
