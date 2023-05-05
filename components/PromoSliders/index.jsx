@@ -52,8 +52,8 @@ const PropertyCard = ({data}) => {
                 navigation={{clickable: true}}
                 onSwiper={(swiper) => console.log(swiper)}
                 >
-                    {data.gallery?.photos?.map((g) => (
-                        <SwiperSlide style={{display: 'block'}}>
+                    {data.gallery?.photos?.map((g, i) => (
+                        <SwiperSlide key={i} style={{display: 'block'}}>
                             <img src={g} alt='' />
                         </SwiperSlide>
                     ))}

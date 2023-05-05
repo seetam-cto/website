@@ -55,7 +55,7 @@ export default function Home({settingsData, properties, banners}) {
       <Header headerSettings={settingsData}/>
       <Banner banner={banners.banners} properties={properties} homepage={settingsData.homepage} />
       {settingsData.homepage.deals.enabled && <Deals deals={settingsData.homepage.deals}/>}
-      {settingsData?.homepage?.promoPropsSection?.map((promoSec) => <PromoSlider data={promoSec} />)}
+      {settingsData?.homepage?.promoPropsSection?.map((promoSec, i) => <PromoSlider key={i} data={promoSec} />)}
       {/* {settingsData.homepage.locations.enabled && <LocationProps locations={settingsData.homepage.locations} properties={properties} />} */}
       <TopDestinations cities={settingsData.homepage.locations} />
       <Questionaire locations={settingsData.homepage.locations} experiences={settingsData.homepage.experiences.list} />

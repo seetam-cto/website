@@ -109,8 +109,8 @@ const Gallery = ({imageList}) => {
                 </Col>
             </Row>
             <AntImage.PreviewGroup preview={{visible, onVisibleChange: (value) => setVisible(value)}}>
-                {imageList.slice(4,20).map((ig) => 
-                    <AntImage style={{
+                {imageList.slice(4,20).map((ig, i) => 
+                    <AntImage key={i} style={{
                         display: 'none',
                       }} className='property-gallery-sides' src={ig} alt="" />
                 )}
