@@ -1,5 +1,18 @@
 import axios from "axios"
 
+export const register = async (data) =>
+    await axios.post(`https://stage.switchoff.in/api/register`, data)
+
+export const login = async (data) => {
+    let res = await axios.post(`https://stage.switchoff.in/api/login`, data)
+    return res
+}
+
+export const socialLogin = async (data) => {
+    let res = await axios.post(`https://stage.switchoff.in/api/login/social`, data)
+    return res
+}
+
 export const getSettings = async () => {
     let settings = await axios.get(`${process.env.REACT_APP_API}/settings/all`).then((res) => {return res.data})
     let properties = await axios.get(`${process.env.REACT_APP_API}/properties`).then((res) => {return res.data})

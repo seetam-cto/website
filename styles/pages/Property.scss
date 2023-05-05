@@ -26,6 +26,29 @@
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
+            .view-more{
+                position: relative;
+                span{
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: calc(100% - 20px);
+                    border-radius: 10px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: $white;
+                    font-size: 1.2rem;
+                    cursor: pointer;
+                    background-color: #00000030;
+                }
+            }
+            .ant-image-mask{
+                height: auto;
+                margin-bottom: 10px;
+                border-radius: 10px;
+            }
             &-slide{
                 border-radius: 10px;
                 width:  100% !important;
@@ -142,6 +165,26 @@
             margin-top: 5px;
             text-decoration: underline;
             cursor: pointer;
+        }
+        &-main{
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        &-sides{
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            object-fit: cover;
+            .nomar{
+                margin-bottom: 0 !important;
+            }
+            &:first-child{
+                margin-bottom: 10px;
+            }
         }
     }
 

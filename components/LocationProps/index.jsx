@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {motion} from "framer-motion"
 import Image from 'next/image'
-import { Col, Row, Tabs, Button, Tooltip } from 'antd'
+import { Col, Row, Tabs, Button, Tooltip, Divider } from 'antd'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { A11y, Navigation } from 'swiper';
 import { useAtom } from 'jotai';
@@ -47,6 +47,44 @@ export const PropertyCard = ({property}) => {
           <Button icon={<i className="fa-solid fa-location-dot"></i>}>{property.nameLocation.address.locality}</Button>
           <Button icon={<i className="fa-solid fa-star"></i>}>4.7</Button>
         </div>
+      </div>
+    </div>
+  )
+}
+
+export const PropertyOldCard = ({property}) => {
+  const [favs, setFavs] = useAtom(favourites)
+  const [isFav, setIsFav] = useState(favs.includes(property._id))
+  const router = useRouter()
+  useEffect(() => {
+    if(isFav){
+      if(!favs.includes(property._id)){
+        let newFav = [...favs, property._id]
+        setFavs(newFav)
+      }
+    }else{
+      setFavs(favs.filter((prop) => prop != property._id))
+    }
+  },[isFav])
+
+  const handleFav = () => {
+    setIsFav(!isFav)
+  }
+  return (
+    <div className="locations-property">
+      <div className="locations-property-img">
+      <div onClick={() => router.push(`/property/${property._id}`)} className="locations-property-background-overlay"/>
+      <div onClick={() => handleFav()} className="locations-property-favourite">
+        <i style={{color: isFav ? '#ee5151' : 'white'}} className={`fa-${isFav ? 'solid' : 'regular'} fa-heart`}></i>
+      </div>
+        <img
+        onClick={() => router.push(`/property/${property._id}`)}
+        src={property.gallery.photos[0]}
+        alt="" />
+      </div>
+      <Divider style={{marginBlock: 10}} />
+      <div className="locations-property-title">
+      {property.nameLocation.name.length > 30 ? <Tooltip title={property.nameLocation.name} color="black">{property.nameLocation.name.slice(0,25) + '...'}</Tooltip> : property.nameLocation.name}
       </div>
     </div>
   )

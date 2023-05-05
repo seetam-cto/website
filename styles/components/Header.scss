@@ -206,3 +206,60 @@ header{
         }
     }
 }
+
+.navbar{
+    &-user{
+        &-box{
+            &-title{
+                width: 100%;
+                text-align: center;
+            }
+            &-dropdown{
+                width: fit-content;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    }
+    &-login{
+        &-box{
+            min-height: 70vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            &-terms{
+                width: 40%;
+                text-align: center;
+                margin-top: 20px;
+                a{
+                    color: $primary;
+                }
+            }
+            &-options{
+                .ant-segmented-item{
+                    &-label{
+                        width: 140px;
+                    }
+                }
+            }
+            &-social{
+                width: 60%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.2rem;
+                gap: 15px;
+                border: 0.3px solid #00000043;
+                padding: 5px;
+                border-radius: 10px;
+                cursor: pointer;
+                img{
+                    width: 20px;
+                    height: 20px;
+                }
+            }
+        }
+    }
+}

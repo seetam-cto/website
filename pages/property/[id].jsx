@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 import React, {useState, useRef, useEffect} from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import Head from 'next/head'
 import { getProperties, getPropertyDetails, getRooms } from '../../controllers/general'
 import Footer from '../../components/Footer'
@@ -14,6 +15,19 @@ import Modal from 'react-modal'
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify'
 import sampleIcon from "../../assets/images/sample-icon.svg"
+import { Row, Col } from 'antd'
+import {Image as AntImage} from 'antd'
+import * as loadAnim from "../../assets/images/loading.json"
+import Lottie from 'react-lottie';
+
+const loaderOptions = {
+    loop: true,
+    autoplay: true, 
+    animationData: loadAnim,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
 
 const Gallery = ({imageList}) => {
     const settings = {
@@ -46,10 +60,11 @@ const Gallery = ({imageList}) => {
             nav2: slider2
         })
       },[])
+      const [visible, setVisible] = useState(false);
     return (
         <div className="property-gallery-slider">
-            <div className="row">
-                <div className="col-4 property-gallery-slider-slides">
+            {/* <div className="row">
+                <div className="col-12 property-gallery-slider-slides">
                 <Slider asNavFor={navs.nav2} 
                 ref={slider => (slider1 = slider)}
                 {...settings.for1}>
@@ -69,9 +84,37 @@ const Gallery = ({imageList}) => {
                         </div>
                     ))}
                 </Slider>
+                
                 <div className="property-gallery-link">View Gallery</div>
                 </div>
-            </div>
+            </div> */}
+            <Row gutter={[10,0]}>
+                <Col style={{paddingTop: 10}} span={12}>
+                    <AntImage className='property-gallery-main nomar' src={imageList[0]} alt='' />
+                </Col>
+                <Col style={{padding: 10}} span={12}>
+                    <Row gutter={10}>
+                        <Col style={{padding: 5}} span={12}>
+                            <AntImage className='property-gallery-sides' src={imageList[1]} alt="" />
+                            <AntImage className='property-gallery-sides' src={imageList[2]} alt="" />
+                        </Col>
+                        <Col style={{padding: 5}} span={12}>
+                                <AntImage className='property-gallery-sides' src={imageList[3]} alt="" />
+                                <div className="view-more">
+                                    <img className='property-gallery-sides overlay' src={imageList[4]} alt="" />
+                                    <span onClick={() => setVisible(true)}>View More +</span>
+                                </div>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
+            <AntImage.PreviewGroup preview={{visible, onVisibleChange: (value) => setVisible(value)}}>
+                {imageList.slice(4,20).map((ig) => 
+                    <AntImage style={{
+                        display: 'none',
+                      }} className='property-gallery-sides' src={ig} alt="" />
+                )}
+            </AntImage.PreviewGroup>
         </div>
     )
 }
@@ -225,6 +268,21 @@ const PropertyDetails = ({property}) => {
         setGuests(0)
         setEqState(false)
     }
+    let sets = useSelector((state) => state.settings)
+    const dispatch = useDispatch()
+    const router = useRouter()
+    useEffect(() => {
+      if(!sets.loaded){
+        dispatch({
+          type: "FETCH_API",
+          payload: {
+            ...property.settings,
+            loaded: true
+          }
+        })
+        router.push(`/property/${property.main._id}`)
+      }
+    },[sets])
     return (
         <div className="property">
             <Head>
@@ -232,6 +290,12 @@ const PropertyDetails = ({property}) => {
                 <meta name="description" content={property?.main?.nameLocation?.about} />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
+            <div id={'globalLoader'}>
+                <Lottie options={loaderOptions}
+                height={200}
+                isClickToPauseDisabled={true}
+                width={200}/>
+            </div>
             <AnimatePresence>
                 <Header key="header" theme={"light other"} headerSettings={property.settings}/>
                 <div className="property-desktop property-banner">

@@ -62,7 +62,6 @@ function MyApp({ Component, pageProps, session }) {
         >
         <SessionProvider session={session}>
           <Component {...pageProps} />
-          <Login />
         </SessionProvider>
         </ConfigProvider>
       </>

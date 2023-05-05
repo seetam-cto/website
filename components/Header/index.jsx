@@ -3,20 +3,48 @@ import Image from 'next/image'
 import Link from 'next/link'
 import NavigationRail from '../NavigationRail'
 import { AnimatePresence } from 'framer-motion'
-import { Col, Row, Dropdown, Button, Space, Tooltip, Modal } from 'antd'
-import { DownOutlined, UserOutlined } from '@ant-design/icons';
+import { Col, Row, Dropdown, Button, Space, Tooltip, Modal, Avatar, Popover, Segmented, Form, Input, Divider, message } from 'antd'
+import { MailOutlined, DownOutlined, UserOutlined, LockOutlined, UnlockOutlined, 
+    CalendarOutlined, BulbOutlined, LoadingOutlined, MobileOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
-import { useAtom } from 'jotai'
+import { atom, useAtom } from 'jotai'
 import { getFavourites } from '../../store/states'
 import { useSession, signIn, signOut } from 'next-auth/react'
+import google from "../../assets/images/google.png"
+import { RESET, atomWithStorage } from 'jotai/utils'
+import { login, register, socialLogin } from '../../controllers/general'
+
+export const loginPopupState = atom(false)
+
+export const credsData = atom({
+    name: '',
+    email: '',
+    password: '',
+    phone_number: ''
+})
+
+export const userData = atomWithStorage("auth", {
+    token: '',
+    user: {
+        _id: '',
+        email: '',
+        phone_number: "",
+        name: '',
+        user_type: '',
+        profile_image: ''
+    }
+})
+
+export const getUserToken = atom((get) => get(userData))
 
 const Header = ({theme = "light",headerSettings}) => {
     const [navrail, setNavrail] = useState(false)
     const [favourites, setFavourites] = useState(false)
     const [favs] = useAtom(getFavourites)
     const router = useRouter()
-    const {data: session} = useSession()
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const {data: session, status} = useSession()
+    const [isModalOpen, setIsModalOpen] = useAtom(loginPopupState)
+
     const showModal = () => {
         setIsModalOpen(true);
     };
@@ -26,7 +54,79 @@ const Header = ({theme = "light",headerSettings}) => {
     const handleCancel = () => {
     setIsModalOpen(false);
     };
-    
+
+    const [loginData, setLoginData] = useAtom(credsData)
+    const [formState, setFormState] = useState("Login")
+    const dropdownContent = (
+        <div className='navbar-user-box-dropdown'>
+            <Button icon={<UserOutlined />} type='link' onClick={() => router.push("/my-account")}>My Account</Button>
+            <Button icon={<CalendarOutlined />} type='link' onClick={() => signIn("credentials")}>My Bookings</Button>
+            <Button icon={<BulbOutlined />} type='link' onClick={() => signOut()}>Help Center</Button>
+            <Button icon={<UnlockOutlined />} type='link' danger onClick={() => handleSignout()}>Sign Out</Button>
+        </div>
+    )
+    const [loading, setLoading] = useState(false)
+
+    const [userToken, setUserToken] = useAtom(userData)
+    const [jwtToken] = useAtom(getUserToken)
+
+    const handleLogin = async () => {
+        try{
+            let res = await login(loginData)
+            let {data} = res
+            setUserToken(data)
+            message.success("Login Successful!")
+            router.reload()
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoginData(RESET)
+        }
+    }
+
+    const handleRegister = async () => {
+        try{
+            let res = await register(loginData)
+            let {data} = res
+            setUserToken(data)
+            message.success("Registered!")
+            router.reload()
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoginData(RESET)
+        }
+    }
+
+    const handleSocialLogin = async () => {
+        if(status === "authenticated"){
+            try{
+                let res = await socialLogin({
+                    email: session.user.email,
+                    profile_image: session.user.image,
+                    name: session.user.name
+                })
+                let {data} = res
+                setUserToken(data)
+            }catch(err){
+                console.log({social_error: err})
+                message.error("Error in social login registration")
+            }finally{
+                setLoginData(RESET)
+            }
+        }
+    }
+
+    const handleSignout = () => {
+        signOut()
+        setUserToken(RESET)
+        setLoginData(RESET)
+    }
+
+    useEffect(() => {
+        handleSocialLogin()
+    },[router])
+
     return (
         <header className={theme}>
             <div className="navbar-container">
@@ -87,11 +187,14 @@ const Header = ({theme = "light",headerSettings}) => {
                                         <i className={`fa-${favourites ? "solid" : "regular"} fa-heart`}></i>
                                     </Button>
                             </Tooltip>
-                            {session ? <Space>
-                                <span>Welcome, {session.user.email}</span>
-                                <Button onClick={() => signOut()}>Sign Out</Button>
+                            {jwtToken && jwtToken.token ? <Space>
+                                <div className="navbar-user-box">
+                                    <Popover title={<h3 className='navbar-user-box-title'>{jwtToken?.user.name}</h3>} placement='bottomRight' trigger={"click"} content={dropdownContent}>
+                                        <Avatar style={{cursor: 'pointer'}} src={jwtToken?.user?.profile_image} icon={<UserOutlined />} />
+                                    </Popover>
+                                </div>
                             </Space>
-                            : <Button onClick={showModal} size='large' type='primary' style={{borderRadius: 50}} icon={<UserOutlined />}>Login</Button>
+                            : <Button shape='round' onClick={showModal} size='large' type='primary' icon={<UserOutlined />}>Login</Button>
                             }
                             </div>
                         </Col>
@@ -110,9 +213,90 @@ const Header = ({theme = "light",headerSettings}) => {
             <AnimatePresence>
                 {navrail && <NavigationRail close={setNavrail} settings={headerSettings.general} />}
             </AnimatePresence>
-            {/* <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-                <Button type='primary' onClick={() => signIn()}>Sign In</Button>
-            </Modal> */}
+            <Modal
+            footer={null}
+            open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <div className="navbar-login-box">
+                    <h2 className="title">Welcome Back</h2>
+                    <p>Please login to continue</p>
+                    <br />
+                    <Segmented size='large' className='navbar-login-box-options' options={["Login", "Register"]} value={formState} onChange={(value) => setFormState(value)} />
+                    <Form
+                    layout=''
+                    style={{width: '60%'}}
+                    >
+                        <Divider />
+                        {formState === "Register" && (<Form.Item
+                        name="name"
+                        rules={[{
+                            required: true,
+                            message: "Name is required!",
+                          }]}
+                        >
+                            <Input
+                            prefix={<UserOutlined />}
+                            placeholder='John Doe'
+                            value={loginData.email}
+                            onChange={(e) => setLoginData({...loginData, name: e.target.value})}
+                            block size='large' />
+                        </Form.Item>)}
+                        <Form.Item
+                        name="email"
+                        rules={[{
+                            required: true,
+                            type: "email",
+                            message: "The input is not valid E-mail!",
+                          }]}
+                        >
+                            <Input
+                            prefix={<MailOutlined />}
+                            placeholder='xyz@email.com'
+                            value={loginData.email}
+                            onChange={(e) => setLoginData({...loginData, email: e.target.value})}
+                            block size='large' />
+                        </Form.Item>
+                        <Form.Item
+                        name="password"
+                        rules={[{
+                            required: true,
+                            message: "Please enter password!",
+                          }]}
+                        >
+                            <Input.Password
+                            placeholder='Enter your password'
+                            prefix={<LockOutlined />}
+                            value={loginData.password}
+                            onChange={(e) => setLoginData({...loginData, password: e.target.value})}
+                            block size='large' />
+                        </Form.Item>
+                        {formState === "Register" && (
+                            <Form.Item
+                            name="phoneNumber"
+                            rules={[{
+                                required: true,
+                                message: "Please enter password!",
+                              }]}
+                            >
+                                <Input
+                                placeholder='Enter your phone number'
+                                prefix={<MobileOutlined />}
+                                value={loginData.phone_number}
+                                onChange={(e) => setLoginData({...loginData, phone_number: e.target.value})}
+                                block size='large' />
+                            </Form.Item>
+                        )}
+                        <Button block size='large'
+                        onClick={() => {formState === "Register" ? handleRegister() : handleLogin()}}
+                        type='primary'>{formState} {loading && <LoadingOutlined />}</Button>
+                        <Divider>OR</Divider>
+                    </Form>
+                    <div onClick={() => signIn("google")} className="navbar-login-box-social">
+                        <img src={google.src} />
+                        Sign in with Google
+                    </div>
+                    <p className='navbar-login-box-terms'>By continuing you agree to our <Link href={"#"}>Terms and Conditions</Link></p>
+                </div>
+            </Modal>
         </header>
     )
 }

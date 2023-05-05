@@ -12,6 +12,7 @@ import Lottie from 'react-lottie';
 import * as loadAnim from "../assets/images/loading.json"
 import TopDestinations from '../components/TopDestinations'
 import Questionaire from '../components/Questionaire'
+import PromoSlider from '../components/PromoSliders'
 
 const loaderOptions = {
   loop: true,
@@ -54,7 +55,8 @@ export default function Home({settingsData, properties, banners}) {
       <Header headerSettings={settingsData}/>
       <Banner banner={banners.banners} properties={properties} homepage={settingsData.homepage} />
       {settingsData.homepage.deals.enabled && <Deals deals={settingsData.homepage.deals}/>}
-      {settingsData.homepage.locations.enabled && <LocationProps locations={settingsData.homepage.locations} properties={properties} />}
+      {settingsData?.homepage?.promoPropsSection?.map((promoSec) => <PromoSlider data={promoSec} />)}
+      {/* {settingsData.homepage.locations.enabled && <LocationProps locations={settingsData.homepage.locations} properties={properties} />} */}
       <TopDestinations cities={settingsData.homepage.locations} />
       <Questionaire locations={settingsData.homepage.locations} experiences={settingsData.homepage.experiences.list} />
       <Footer footer={settingsData.footer} general={settingsData.general}/>
