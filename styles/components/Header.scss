@@ -212,7 +212,8 @@ header{
         &-box{
             &-title{
                 width: 100%;
-                text-align: center;
+                text-align: left;
+                padding-left: 1rem;
             }
             &-dropdown{
                 width: fit-content;

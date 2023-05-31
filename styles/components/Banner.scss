@@ -139,8 +139,9 @@
                     border-radius: 40px;
                 }
                 h3{
-                    font-size: 2rem;
+                    font-size: 1.8rem;
                     line-height: 2.5rem;
+                    margin-bottom: 0.5rem;
                     @include mobile{
                         font-size: 0.9rem;
                         line-height: 1.5rem;
@@ -149,9 +150,42 @@
                 }
                 p{
                     font-size: 1rem;
-                    line-height: 1.5rem;
+                    line-height: 1.2rem;
+                    margin-bottom: 1rem;
                     @include mobile{
                         display: none;
+                    }
+                }
+                &-button{
+                    display: flex;
+                    align-items: center;
+                    gap: 20px;
+                    justify-content: space-between;
+                    .property-count{
+                        font-size: 0.9rem;
+                        font-weight: 400;
+                        color: $primary;
+                        display: flex;
+                        align-items: center;
+                        position: relative;
+                        img{
+                            width: 50px;
+                            height: 40px;
+                            object-fit: contain;
+                        }
+                        span{
+                            position: absolute;
+                            top: -5px;
+                            right: -5px;
+                            background-color: $primary;
+                            color: $white;
+                            padding: 2px;
+                            width: 22px;
+                            height: 22px;
+                            border-radius: 50%;
+                            font-size: 12px;
+                            @include flex();
+                        }
                     }
                 }
             }

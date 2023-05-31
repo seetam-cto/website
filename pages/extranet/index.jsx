@@ -24,7 +24,7 @@ export default function Intranet({settingsData}) {
       })
       router.push("/extranet")
     }
-  },[sets])
+  },[sets, dispatch, router, settingsData])
   const [form] = Form.useForm();
   return (
     <div className="home">

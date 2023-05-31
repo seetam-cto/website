@@ -1,11 +1,39 @@
 import React, {useState, useEffect, useRef} from 'react'
 import Image from 'next/image'
-import { motion } from "framer-motion"
+import { AnimatePresence, motion } from "framer-motion"
 import Link from 'next/link'
-import { Row, Col } from 'antd'
+import { Row, Col, Button } from 'antd'
+import cookie from "../../assets/images/cookies.png"
+import { atomWithStorage } from 'jotai/utils'
+import { useAtom } from 'jotai'
+
+const cookieConcent = atomWithStorage('cookieConcent', false)
 
 const Footer = ({footer, general}) => {
+    const [ckc, setCkc] = useAtom(cookieConcent)
   return (
+    <AnimatePresence>
+   {!ckc &&  <motion.div
+   key={'cookie-box'}
+   initial={{opacity: 0, y: 300}}
+   animate={{opacity: 1, y: 0}}
+   exit={{opacity: 0, y: 300, transition: {delay: 0}}}
+   transition={{delay: 3, duration: 1}}
+   className="footer-cookies">
+        <div className="container" style={{display: 'flex', justifyContent: 'center'}}>
+            <div className="footer-cookies-box">
+                <div className="footer-cookies-title">
+                    <Image src={cookie.src} width={40} height={40} />
+                    <h2>Cookie Consent</h2>
+                </div>
+                <h3>You agree to the storing of cookies on your device to enhance site navigation, analyze site usage, and improve marketing.</h3>
+                <div className="footer-cookies-buttons">
+                    <Button onClick={() => setCkc(true)} shape='round' size='large' type='primary'>I Understand</Button>
+                    <Button size='large' type='link'>Learn More</Button>
+                </div>
+            </div>
+        </div>
+    </motion.div>}
     <footer className="footer">
         {/* <div className="footer-bg">
             <div className="footer-bg-overlay" />
@@ -16,11 +44,10 @@ const Footer = ({footer, general}) => {
                 <Row>
                     <Col md={10}>
                         <Image className='footer-logo' src={footer.logo} width={250} height={60} />
-                        <p className='footer-copyright'>Copyright © 2022 . All Rights reserved.</p>
-                        <a href={`tel:${general.contact.phone}`} className="footer-cta-call">
+                        {/* <a href={`tel:${general.contact.phone}`} className="footer-cta-call">
                             <i className="fa-solid fa-phone-volume"></i>
                             <span>{general.contact.phone}</span>
-                        </a>
+                        </a> */}
                         <div className="footer-socials">
                             <a href="#"><i className="fa-brands fa-instagram"></i></a>
                             <a href="#"><i className="fa-brands fa-facebook"></i></a>
@@ -72,6 +99,7 @@ const Footer = ({footer, general}) => {
         </div>
         </div>
     </footer>
+    </AnimatePresence>
   )
 }
 

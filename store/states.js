@@ -1,9 +1,6 @@
 import {atom} from "jotai"
 import { atomWithStorage } from 'jotai/utils'
 
-export const favourites = atomWithStorage("favourites", [])
-export const getFavourites = atom((get) => get(favourites))
-
 export const auth = atomWithStorage('auth', {
     token: '',
     user: {
@@ -13,6 +10,7 @@ export const auth = atomWithStorage('auth', {
         phone_number: '',
         profile_image: '',
         user_type: '',
+        favourites: []
     }
 })
 export const getAuth = atom((get) => get(auth))

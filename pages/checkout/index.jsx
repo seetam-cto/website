@@ -37,7 +37,7 @@ const Checkout = ({settingsData}) => {
         })
         router.push("/checkout")
         }
-    },[sets])
+    },[sets, dispatch, router, settingsData])
     return (
         <div className="home">
         <Head>

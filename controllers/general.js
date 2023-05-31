@@ -22,7 +22,7 @@ export const getSettings = async () => {
 
 export const getAllBlogs = async () => {
     let settings = await axios.get(`${process.env.REACT_APP_API}/settings/all`).then((res) => {return res.data})
-    let blogs = await axios.get(`${process.env.REACT_APP_API}/blogs`).then((res) => {return res.data})
+    let blogs = await axios.get(`${process.env.REACT_APP_API}/blogs/published`).then((res) => {return res.data})
     return {settings, blogs}
 }
 
@@ -67,3 +67,10 @@ export const registerVendor = async (data) =>
 
 export const loginVendor = async (data) => 
     await axios.post(`https://stage.switchoff.in/api/vendor/login`, data)
+
+export const favList = async (data, token) =>
+    await axios.post(`https://stage.switchoff.in/api/properties/favourites`, data, {
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })

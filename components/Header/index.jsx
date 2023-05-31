@@ -5,10 +5,9 @@ import NavigationRail from '../NavigationRail'
 import { AnimatePresence } from 'framer-motion'
 import { Col, Row, Dropdown, Button, Space, Tooltip, Modal, Avatar, Popover, Segmented, Form, Input, Divider, message } from 'antd'
 import { MailOutlined, DownOutlined, UserOutlined, LockOutlined, UnlockOutlined, 
-    CalendarOutlined, BulbOutlined, LoadingOutlined, MobileOutlined } from '@ant-design/icons';
+    CalendarOutlined, BulbOutlined, LoadingOutlined, MobileOutlined, SearchOutlined } from '@ant-design/icons';
 import { useRouter } from 'next/router'
 import { atom, useAtom } from 'jotai'
-import { getFavourites } from '../../store/states'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import google from "../../assets/images/google.png"
 import { RESET, atomWithStorage } from 'jotai/utils'
@@ -31,7 +30,8 @@ export const userData = atomWithStorage("auth", {
         phone_number: "",
         name: '',
         user_type: '',
-        profile_image: ''
+        profile_image: '',
+        favourites: []
     }
 })
 
@@ -39,8 +39,7 @@ export const getUserToken = atom((get) => get(userData))
 
 const Header = ({theme = "light",headerSettings}) => {
     const [navrail, setNavrail] = useState(false)
-    const [favourites, setFavourites] = useState(false)
-    const [favs] = useAtom(getFavourites)
+    const [favOn, setFavOn] = useState(false)
     const router = useRouter()
     const {data: session, status} = useSession()
     const [isModalOpen, setIsModalOpen] = useAtom(loginPopupState)
@@ -59,13 +58,15 @@ const Header = ({theme = "light",headerSettings}) => {
     const [formState, setFormState] = useState("Login")
     const dropdownContent = (
         <div className='navbar-user-box-dropdown'>
-            <Button icon={<UserOutlined />} type='link' onClick={() => router.push("/my-account")}>My Account</Button>
-            <Button icon={<CalendarOutlined />} type='link' onClick={() => signIn("credentials")}>My Bookings</Button>
+            {/* <Button icon={<UserOutlined />} type='link' onClick={() => router.push("/my-account")}>My Account</Button> */}
+            {/* <Button icon={<CalendarOutlined />} type='link' onClick={() => signIn("credentials")}>My Bookings</Button> */}
             <Button icon={<BulbOutlined />} type='link' onClick={() => signOut()}>Help Center</Button>
             <Button icon={<UnlockOutlined />} type='link' danger onClick={() => handleSignout()}>Sign Out</Button>
         </div>
     )
     const [loading, setLoading] = useState(false)
+
+    const [form] = Form.useForm()
 
     const [userToken, setUserToken] = useAtom(userData)
     const [jwtToken] = useAtom(getUserToken)
@@ -177,16 +178,17 @@ const Header = ({theme = "light",headerSettings}) => {
                         </Col>
                         <Col xs={0} md={6}>
                             <div className="navbar-user">
-                            <Tooltip title="Favourites" placement='bottom'>
-                                    <Button onMouseEnter={() => setFavourites(true)} onMouseLeave={() => setFavourites(false)}
+                            <Link href="/search"><a><SearchOutlined style={{fontSize: '1.5rem', color: '#111111A0', marginRight: 20}} /></a></Link>
+                            {/* <Tooltip title="Favourites" placement='bottom'>
+                                    <Button onMouseEnter={() => setFavOn(true)} onMouseLeave={() => setFavOn(false)}
                                     className='navbar-user-favourites'>
-                                        {favs.length > 0 && 
+                                        {userToken.user.favourites.length > 0 && 
                                         <span className='navbar-user-favourites-badge'>
-                                            {favs.length}
+                                            {userToken.user.favourites.length}
                                         </span>}
-                                        <i className={`fa-${favourites ? "solid" : "regular"} fa-heart`}></i>
+                                        <i className={`fa-${favOn ? "solid" : "regular"} fa-heart`}></i>
                                     </Button>
-                            </Tooltip>
+                            </Tooltip> */}
                             {jwtToken && jwtToken.token ? <Space>
                                 <div className="navbar-user-box">
                                     <Popover title={<h3 className='navbar-user-box-title'>{jwtToken?.user.name}</h3>} placement='bottomRight' trigger={"click"} content={dropdownContent}>
@@ -222,6 +224,13 @@ const Header = ({theme = "light",headerSettings}) => {
                     <br />
                     <Segmented size='large' className='navbar-login-box-options' options={["Login", "Register"]} value={formState} onChange={(value) => setFormState(value)} />
                     <Form
+                    form={form}
+                    initialValues={{
+                        "name": '',
+                        "password" :"",
+                        "phoneNumber": "",
+                        "email": ""
+                    }}
                     layout=''
                     style={{width: '60%'}}
                     >

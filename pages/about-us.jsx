@@ -26,7 +26,7 @@ export default function About({settingsData}) {
       })
       router.push("/")
     }
-  },[sets])
+  },[sets, dispatch, router, settingsData])
   return (
     <div className="home">
       <Head>

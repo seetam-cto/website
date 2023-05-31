@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Header from "../../components/Header"
+import Header, { getUserToken } from "../../components/Header"
 import { getSettings } from '../../controllers/general'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
@@ -9,7 +9,7 @@ import Lottie from 'react-lottie';
 import * as loadAnim from "../../assets/images/loading.json"
 import bg from "../../assets/images/bg.jpg"
 import { Col, Divider, Form, Input, Row } from 'antd'
-import { useSession } from 'next-auth/react'
+import { useAtom } from 'jotai'
 
 const loaderOptions = {
   loop: true,
@@ -24,9 +24,9 @@ export default function User({settingsData}) {
   let sets = useSelector((state) => state.settings)
   const dispatch = useDispatch()
   const router = useRouter()
-  const {data: session, status} = useSession()
+  const [userToken] = useAtom(getUserToken)
   useEffect(() => {
-    if(status !== "authenticated"){
+    if(!userToken.token){
       router.push("/")
     }
     if(!sets.loaded){
@@ -39,7 +39,7 @@ export default function User({settingsData}) {
       })
       router.push("/my-account")
     }
-  },[sets, status])
+  },[sets, dispatch, router, settingsData])
   const [active, setActive] = useState("account")
   return (
     <div className="home">

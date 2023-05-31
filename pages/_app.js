@@ -7,6 +7,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-toastify/dist/ReactToastify.css';
 import 'react-select-search/style.css'
+import 'mapbox-gl/dist/mapbox-gl.css';
 import { store } from "../store/store"
 import { Provider } from "react-redux"
 import NextNProgress from 'nextjs-progressbar';
@@ -53,7 +54,7 @@ function MyApp({ Component, pageProps, session }) {
         <NextNProgress color="#4ecca3" />
         <ConfigProvider
         theme={{ token: {
-            colorPrimary: '#4ecca3',
+            colorPrimary: '#111111',
             colorLink: '#393e46',
             colorLinkHover: '#543885',
             colorBgElevated: '#ffffff',

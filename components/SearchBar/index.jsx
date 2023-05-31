@@ -11,9 +11,16 @@ import { useRouter } from 'next/router';
 import Modal from 'react-modal';
 import { Card, Col, Divider, Form, Input,
     DatePicker, Tooltip, Popover, Space, Checkbox,
-    Row, Select, Button, InputNumber, Slider } from 'antd';
+    Row, Select, Button, InputNumber, Slider, Spin, message } from 'antd';
 import dayjs from "dayjs"
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { SearchOutlined, DownOutlined, UpOutlined } from '@ant-design/icons';
+import { SearchPropertyCard } from '../PromoSliders';
+import { useAtom } from 'jotai';
+import { filters } from '../../pages/search';
+import debounce from 'lodash/debounce';
+import { useMemo, useRef } from 'react';
+import { algoliasearch } from 'algoliasearch';
+import Link from 'next/link';
 
 const {RangePicker} = DatePicker
 
@@ -258,160 +265,6 @@ const GuestsBox = ({data, setData, handleNext, explore}) => {
     )
 }
 
-// const SearchBar = ({properties}) => {
-//     const router = useRouter()
-//     const [searchq, setSearchq] = useState({
-//         location: router.query ? router.query.query : '',
-//         checkin: new Date(),
-//         checkout: addDays(new Date(), 2),
-//         guests: {
-//             adult: 1,
-//             child: 0,
-//         },
-//         handicap: false,
-//         pets: false
-//     })
-//     const closeAll = () => {
-//         setLocationbox(false)
-//         setCalendarbox(false)
-//         setGuestsbox(false)
-//     }
-//     const [locationbox, setLocationbox] = useState(false)
-//     const [calendarbox, setCalendarbox] = useState(false)
-//     const [guestsbox, setGuestsbox] = useState(false)
-
-//     const afterLocation = (value) => {
-//         setLocationbox(!value)
-//         setCalendarbox(value)
-//     }
-
-//     const afterCalendar = (value) => {
-//         value ? setCalendarbox(!value) : setCalendarbox(value)
-//         !value && setLocationbox(!value)
-//         value && setGuestsbox(value)
-//     }
-
-//     const afterGuests = (value) => {
-//         setGuestsbox(value)
-//         !value && setCalendarbox(!value)
-//     }
-
-//     const explore = () => {
-//         let query = `query=${searchq.location ? searchq.location : 'all'}&start=${moment(searchq.checkin).format("MM-DD-YYYY")}&end=${moment(searchq.checkout).format("MM-DD-YYYY")}&adults=${searchq.guests.adult}&childs${searchq.guests.child}&pets=${searchq.pets}`
-//         router.push(`/search?${query}`)
-//     }
-//     const [mobileSearch, setMobileSearch] = useState(false)
-//   return (
-//     <>
-//         {(locationbox || calendarbox || guestsbox) && 
-//             <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
-//         <div className="searchbar">
-//             {(locationbox || calendarbox || guestsbox) && 
-//                 <div onClick={() =>  closeAll()} className="searchbar-overlay"></div>}
-//             <div className="searchbar-desktop container searchbar-container">
-//                 <div className="row full">
-//                     <div className="col-20 m-full searchbar-gap">
-//                         <div
-//                         onClick={() => {setLocationbox(true); }}
-//                         className="searchbar-item">
-//                             <div className="icon">
-//                                 <i className='bx bx-map' ></i>
-//                             </div>
-//                             <div className="content">
-//                                 <h3>Location</h3>
-//                                 <p>{searchq.location ? searchq.location : 'Your Destination'}</p>
-//                             </div>
-//                         </div>
-//                         {locationbox && (
-//                             <LocationBox properties={properties} data={searchq} setData={setSearchq} handleNext={afterLocation} />
-//                         )}
-//                     </div>
-//                     <div className="col-20 searchbar-gap">
-//                         <div
-//                         onClick={() => {setCalendarbox(true); }}
-//                         className="searchbar-item">
-//                             <div className="icon">
-//                                 <i className='bx bxs-calendar-check'></i>
-//                             </div>
-//                             <div className="content">
-//                                 <h3>Check In</h3>
-//                                 <p>{searchq.checkin ? moment(searchq.checkin).format('MMM Do YYYY') : 'Choose your date'}</p>
-//                             </div>
-//                         </div>
-//                         {calendarbox && (
-//                             <CalendarBox data={searchq} setData={setSearchq} handleNext={afterCalendar} />
-//                         )}
-//                     </div>
-//                     <div className="col-20 searchbar-gap">
-//                         <div
-//                         onClick={() => {setCalendarbox(true); }}
-//                         className="searchbar-item">
-//                             <div className="icon">
-//                                 <i className='bx bx-calendar-check' ></i>
-//                             </div>
-//                             <div className="content">
-//                                 <h3>Check Out</h3>
-//                                 <p>{searchq.checkout
-//                                 ? moment(searchq.checkout).format('MMM Do YYYY') 
-//                                 : 'Choose your date'}</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="col-20 m-full">
-//                         <div
-//                         onClick={() => {setGuestsbox(true); }}
-//                         className="searchbar-item">
-//                             <div className="icon">
-//                                 <i className='bx bxs-user' ></i>
-//                             </div>
-//                             <div className="content">
-//                                 <h3>Guests</h3>
-//                                 <p>{(searchq.guests.adult + searchq.guests.child) > 1 ? ("Total Guests " + (searchq.guests.adult + searchq.guests.child)) : 'Number of guests'}</p>
-//                             </div>
-//                         </div>
-//                         {guestsbox && (
-//                             <GuestsBox explore={explore} data={searchq} setData={setSearchq} handleNext={afterGuests} />
-//                         )}
-//                     </div>
-//                     <div className="col-20 col-m-100">
-//                         <div className="searchbar-item button">
-//                             <button onClick={() => explore()} className="form-button searchbar-item-button">
-//                                 Search 
-//                             </button>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//             <div onClick={() => setMobileSearch(true)} className="searchbar-mobile-button">         
-//                 <div className="row">
-//                     <div className="col-sm-9">
-//                         <div className="searchbar-mobile-main">
-//                             <div className="icon">
-//                                 <i className='bx bx-map' ></i>
-//                             </div>
-//                             <div className="text">
-//                                 <h4>Plan your holiday</h4>
-//                                 <p>Where. When. Guests & Rooms</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="col-sm-3 d-flex align-center justify-end">
-//                         <button className="form-button explore block">
-//                             Start <i className='bx bx-chevron-right' ></i>
-//                         </button>
-//                     </div>
-//                 </div>
-//             </div>
-//             <SearchBarMobile
-//             searchq={searchq} setSearchq={setSearchq}
-//             properties={properties} explore={explore}
-//             open={mobileSearch} setOpen={setMobileSearch} />
-//         </div>
-//     </>
-    
-//   )
-// }
-
 export const SearchBarMobile = ({open, setOpen, searchq, setSearchq, properties, explore}) => {
     const customStyles = {
         overlay: {
@@ -481,6 +334,7 @@ export const SearchBarMobile = ({open, setOpen, searchq, setSearchq, properties,
 export const BannerSearch = ({properties, showAll=true}) => {
     const [step, setStep] = useState(0)
     const [options, setOptions] = useState([])
+    const [fltr, setFltr] = useAtom(filters)
 
     const router = useRouter()
 
@@ -492,7 +346,7 @@ export const BannerSearch = ({properties, showAll=true}) => {
         let newArr = Array.from(new Set(arr))
         setOptions(newArr.map((ar) => {
             return {
-                label: ar,
+                label: ar.toLowerCase(),
                 value: ar
             }
         }))
@@ -519,8 +373,15 @@ export const BannerSearch = ({properties, showAll=true}) => {
 
 
     const explore = () => {
-        let query = `query=${searchQuery.location ? searchQuery.location : 'all'}&start=${moment(searchQuery.checkin).format("MM-DD-YYYY")}&end=${moment(searchQuery.checkout).format("MM-DD-YYYY")}&adults=${searchQuery.guests.adult}&childs=${searchQuery.guests.child}&pets=${searchQuery.pets}`
-        router.push(`/search?${query}`)
+        setFltr({
+            query: searchQuery.location ? searchQuery.location : 'all',
+            start: moment(searchQuery.checkin).format("MM-DD-YYYY"),
+            end: moment(searchQuery.checkout).format("MM-DD-YYYY"),
+            adults: searchQuery.guests.adult,
+            childs: searchQuery.guests.child,
+            pets: searchQuery.pets
+        })
+        router.push(`/search`)
     }
 
     return (
@@ -559,11 +420,11 @@ export const BannerSearch = ({properties, showAll=true}) => {
                                             value={searchQuery.location}
                                             onChange={(value) => setSearchQuery({...searchQuery, location: value})}
                                             className="banner-searchbar-location"
-                                            filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                            filterOption={(inputValue, option) => option.label.toLowerCase().includes(inputValue.toLowerCase())}
                                             filterSort={(optionA, optionB) =>
                                             (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                                             }
-                                            style={{width: "90%"}}
+                                            style={{width: "90%", textTransform: 'capitalize'}}
                                             size="large"
                                             options={options} />
                                             </Form.Item>
@@ -666,58 +527,124 @@ export const BannerSearch = ({properties, showAll=true}) => {
     )
 }
 
-export const ExtraFilters = ({priceRange = [1000, 50000], setPriceRange, locations, selectedLocs, setSelectedLocs}) => {
+const DebounceSelect = ({fetchOptions, debounceTimeout = 800, ...props}) => {
+    const [fetching, setFetching] = useState(false);
+  const [options, setOptions] = useState([]);
+  const fetchRef = useRef(0);
+  const debounceFetcher = useMemo(() => {
+    const loadOptions = (value) => {
+      fetchRef.current += 1;
+      const fetchId = fetchRef.current;
+      setOptions([]);
+      setFetching(true);
+      fetchOptions(value).then((newOptions) => {
+        if (fetchId !== fetchRef.current) {
+          // for fetch callback order
+          return;
+        }
+        setOptions(newOptions);
+        setFetching(false);
+      });
+    };
+    return debounce(loadOptions, debounceTimeout);
+  }, [fetchOptions, debounceTimeout]);
+  return (
+    <Select
+      labelInValue
+      filterOption={false}
+      onSearch={debounceFetcher}
+      notFoundContent={fetching ? <Spin size="small" /> : null}
+      {...props}
+      options={options}
+    />
+  );
+}
+
+export const HistoSlider = ({title = 'Price Range', range = [0, 100000], setRange, list = []}) => {
+    const [newArr, setNewArr] = useState([])
+    const reArrangeValues = () => {
+        let step = 10000
+        let ll = []
+        for(var i=range[0]; i<= 100000;i+=step){
+            let inRange = list.filter((l) => l >=i && l < i+step).length
+            ll = [...ll, inRange]
+        }
+        setNewArr(ll)
+    }
+    useEffect(() => {
+        reArrangeValues()
+    },[list])
+    return (
+        <div className="histoslider">
+            <h3>{title}</h3>
+            <div className="histoslider-container">
+                {newArr.map((l, i) => <div key={i} className='histoslider-bar' style={{'--height': `${((l+1)/(Math.max(...newArr)+1))*60}px`}} />)}
+            </div>
+        </div>
+    )
+}
+
+export const ExtraFilters = ({priceRange = [1000, 100000], setPriceRange, locations, selectedLocs, setSelectedLocs, properties}) => {
     const [showMoreLocs, setShowMoreLocs] = useState(false)
+    const fetchOptions = async (value) => {
+        return value ? locations.filter((l) => (l?.label ?? '').toLowerCase().includes(value.toLowerCase())) : []
+    }
     return (
         <div className="filters">
             <div className="filters-container">
                 <Form
-                layout='vertical'
                 >
-                    <Row gutter={10} style={{paddingInline: 20}}>
-                        <Col md={24}>
-                        <Form.Item
-                        style={{margin: 0}}
-                        label={<h4 className='filters-title'>Price Per Night</h4>}
-                        >
-                            <Slider size="large" 
-                            max={50000} min={1000} step={5000}
-                            marks={{
-                                1000: '₹1k',
-                                50000: '₹50k+'
-                            }}
-                            value={priceRange}
-                            onChange={(price) => setPriceRange(price)}
-                            range defaultValue={priceRange} />
-                            <Button className='filters-buttons' onClick={() => setPriceRange([5000,25000])} block>Less than ₹25,000</Button>
-                            <Button className='filters-buttons' onClick={() => setPriceRange([25000,50000])} block>More than ₹50,000</Button>
-                            <Button className='filters-buttons' onClick={() => setPriceRange([5000,50000])} block>Not Sure Yet</Button>
-                        </Form.Item>
-                        <Divider />
+                    <Row gutter={[100,10]} style={{paddingInline: 20}}>
+                        <Col md={5}>
+                            <Popover
+                            trigger="click"
+                            placement='bottom'
+                            content={
+                                <div className='filters-pricerange'>
+                                    <HistoSlider range={priceRange} setRange={setPriceRange} list={properties} />
+                                    <Form.Item
+                                    style={{margin: 0, width: 200}}
+                                    >
+                                        <Slider size="large" 
+                                        max={100000} min={0} step={10}
+                                        marks={{
+                                            0: '₹0',
+                                            100000: '₹1L+'
+                                        }}
+                                        value={priceRange}
+                                        onChange={(price) => setPriceRange(price)}
+                                        range defaultValue={priceRange} />
+                                        {/* <Button className='filters-buttons' onClick={() => setPriceRange([1000,25000])} block>Less than ₹25,000</Button>
+                                        <Button className='filters-buttons' onClick={() => setPriceRange([25000,50000])} block>More than ₹50,000</Button>
+                                        <Button className='filters-buttons' onClick={() => setPriceRange([1000,50000])} block>Not Sure Yet</Button> */}
+                                    </Form.Item>
+                                </div>
+                            }>
+                                <h3>Select Price Range</h3>
+                            </Popover>
                         </Col>
-                        <Col md={24}>
+                        <Col style={{height: '100%'}} md={2}>
+                        <Divider type='vertical' />
+                        </Col>
+                        {/* <Col md={14}>
+                            <h3>Select Destination</h3>
                             <Form.Item
                             style={{margin: 0}}
-                            label={<h4 className='filters-title'>Destination</h4>}
                             >
-                                <Checkbox.Group
-                                defaultValue={selectedLocs}
-                                value={selectedLocs}
-                                onChange={(value) => setSelectedLocs(value)}>
-                                    <Row>
-                                        {locations.slice(0,showMoreLocs ? locations.length : 10).map((loc, i) => <Col key={i} span={24}><Checkbox value={loc.value}>{loc.label}</Checkbox></Col>)}
-                                        <Col style={{marginTop: 10}} span={24}><Button type='ghost' onClick={() => setShowMoreLocs(!showMoreLocs)}>Show More {showMoreLocs ? <UpOutlined /> : <DownOutlined />}</Button></Col>
-                                    </Row>
-                                </Checkbox.Group>
+                                <Select
+                                    showSearch
+                                    allowClear
+                                    onClear={() => setSelectedLocs('all')}
+                                    placeholder="Select a destination"
+                                    optionFilterProp="children"
+                                    onChange={(v) => setSelectedLocs(v)}
+                                    filterOption={(input, option) =>
+                                        (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+                                    }
+                                    options={locations}
+                                />
                             </Form.Item>
-                            <Divider />
-                        </Col>
-                        <Col md={24}>
-                            Filter3
-                        </Col>
-                        <Col md={24}>
-                            Filter4
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Form>
             </div>
@@ -725,4 +652,85 @@ export const ExtraFilters = ({priceRange = [1000, 50000], setPriceRange, locatio
     )
 }
 
-// export default SearchBar
+const PropertySearchResult = ({result, property}) => {
+    return (
+        <Link href={`/property/${property._id}`}>
+            <a>
+            <li className='ai-search-output-section-list-property'>
+                <img src={result.image} />
+                <div className="ai-search-output-section-list-property-content">
+                    <h2 dangerouslySetInnerHTML={{__html: result?._highlightResult?.name?.value}} />
+                    <p dangerouslySetInnerHTML={{__html: result?._highlightResult?.shortAddress?.value}}/>
+                    <div className='price' dangerouslySetInnerHTML={{__html: 'from ₹'+result?._highlightResult?.price?.value.toLocaleString('en-IN')+"/-"}} />
+                </div>
+            </li>
+            </a>
+        </Link>
+    )
+}
+
+export const AISearch = ({rawData}) => {
+    const [props, setProps] = useState([])
+    const [locs, setLocs] = useState([])
+    const [blogs, setBlogs] = useState([])
+    const [results, setResults] = useState([])
+
+    const [query, setQuery] = useState('')
+
+    const client = algoliasearch(process.env.algolia_app, process.env.algolia_key)
+
+    const search = async () => {
+        try{
+            const searchResults = await client.search({
+                requests: [
+                    {
+                        indexName: 'switchoff',
+                        query: query,
+                        hitsPerPage: 10
+                    }
+                ]
+            })
+            setResults(searchResults.results[0])
+            console.log(searchResults)
+        }catch(err){
+            console.log(err)
+            message.error("Error in Algolia Search, check console.")
+        }
+    }
+
+    useEffect(() => {
+        search()
+    },[query])
+
+    return (
+        <div className="ai-search">
+            <div className="ai-search-input">
+                <SearchOutlined className='ai-search-input-icon' />
+                <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={'Search for “best resorts in coorg”'} type="text" name="" id="" />
+            </div>
+            <div className="ai-search-output">
+                <div className="ai-search-output-section">
+                    <p className="ai-search-output-section-title">
+                        Locations
+                    </p>
+                    <ul className="ai-search-output-section-list">
+                        <li className="search-term">
+                            new search
+                        </li>
+                    </ul>
+                </div>
+                <div className="ai-search-output-section">
+                    <p className="ai-search-output-section-title">
+                        Properties
+                    </p>
+                    <ul className="ai-search-output-section-list">
+                        {results && results?.hits?.map((resu, i) => <PropertySearchResult key={i} property={rawData.filter((p) => p._id === resu.objectID)[0]} result={resu} />)}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    )
+}
